@@ -83,9 +83,9 @@ public class StartWindow {
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 135, 0, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
@@ -93,28 +93,30 @@ public class StartWindow {
 		GridBagConstraints gbc_lblAusgewhlt = new GridBagConstraints();
 		gbc_lblAusgewhlt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblAusgewhlt.insets = new Insets(0, 0, 0, 5);
-		gbc_lblAusgewhlt.gridx = 1;
+		gbc_lblAusgewhlt.gridx = 2;
 		gbc_lblAusgewhlt.gridy = 0;
 		panel_2.add(lblAusgewhlt, gbc_lblAusgewhlt);
 		
 		JLabel label_1 = new JLabel("1");
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
 		gbc_label_1.insets = new Insets(0, 0, 0, 5);
-		gbc_label_1.gridx = 2;
+		gbc_label_1.gridx = 3;
 		gbc_label_1.gridy = 0;
 		panel_2.add(label_1, gbc_label_1);
 		
 		JButton btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
+		gbc_btnSelektierteAnzeigen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSelektierteAnzeigen.gridx = 8;
+		gbc_btnSelektierteAnzeigen.gridx = 9;
 		gbc_btnSelektierteAnzeigen.gridy = 0;
 		panel_2.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 		
 		JButton btnNeuesBuchHinzufgen = new JButton("Neues Buch hinzufügen");
 		GridBagConstraints gbc_btnNeuesBuchHinzufgen = new GridBagConstraints();
+		gbc_btnNeuesBuchHinzufgen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNeuesBuchHinzufgen.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNeuesBuchHinzufgen.gridx = 10;
+		gbc_btnNeuesBuchHinzufgen.gridx = 11;
 		gbc_btnNeuesBuchHinzufgen.gridy = 0;
 		panel_2.add(btnNeuesBuchHinzufgen, gbc_btnNeuesBuchHinzufgen);
 		
