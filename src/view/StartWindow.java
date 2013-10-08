@@ -106,17 +106,14 @@ public class StartWindow {
 		
 		JButton btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
-		gbc_btnSelektierteAnzeigen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSelektierteAnzeigen.gridx = 9;
+		gbc_btnSelektierteAnzeigen.gridx = 13;
 		gbc_btnSelektierteAnzeigen.gridy = 0;
 		panel_2.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 		
 		JButton btnNeuesBuchHinzufgen = new JButton("Neues Buch hinzufügen");
 		GridBagConstraints gbc_btnNeuesBuchHinzufgen = new GridBagConstraints();
-		gbc_btnNeuesBuchHinzufgen.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNeuesBuchHinzufgen.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNeuesBuchHinzufgen.gridx = 11;
+		gbc_btnNeuesBuchHinzufgen.gridx = 14;
 		gbc_btnNeuesBuchHinzufgen.gridy = 0;
 		panel_2.add(btnNeuesBuchHinzufgen, gbc_btnNeuesBuchHinzufgen);
 		
