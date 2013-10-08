@@ -3,17 +3,26 @@ package view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
+
+import javax.swing.AbstractListModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.GridLayout;
+
 import javax.swing.border.TitledBorder;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
@@ -30,6 +39,7 @@ public class StartWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("rawtypes")
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 660, 520);
@@ -122,6 +132,16 @@ public class StartWindow {
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		
 		JList list = new JList();
+		list.setModel(new AbstractListModel() {
+			//Here the JListModel manages JList elements as String Objects (not recommended) 
+			String[] values = new String[] {"Milk", "Butter", "Bread", "Tea"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
 		panel_3.add(list);
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
