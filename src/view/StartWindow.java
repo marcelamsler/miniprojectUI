@@ -131,19 +131,6 @@ public class StartWindow {
 		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			//Here the JListModel manages JList elements as String Objects (not recommended) 
-			String[] values = new String[] {"Milk", "Butter", "Bread", "Tea"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		panel_3.add(list);
-		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
 		GridBagLayout gbl_layeredPane_2 = new GridBagLayout();
