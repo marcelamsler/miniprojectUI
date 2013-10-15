@@ -26,10 +26,13 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class StartWindow {
 
 	private JFrame frame;
+	private JTextField txtSuc;
 	
 	public StartWindow() {		
 		initialize();
@@ -42,7 +45,7 @@ public class StartWindow {
 	@SuppressWarnings("rawtypes")
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 660, 520);
+		frame.setBounds(100, 100, 980, 534);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -93,26 +96,28 @@ public class StartWindow {
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_2.columnWidths = new int[]{0, 248, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
-		JLabel lblAusgewhlt = new JLabel("Ausgewählt:");
-		GridBagConstraints gbc_lblAusgewhlt = new GridBagConstraints();
-		gbc_lblAusgewhlt.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblAusgewhlt.insets = new Insets(0, 0, 0, 5);
-		gbc_lblAusgewhlt.gridx = 2;
-		gbc_lblAusgewhlt.gridy = 0;
-		panel_2.add(lblAusgewhlt, gbc_lblAusgewhlt);
+		txtSuc = new JTextField();
+		txtSuc.setText("Bücher suchen");
+		GridBagConstraints gbc_txtSuc = new GridBagConstraints();
+		gbc_txtSuc.insets = new Insets(0, 0, 0, 5);
+		gbc_txtSuc.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSuc.gridx = 1;
+		gbc_txtSuc.gridy = 0;
+		panel_2.add(txtSuc, gbc_txtSuc);
+		txtSuc.setColumns(10);
 		
-		JLabel label_1 = new JLabel("1");
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.insets = new Insets(0, 0, 0, 5);
-		gbc_label_1.gridx = 3;
-		gbc_label_1.gridy = 0;
-		panel_2.add(label_1, gbc_label_1);
+		JCheckBox chckbxNurVerfgbareBcher = new JCheckBox("nur verfügbare Bücher anzeigen");
+		GridBagConstraints gbc_chckbxNurVerfgbareBcher = new GridBagConstraints();
+		gbc_chckbxNurVerfgbareBcher.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxNurVerfgbareBcher.gridx = 8;
+		gbc_chckbxNurVerfgbareBcher.gridy = 0;
+		panel_2.add(chckbxNurVerfgbareBcher, gbc_chckbxNurVerfgbareBcher);
 		
 		JButton btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
