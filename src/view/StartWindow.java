@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
 
 import javax.swing.AbstractListModel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
 
@@ -28,11 +29,13 @@ import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.JTable;
 
 public class StartWindow {
 
 	private JFrame frame;
 	private JTextField txtSuc;
+	private JTable table;
 	
 	public StartWindow() {		
 		initialize();
@@ -135,6 +138,12 @@ public class StartWindow {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.add(panel_3, BorderLayout.CENTER);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		table = new JTable();
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setFillsViewportHeight(true);
+		panel_3.add(scrollPane);
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
