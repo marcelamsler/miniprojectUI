@@ -31,15 +31,21 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
+import domain.Library;
+
 public class StartWindow {
 
 	private JFrame frame;
 	private JTextField txtSuc;
 	private JTable table;
+	private Library library;
 	
-	public StartWindow() {		
+	public StartWindow(Library library) {		
+
+		this.library = library;
 		initialize();
 		this.frame.setVisible(true);
+
 	}
 
 	/**
@@ -140,7 +146,7 @@ public class StartWindow {
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		table = new JTable(new StartWindowTableModel());
+		table = new JTable(new StartWindowTableModel(library));
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		panel_3.add(scrollPane);

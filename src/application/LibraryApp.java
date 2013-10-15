@@ -27,7 +27,7 @@ public class LibraryApp {
 	public static void main(String[] args) throws Exception {
 		Library library = new Library();
 		initLibrary(library);
-		StartWindow window = new StartWindow();
+		StartWindow window = new StartWindow(library);
 	}
 
 
