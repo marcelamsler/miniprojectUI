@@ -140,7 +140,7 @@ public class StartWindow {
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		table = new JTable();
+		table = new JTable(new StartWindowTableModel());
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		panel_3.add(scrollPane);
