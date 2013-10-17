@@ -26,7 +26,7 @@ import javax.swing.JComboBox;
 
 public class DetailWindow {
 
-	private JFrame frmTest;
+	private JFrame frmDetail;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -58,15 +58,15 @@ public class DetailWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmTest = new JFrame();
-		frmTest.setTitle("Buch Detailansicht");
-		frmTest.setBounds(100, 100, 592, 473);
-		frmTest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmTest.getContentPane().setLayout(new BorderLayout(0, 0));
+		frmDetail = new JFrame();
+		frmDetail.setTitle("Buch Detailansicht");
+		frmDetail.setBounds(100, 100, 592, 473);
+		frmDetail.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmDetail.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmTest.getContentPane().add(panel, BorderLayout.NORTH);
+		frmDetail.getContentPane().add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{81, 282, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -142,7 +142,7 @@ public class DetailWindow {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmTest.getContentPane().add(panel_1, BorderLayout.CENTER);
+		frmDetail.getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_2 = new JPanel();
