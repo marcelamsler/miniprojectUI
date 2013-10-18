@@ -55,12 +55,11 @@ public class StartWindow {
 	}
 	
 	private void newFilter() {  
-	    RowFilter< StartWindowTableModel  , Object> rf = null;   
-	    //declare a row filter for your table model  
+	    RowFilter< StartWindowTableModel  , Object> rf = null;     
 	    try  
 	    {  
-	        rf = RowFilter.regexFilter("(?i)" + txtSuc.getText(), 0);    
-	        //initialize with a regular expression  
+	        rf = RowFilter.regexFilter("(?i)" + txtSuc.getText(), 1 ,2 ,3);    
+	        
 	    }  
 	    catch (java.util.regex.PatternSyntaxException e)  
 	    {  
