@@ -41,7 +41,7 @@ public class StartWindowTableModel extends AbstractTableModel {
 	        
 	        switch (columnIndex){
 	            case 0 : 
-	                return column.getName();
+	                return library.getNoOfAvailableCopiesOfBook(column);
 	                            
 	            case 1:
 	                return column.getName();

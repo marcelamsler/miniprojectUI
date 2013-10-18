@@ -83,6 +83,13 @@ public class Library {
 		}
 		return lentCopies;
 	}
+	
+	public int getNoOfAvailableCopiesOfBook(Book book){
+	
+		return getCopiesOfBook(book).size() - getLentCopiesOfBook(book).size();
+		
+		
+	}
 
 	public List<Loan> getCustomerLoans(Customer customer) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
