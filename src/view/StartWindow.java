@@ -11,6 +11,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
+import javax.swing.RowFilter;
 
 import java.awt.FlowLayout;
 
@@ -23,10 +24,14 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
@@ -38,6 +43,7 @@ public class StartWindow {
 	private JFrame frame;
 	private JTextField txtSuc;
 	private JTable table;
+	private TableRowSorter<StartWindowTableModel> sorter; 
 	private Library library;
 	
 	public StartWindow(Library library) {		
@@ -47,6 +53,21 @@ public class StartWindow {
 		this.frame.setVisible(true);
 
 	}
+	
+	private void newFilter() {  
+	    RowFilter< StartWindowTableModel  , Object> rf = null;   
+	    //declare a row filter for your table model  
+	    try  
+	    {  
+	        rf = RowFilter.regexFilter("(?i)" + txtSuc.getText(), 0);    
+	        //initialize with a regular expression  
+	    }  
+	    catch (java.util.regex.PatternSyntaxException e)  
+	    {  
+	        return;  
+	    }  
+	    sorter.setRowFilter(rf);  
+	}  
 
 	/**
 	 * Initialize the contents of the frame.
@@ -113,6 +134,26 @@ public class StartWindow {
 		
 		txtSuc = new JTextField();
 		txtSuc.setText("Bücher suchen");
+		txtSuc.getDocument().addDocumentListener(  
+		  new DocumentListener()  
+		   {  
+		      public void changedUpdate(DocumentEvent e)  
+		      {  
+		          newFilter();  
+		      }  
+		      public void insertUpdate(DocumentEvent e)  
+		      {  
+		          newFilter();  
+		      }  
+		      public void removeUpdate(DocumentEvent e)  
+		      {  
+		         newFilter();  
+		      }  
+		   }  
+		);
+		
+		
+		
 		GridBagConstraints gbc_txtSuc = new GridBagConstraints();
 		gbc_txtSuc.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSuc.fill = GridBagConstraints.HORIZONTAL;
@@ -146,9 +187,13 @@ public class StartWindow {
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		table = new JTable(new StartWindowTableModel(library));
+		 
+		StartWindowTableModel tableModel= new StartWindowTableModel(library);
+		sorter = new TableRowSorter<>(tableModel);
+		table = new JTable(tableModel);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		table.setRowSorter(sorter);  
 		panel_3.add(scrollPane);
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
