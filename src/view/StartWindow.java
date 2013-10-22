@@ -204,11 +204,14 @@ public class StartWindow {
 			      if (e.getClickCount() == 2) {
 			         JTable target = (JTable)e.getSource();
 			         int row = target.getSelectedRow();
-			         domain.Book book = library.findByBookTitle((String)tableModel.getValueAt(row, 2));
-			         
-			         DetailWindow detailFrame = new DetailWindow(book);
-			         
+			         domain.Book book = library.findByBookTitle((String)tableModel.getValueAt(row, 1));
+			         if(book != null) {
+			        	 DetailWindow detailFrame = new DetailWindow();
+				         detailFrame.setBook(book);			        	 
+			         }else{
+			        	 System.out.println("Buch nicht gefunden");
 			         }
+			      }   
 			   }
 			});
 		

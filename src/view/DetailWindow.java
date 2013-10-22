@@ -42,19 +42,30 @@ public class DetailWindow {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JComboBox<String> comboBox; 
 
-	public DetailWindow(Book book) {
-		initialize(book);
+	public DetailWindow() {
+		initialize();
+	}
+	
+	
+	public void setBook(Book book){
+		textField.setText(book.getName());
+		textField_1.setText(book.getAuthor());
+		textField_2.setText(book.getPublisher());
+		comboBox.setSelectedItem(book.getShelf());
+		frmDetail.repaint();
+		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Book book) {
+	private void initialize() {
 		frmDetail = new JFrame();
 		frmDetail.setTitle("Buch Detailansicht");
 		frmDetail.setBounds(100, 100, 592, 473);
-		frmDetail.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frmDetail.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -126,7 +137,7 @@ public class DetailWindow {
 		gbc_lblRegal.gridy = 3;
 		panel.add(lblRegal, gbc_lblRegal);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
