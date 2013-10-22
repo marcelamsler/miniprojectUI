@@ -54,6 +54,7 @@ public class StartWindow {
 	private TableRowSorter<StartWindowTableModel> sorter; 
 	private Library library;
 	private JCheckBox chckbxNurVerfgbareBcher;
+	private JTextField txtAusleihenSuchen;
 	
 	public StartWindow(Library library) {		
 
@@ -191,7 +192,7 @@ public class StartWindow {
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
 		gbl_panel_2.columnWidths = new int[]{0, 248, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
@@ -306,18 +307,86 @@ public class StartWindow {
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "Ausleihe Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+		gbc_panel_4.anchor = GridBagConstraints.NORTH;
 		gbc_panel_4.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_4.fill = GridBagConstraints.BOTH;
+		gbc_panel_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_4.gridx = 0;
 		gbc_panel_4.gridy = 0;
 		layeredPane_2.add(panel_4, gbc_panel_4);
+		panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen:");
+		panel_4.add(lblAnzahlAusleihen);
+		
+		JLabel label_1 = new JLabel("842");
+		panel_4.add(label_1);
+		
+		JLabel lblAktuellAusgeliehen = new JLabel("Aktuell ausgeliehen:");
+		panel_4.add(lblAktuellAusgeliehen);
+		
+		JLabel label_2 = new JLabel("86");
+		panel_4.add(label_2);
+		
+		JLabel lblberflligeAusleihen = new JLabel("Überfällige Ausleihen:");
+		panel_4.add(lblberflligeAusleihen);
+		
+		JLabel label_3 = new JLabel("16");
+		panel_4.add(label_3);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(null, "Erfasste Ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
+		gbc_panel_5.anchor = GridBagConstraints.SOUTH;
 		gbc_panel_5.fill = GridBagConstraints.BOTH;
 		gbc_panel_5.gridx = 0;
 		gbc_panel_5.gridy = 1;
 		layeredPane_2.add(panel_5, gbc_panel_5);
+		panel_5.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_6 = new JPanel();
+		panel_5.add(panel_6, BorderLayout.NORTH);
+		GridBagLayout gbl_panel_6 = new GridBagLayout();
+		gbl_panel_6.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_6.rowHeights = new int[]{0, 0};
+		gbl_panel_6.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_6.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_6.setLayout(gbl_panel_6);
+		
+		txtAusleihenSuchen = new JTextField();
+		txtAusleihenSuchen.setText("Ausleihen suchen");
+		GridBagConstraints gbc_txtAusleihenSuchen = new GridBagConstraints();
+		gbc_txtAusleihenSuchen.insets = new Insets(0, 0, 0, 5);
+		gbc_txtAusleihenSuchen.anchor = GridBagConstraints.WEST;
+		gbc_txtAusleihenSuchen.gridx = 0;
+		gbc_txtAusleihenSuchen.gridy = 0;
+		panel_6.add(txtAusleihenSuchen, gbc_txtAusleihenSuchen);
+		txtAusleihenSuchen.setColumns(10);
+		
+		JCheckBox chckbxNurberfllige = new JCheckBox("Nur überfällige");
+		GridBagConstraints gbc_chckbxNurberfllige = new GridBagConstraints();
+		gbc_chckbxNurberfllige.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxNurberfllige.gridx = 2;
+		gbc_chckbxNurberfllige.gridy = 0;
+		panel_6.add(chckbxNurberfllige, gbc_chckbxNurberfllige);
+		
+		JButton btnNeueAusleiheErfassen = new JButton("Neue Ausleihe erfassen");
+		btnNeueAusleiheErfassen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		JButton btnSelektierteAusleiheAnzeigen = new JButton("Selektierte Ausleihe anzeigen");
+		GridBagConstraints gbc_btnSelektierteAusleiheAnzeigen = new GridBagConstraints();
+		gbc_btnSelektierteAusleiheAnzeigen.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSelektierteAusleiheAnzeigen.gridx = 10;
+		gbc_btnSelektierteAusleiheAnzeigen.gridy = 0;
+		panel_6.add(btnSelektierteAusleiheAnzeigen, gbc_btnSelektierteAusleiheAnzeigen);
+		GridBagConstraints gbc_btnNeueAusleiheErfassen = new GridBagConstraints();
+		gbc_btnNeueAusleiheErfassen.gridx = 11;
+		gbc_btnNeueAusleiheErfassen.gridy = 0;
+		panel_6.add(btnNeueAusleiheErfassen, gbc_btnNeueAusleiheErfassen);
+		
+		JPanel panel_7 = new JPanel();
+		panel_5.add(panel_7, BorderLayout.CENTER);
 	}
 }
