@@ -41,6 +41,9 @@ import javax.swing.JTable;
 
 import domain.Library;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class StartWindow {
 
 	private JFrame frame;
@@ -173,6 +176,22 @@ public class StartWindow {
 		panel_2.add(chckbxNurVerfgbareBcher, gbc_chckbxNurVerfgbareBcher);
 		
 		JButton btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
+		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] rows = table.getSelectedRows();
+				for (int row: rows){
+					String bookName = (String) table.getValueAt(row, 1);
+					domain.Book book = library.findByBookTitle(bookName);
+					if(book != null) {
+						DetailWindow detailFrame = new DetailWindow();
+					    detailFrame.setBook(book);			        	 
+					}else{
+						 System.out.println("Buch nicht gefunden");
+					}
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSelektierteAnzeigen.gridx = 13;
