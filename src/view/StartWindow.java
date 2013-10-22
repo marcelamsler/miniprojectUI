@@ -88,20 +88,17 @@ public class StartWindow {
 		
 	}
 	
-	private void showOnlyAvailable() {
+	private void updateFilter() {
 		if (chckbxNurVerfgbareBcher.isSelected()){
 			sorter.setRowFilter(new RowFilter< StartWindowTableModel, Object>(){
-
 				@Override
 				public boolean include(
 					RowFilter.Entry<? extends StartWindowTableModel, ? extends Object> entry) {
 					for (int i = entry.getValueCount() - 1; i >= 0; i--) {
-					       if (entry.getStringValue(i).startsWith("0")) {
-					      
+					       if (entry.getStringValue(i).startsWith("0")) {					      
 					         return false;
 					       }
-					     }
-					    
+					     }					    
 					     return true;
 						}
 					}
@@ -208,7 +205,7 @@ public class StartWindow {
 		chckbxNurVerfgbareBcher = new JCheckBox("nur verfügbare Bücher anzeigen");
 		chckbxNurVerfgbareBcher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showOnlyAvailable();
+				updateFilter();
 				
 			}
 		});
