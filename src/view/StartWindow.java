@@ -145,13 +145,13 @@ public class StartWindow {
 		JLabel lblAnzahlBcher = new JLabel("Anzahl Bücher:");
 		panel.add(lblAnzahlBcher);
 		
-		JLabel label = new JLabel("842");
+		JLabel label = new JLabel(library.getBooks().size() + "");
 		panel.add(label);
 		
 		JLabel lblAnzahlExemplare = new JLabel("Anzahl Exemplare:");
 		panel.add(lblAnzahlExemplare);
 		
-		JLabel lblNewLabel = new JLabel("2200");
+		JLabel lblNewLabel = new JLabel(library.getCopies().size() + "");
 		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
