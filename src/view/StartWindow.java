@@ -50,11 +50,12 @@ public class StartWindow {
 	private JFrame frame;
 	private JTextField txtSuc;
 	private JTable table;
-	private StartWindowTableModel tableModel; 
-	private TableRowSorter<StartWindowTableModel> sorter; 
+	private StartWindowBookTableModel tableModel; 
+	private TableRowSorter<StartWindowBookTableModel> sorter; 
 	private Library library;
 	private JCheckBox chckbxNurVerfgbareBcher;
 	private JTextField txtAusleihenSuchen;
+	private JTable table_1;
 	
 	public StartWindow(Library library) {		
 
@@ -65,9 +66,9 @@ public class StartWindow {
 	}
 	
 	public void updateFilters() {
-		 RowFilter<StartWindowTableModel, Object> textFilter = getTextFilter(); 
-		 RowFilter<StartWindowTableModel, Object> checkBoxFilter = getCheckBoxFilter();
-		 ArrayList<RowFilter<StartWindowTableModel, Object>> andFilters = new ArrayList<>();
+		 RowFilter<StartWindowBookTableModel, Object> textFilter = getTextFilter(); 
+		 RowFilter<StartWindowBookTableModel, Object> checkBoxFilter = getCheckBoxFilter();
+		 ArrayList<RowFilter<StartWindowBookTableModel, Object>> andFilters = new ArrayList<>();
 		 andFilters.add(textFilter);
 		 andFilters.add(checkBoxFilter);
 		 
@@ -89,8 +90,8 @@ public class StartWindow {
 		  }
 		}
 	
-	private  RowFilter< StartWindowTableModel, Object> getTextFilter() {  
-	    RowFilter< StartWindowTableModel, Object> rf = null;     
+	private  RowFilter< StartWindowBookTableModel, Object> getTextFilter() {  
+	    RowFilter< StartWindowBookTableModel, Object> rf = null;     
 	    try  
 	    {  
 	        rf = RowFilter.regexFilter("(?i)" + txtSuc.getText(), 1 ,2 ,3);    
@@ -115,12 +116,12 @@ public class StartWindow {
 		
 	}
 	
-	private RowFilter< StartWindowTableModel, Object> getCheckBoxFilter() {
+	private RowFilter< StartWindowBookTableModel, Object> getCheckBoxFilter() {
 		
-		RowFilter< StartWindowTableModel, Object> filter = new RowFilter< StartWindowTableModel, Object>(){
+		RowFilter< StartWindowBookTableModel, Object> filter = new RowFilter< StartWindowBookTableModel, Object>(){
 				@Override
 				public boolean include(
-					RowFilter.Entry<? extends StartWindowTableModel, ? extends Object> entry) {
+					RowFilter.Entry<? extends StartWindowBookTableModel, ? extends Object> entry) {
 					for (int i = entry.getValueCount() - 1; i >= 0; i--) {
 					       if (entry.getStringValue(i).startsWith("0")) {					      
 					         return false;
@@ -276,7 +277,7 @@ public class StartWindow {
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		 
-		tableModel= new StartWindowTableModel(library);
+		tableModel= new StartWindowBookTableModel(library);
 		sorter = new TableRowSorter<>(tableModel);
 		table = new JTable(tableModel);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -388,5 +389,13 @@ public class StartWindow {
 		
 		JPanel panel_7 = new JPanel();
 		panel_5.add(panel_7, BorderLayout.CENTER);
+		panel_7.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel_7.add(scrollPane_1, BorderLayout.CENTER);
+		
+		StartWindowLoanTableModel loanTableModel = new StartWindowLoanTableModel(library);
+		table_1 = new JTable(loanTableModel);
+		scrollPane_1.setViewportView(table_1);
 	}
 }
