@@ -35,6 +35,7 @@ import java.awt.GridLayout;
 import javax.swing.JComboBox;
 
 import domain.Book;
+import domain.Shelf;
 
 public class DetailWindow {
 
@@ -43,6 +44,7 @@ public class DetailWindow {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JComboBox<String> comboBox; 
+	//private JList list;
 
 	public DetailWindow() {
 		initialize();
@@ -53,7 +55,12 @@ public class DetailWindow {
 		textField.setText(book.getName());
 		textField_1.setText(book.getAuthor());
 		textField_2.setText(book.getPublisher());
+		for(Shelf tmpShelf : Shelf.values()){
+			comboBox.addItem(tmpShelf.toString());
+		}
 		comboBox.setSelectedItem(book.getShelf());
+		
+		//list.add("Test", null);
 		frmDetail.repaint();
 		
 	}
