@@ -49,9 +49,10 @@ public class StartWindow {
 	private JFrame frame;
 	private JTextField txtSuc;
 	private JTable table;
-	StartWindowTableModel tableModel; 
+	private StartWindowTableModel tableModel; 
 	private TableRowSorter<StartWindowTableModel> sorter; 
 	private Library library;
+	private JCheckBox chckbxNurVerfgbareBcher;
 	
 	public StartWindow(Library library) {		
 
@@ -62,7 +63,7 @@ public class StartWindow {
 	}
 	
 	private void newFilter() {  
-	    RowFilter< StartWindowTableModel  , Object> rf = null;     
+	    RowFilter< StartWindowTableModel, Object> rf = null;     
 	    try  
 	    {  
 	        rf = RowFilter.regexFilter("(?i)" + txtSuc.getText(), 1 ,2 ,3);    
@@ -83,6 +84,30 @@ public class StartWindow {
 		    detailFrame.setBook(book);			        	 
 		}else{
 			 System.out.println("Buch nicht gefunden");
+		}
+		
+	}
+	
+	private void showOnlyAvailable() {
+		if (chckbxNurVerfgbareBcher.isSelected()){
+			sorter.setRowFilter(new RowFilter< StartWindowTableModel, Object>(){
+
+				@Override
+				public boolean include(
+					RowFilter.Entry<? extends StartWindowTableModel, ? extends Object> entry) {
+					for (int i = entry.getValueCount() - 1; i >= 0; i--) {
+					       if (entry.getStringValue(i).startsWith("0")) {
+					      
+					         return false;
+					       }
+					     }
+					    
+					     return true;
+						}
+					}
+				);
+		}else{
+			sorter.setRowFilter(null);
 		}
 		
 	}
@@ -180,7 +205,13 @@ public class StartWindow {
 		panel_2.add(txtSuc, gbc_txtSuc);
 		txtSuc.setColumns(10);
 		
-		JCheckBox chckbxNurVerfgbareBcher = new JCheckBox("nur verfügbare Bücher anzeigen");
+		chckbxNurVerfgbareBcher = new JCheckBox("nur verfügbare Bücher anzeigen");
+		chckbxNurVerfgbareBcher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showOnlyAvailable();
+				
+			}
+		});
 		GridBagConstraints gbc_chckbxNurVerfgbareBcher = new GridBagConstraints();
 		gbc_chckbxNurVerfgbareBcher.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxNurVerfgbareBcher.gridx = 8;
