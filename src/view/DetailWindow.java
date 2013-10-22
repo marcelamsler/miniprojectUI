@@ -3,26 +3,38 @@ package view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JLayeredPane;
 import javax.swing.JTabbedPane;
 import javax.swing.BoxLayout;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+
 import javax.swing.JLabel;
+
 import java.awt.Insets;
+
 import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JScrollPane;
+
 import java.awt.GridLayout;
+
 import javax.swing.JComboBox;
+
+import domain.Book;
 
 public class DetailWindow {
 
@@ -31,33 +43,14 @@ public class DetailWindow {
 	private JTextField textField_1;
 	private JTextField textField_2;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					DetailWindow window = new DetailWindow();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the application.
-	 */
-	public DetailWindow() {
-		initialize();
+	public DetailWindow(Book book) {
+		initialize(book);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Book book) {
 		frmDetail = new JFrame();
 		frmDetail.setTitle("Buch Detailansicht");
 		frmDetail.setBounds(100, 100, 592, 473);
@@ -185,6 +178,7 @@ public class DetailWindow {
 		JList list = new JList();
 		list.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_3.add(list);
+		frmDetail.setVisible(true);
 	}
 
 }

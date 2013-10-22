@@ -25,6 +25,9 @@ import javax.swing.border.TitledBorder;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.print.Book;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -43,6 +46,7 @@ public class StartWindow {
 	private JFrame frame;
 	private JTextField txtSuc;
 	private JTable table;
+	StartWindowTableModel tableModel; 
 	private TableRowSorter<StartWindowTableModel> sorter; 
 	private Library library;
 	
@@ -187,13 +191,26 @@ public class StartWindow {
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		 
-		StartWindowTableModel tableModel= new StartWindowTableModel(library);
+		tableModel= new StartWindowTableModel(library);
 		sorter = new TableRowSorter<>(tableModel);
 		table = new JTable(tableModel);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		table.setRowSorter(sorter);  
 		panel_3.add(scrollPane);
+		
+		 table.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         domain.Book book = library.findByBookTitle((String)tableModel.getValueAt(row, 2));
+			         
+			         DetailWindow detailFrame = new DetailWindow(book);
+			         
+			         }
+			   }
+			});
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
