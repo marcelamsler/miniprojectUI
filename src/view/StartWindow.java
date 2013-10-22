@@ -173,6 +173,14 @@ public class StartWindow {
 		panel_2.setLayout(gbl_panel_2);
 		
 		txtSuc = new JTextField();
+		txtSuc.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (txtSuc.getText().equals("Bücher suchen")) {
+					txtSuc.setText("");
+				} 				
+			}
+		});
 		txtSuc.setText("Bücher suchen");
 		txtSuc.getDocument().addDocumentListener(  
 		  new DocumentListener()  
