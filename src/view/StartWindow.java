@@ -43,6 +43,7 @@ import domain.Library;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class StartWindow {
 
@@ -62,7 +63,32 @@ public class StartWindow {
 
 	}
 	
-	private void newFilter() {  
+	public void updateFilters() {
+		 RowFilter<StartWindowTableModel, Object> textFilter = getTextFilter(); 
+		 RowFilter<StartWindowTableModel, Object> checkBoxFilter = getCheckBoxFilter();
+		 ArrayList<RowFilter<StartWindowTableModel, Object>> andFilters = new ArrayList<>();
+		 andFilters.add(textFilter);
+		 andFilters.add(checkBoxFilter);
+		 
+		
+		  if (chckbxNurVerfgbareBcher.isSelected()) {
+		    if (txtSuc.getText().length() > 0 && !(txtSuc.getText().equals("Bücher suchen")) ) {
+		       // Both filters active so construct an and filter.
+		       sorter.setRowFilter(RowFilter.andFilter(andFilters));
+		    } else {
+		       // Checkbox selected but text field empty.
+		       sorter.setRowFilter(checkBoxFilter);
+		    }
+		  } else if (txtSuc.getText().length() > 0) {
+		    // Checkbox deselected but text field non-empty.
+		    sorter.setRowFilter(textFilter);
+		  } else {
+		    // Neither filter "active" so remove filter from sorter.
+		    sorter.setRowFilter(null); // Will cause table to re-filter.
+		  }
+		}
+	
+	private  RowFilter< StartWindowTableModel, Object> getTextFilter() {  
 	    RowFilter< StartWindowTableModel, Object> rf = null;     
 	    try  
 	    {  
@@ -71,9 +97,9 @@ public class StartWindow {
 	    }  
 	    catch (java.util.regex.PatternSyntaxException e)  
 	    {  
-	        return;  
+	        return null;  
 	    }  
-	    sorter.setRowFilter(rf);  
+	    return rf;  
 	}  
 	
 	private void openDetailWindow(String bookName){
@@ -88,9 +114,9 @@ public class StartWindow {
 		
 	}
 	
-	private void updateFilter() {
-		if (chckbxNurVerfgbareBcher.isSelected()){
-			sorter.setRowFilter(new RowFilter< StartWindowTableModel, Object>(){
+	private RowFilter< StartWindowTableModel, Object> getCheckBoxFilter() {
+		
+		RowFilter< StartWindowTableModel, Object> filter = new RowFilter< StartWindowTableModel, Object>(){
 				@Override
 				public boolean include(
 					RowFilter.Entry<? extends StartWindowTableModel, ? extends Object> entry) {
@@ -101,11 +127,8 @@ public class StartWindow {
 					     }					    
 					     return true;
 						}
-					}
-				);
-		}else{
-			sorter.setRowFilter(null);
-		}
+		};
+		return filter;
 		
 	}
 
@@ -187,15 +210,15 @@ public class StartWindow {
 		   {  
 		      public void changedUpdate(DocumentEvent e)  
 		      {  
-		          newFilter();  
+		    	  updateFilters();
 		      }  
 		      public void insertUpdate(DocumentEvent e)  
 		      {  
-		          newFilter();  
+		    	  updateFilters();  
 		      }  
 		      public void removeUpdate(DocumentEvent e)  
 		      {  
-		         newFilter();  
+		    	  updateFilters(); 
 		      }  
 		   }  
 		);
@@ -213,7 +236,7 @@ public class StartWindow {
 		chckbxNurVerfgbareBcher = new JCheckBox("nur verfügbare Bücher anzeigen");
 		chckbxNurVerfgbareBcher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFilter();
+				updateFilters();
 				
 			}
 		});
