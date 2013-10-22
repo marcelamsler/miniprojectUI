@@ -74,6 +74,18 @@ public class StartWindow {
 	    }  
 	    sorter.setRowFilter(rf);  
 	}  
+	
+	private void openDetailWindow(String bookName){
+		
+		domain.Book book = library.findByBookTitle(bookName);
+		if(book != null) {
+			DetailWindow detailFrame = new DetailWindow();
+		    detailFrame.setBook(book);			        	 
+		}else{
+			 System.out.println("Buch nicht gefunden");
+		}
+		
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -181,15 +193,9 @@ public class StartWindow {
 				int[] rows = table.getSelectedRows();
 				for (int row: rows){
 					String bookName = (String) table.getValueAt(row, 1);
-					domain.Book book = library.findByBookTitle(bookName);
-					if(book != null) {
-						DetailWindow detailFrame = new DetailWindow();
-					    detailFrame.setBook(book);			        	 
-					}else{
-						 System.out.println("Buch nicht gefunden");
-					}
+					openDetailWindow(bookName);
 				}
-				
+		
 			}
 		});
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
@@ -223,13 +229,8 @@ public class StartWindow {
 			      if (e.getClickCount() == 2) {
 			         JTable target = (JTable)e.getSource();
 			         int row = target.getSelectedRow();
-			         domain.Book book = library.findByBookTitle((String)tableModel.getValueAt(row, 1));
-			         if(book != null) {
-			        	 DetailWindow detailFrame = new DetailWindow();
-				         detailFrame.setBook(book);			        	 
-			         }else{
-			        	 System.out.println("Buch nicht gefunden");
-			         }
+			         String bookName= (String) table.getValueAt(row, 1);
+			         openDetailWindow(bookName);
 			      }   
 			   }
 			});
