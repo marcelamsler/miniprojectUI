@@ -297,10 +297,27 @@ public class StartWindow {
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
 		GridBagLayout gbl_layeredPane_2 = new GridBagLayout();
-		gbl_layeredPane_2.columnWidths = new int[]{9, 395, 0};
-		gbl_layeredPane_2.rowHeights = new int[]{47, 0};
-		gbl_layeredPane_2.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_layeredPane_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_layeredPane_2.columnWidths = new int[]{0, 0};
+		gbl_layeredPane_2.rowHeights = new int[]{47, 424, 0};
+		gbl_layeredPane_2.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_layeredPane_2.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		layeredPane_2.setLayout(gbl_layeredPane_2);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new TitledBorder(null, "Ausleihe Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+		gbc_panel_4.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_4.fill = GridBagConstraints.BOTH;
+		gbc_panel_4.gridx = 0;
+		gbc_panel_4.gridy = 0;
+		layeredPane_2.add(panel_4, gbc_panel_4);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBorder(new TitledBorder(null, "Erfasste Ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
+		gbc_panel_5.fill = GridBagConstraints.BOTH;
+		gbc_panel_5.gridx = 0;
+		gbc_panel_5.gridy = 1;
+		layeredPane_2.add(panel_5, gbc_panel_5);
 	}
 }
