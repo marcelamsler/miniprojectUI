@@ -28,6 +28,7 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
 
 import java.awt.GridLayout;
@@ -35,6 +36,7 @@ import java.awt.GridLayout;
 import javax.swing.JComboBox;
 
 import domain.Book;
+import domain.Library;
 import domain.Shelf;
 
 public class DetailWindow {
@@ -44,23 +46,29 @@ public class DetailWindow {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JComboBox<String> comboBox; 
-	//private JList list;
+	private Library library;
+	private Book book;
+	
+	private DetailWindowTableModel tableModel;
+	private TableRowSorter<DetailWindowTableModel> sorter; 
+	private JTable table;
 
-	public DetailWindow() {
+	public DetailWindow(Library library){
+		this.library = library;
 		initialize();
 	}
 	
-	
+
 	public void setBook(Book book){
-		textField.setText(book.getName());
-		textField_1.setText(book.getAuthor());
-		textField_2.setText(book.getPublisher());
+		this.book = book;
+		textField.setText(this.book.getName());
+		textField_1.setText(this.book.getAuthor());
+		textField_2.setText(this.book.getPublisher());
 		for(Shelf tmpShelf : Shelf.values()){
 			comboBox.addItem(tmpShelf.toString());
 		}
-		comboBox.setSelectedItem(book.getShelf());
+		comboBox.setSelectedItem(this.book.getShelf());
 		
-		//list.add("Test", null);
 		frmDetail.repaint();
 		
 	}
@@ -72,7 +80,6 @@ public class DetailWindow {
 		frmDetail = new JFrame();
 		frmDetail.setTitle("Buch Detailansicht");
 		frmDetail.setBounds(100, 100, 592, 473);
-		
 		frmDetail.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -190,12 +197,19 @@ public class DetailWindow {
 		gbc_btnExemplareHinzufgen.gridy = 0;
 		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 		
+		table = new JTable(tableModel);
+		tableModel = new DetailWindowTableModel(library, book); 
+		sorter = new TableRowSorter<>(tableModel);
+		table.setFillsViewportHeight(true);
+		table.setRowSorter(sorter);  
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		
 		JPanel panel_3 = new JPanel();
+		panel_3.add(scrollPane);
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		
-		JList list = new JList();
-		list.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_3.add(list);
+
 		frmDetail.setVisible(true);
 	}
 
