@@ -64,6 +64,7 @@ public class DetailWindow implements Observer{
 
 	public void setBook(Book book){
 		this.book = book;
+		
 		textField.setText(this.book.getName());
 		textField_1.setText(this.book.getAuthor());
 		textField_2.setText(this.book.getPublisher());
