@@ -44,8 +44,10 @@ import domain.Library;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class StartWindow {
+public class StartWindow implements Observer{
 
 	private JFrame frame;
 	private JTextField txtSuc;
@@ -57,8 +59,8 @@ public class StartWindow {
 	private JTextField txtAusleihenSuchen;
 	private JTable table_1;
 	
-	public StartWindow(Library library) {		
-
+	public StartWindow(Library library) {
+		
 		this.library = library;
 		initialize();
 		this.frame.setVisible(true);
@@ -397,5 +399,11 @@ public class StartWindow {
 		StartWindowLoanTableModel loanTableModel = new StartWindowLoanTableModel(library);
 		table_1 = new JTable(loanTableModel);
 		scrollPane_1.setViewportView(table_1);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

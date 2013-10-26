@@ -32,14 +32,18 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
 
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JComboBox;
 
 import domain.Book;
 import domain.Library;
 import domain.Shelf;
+import java.awt.event.WindowAdapter;
 
-public class DetailWindow {
+public class DetailWindow implements Observer{
 
 	private JFrame frmDetail;
 	private JTextField textField;
@@ -57,7 +61,6 @@ public class DetailWindow {
 		this.library = library;
 		initialize();
 	}
-	
 
 	public void setBook(Book book){
 		this.book = book;
@@ -78,6 +81,16 @@ public class DetailWindow {
 	 */
 	private void initialize() {
 		frmDetail = new JFrame();
+		frmDetail.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				book.setAuthor(textField_1.getText());
+				book.setName(textField.getText());
+				book.setPublisher(textField_2.getText());
+				// TODO: Fix Shelf safe routine!
+			
+			}
+		});
 		frmDetail.setTitle("Buch Detailansicht");
 		frmDetail.setBounds(100, 100, 592, 473);
 		frmDetail.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -213,6 +226,11 @@ public class DetailWindow {
 		
 
 		frmDetail.setVisible(true);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.setBook(this.book);
 	}
 
 }

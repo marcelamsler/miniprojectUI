@@ -2,8 +2,9 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Library {
+public class Library extends Observable{
 
 	private List<Copy> copies;
 	private List<Customer> customers;
@@ -18,30 +19,46 @@ public class Library {
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
+		this.setChanged();
+		
 		if (!isCopyLent(copy)) {
 			Loan l = new Loan(customer, copy);
 			loans.add(l);
+			this.notifyObservers(this);
 			return l;
 		} else {
+			this.notifyObservers(this);
 			return null;
 		}
 	}
 
 	public Customer createAndAddCustomer(String name, String surname) {
+		this.setChanged();
+		
 		Customer c = new Customer(name, surname);
 		customers.add(c);
+		this.notifyObservers(this);
+
 		return c;
 	}
 
 	public Book createAndAddBook(String name) {
+		this.setChanged();
+		
 		Book b = new Book(name);
 		books.add(b);
+		this.notifyObservers(this);
+
 		return b;
 	}
 
 	public Copy createAndAddCopy(Book title) {
+		this.setChanged();
+
 		Copy c = new Copy(title);
 		copies.add(c);
+		this.notifyObservers(this);
+
 		return c;
 	}
 
