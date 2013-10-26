@@ -21,7 +21,7 @@ public class DetailWindowTableModel extends AbstractTableModel {
 		
 	}
 	
-    private String[] columnNames = {"Verfügbar", "Titel", "Author", "Verlag"};
+    private String[] columnNames = {"ID", "Titel", "Zustand"};
     
     public int getColumnCount() {
         return columnNames.length;
@@ -37,22 +37,22 @@ public class DetailWindowTableModel extends AbstractTableModel {
         
         switch (columnIndex){
             case 0 : 
-                return "0";
+                return column.getInventoryNumber();
                             
             case 1:
-            	return "1";
+            	return column.getTitle();
                             
             case 2:
-            	return "2";
+            	return column.getCondition();
                               
-            case 3:
-                return "3";
-                          
             default:
                 throw new UnsupportedOperationException("Da ist wohl was Schiefgelaufen beim laden der Daten in die Tabelle");
                 
         }
 	}
 
+	public String getColumnName(int col) {
+        return columnNames[col];
+    }
 	
 }

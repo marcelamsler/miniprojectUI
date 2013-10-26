@@ -197,8 +197,9 @@ public class DetailWindow {
 		gbc_btnExemplareHinzufgen.gridy = 0;
 		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 		
-		table = new JTable(tableModel);
 		tableModel = new DetailWindowTableModel(library, book); 
+		table = new JTable(tableModel);
+		
 		sorter = new TableRowSorter<>(tableModel);
 		table.setFillsViewportHeight(true);
 		table.setRowSorter(sorter);  
@@ -206,6 +207,7 @@ public class DetailWindow {
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setLayout(new BorderLayout(0, 0));
 		panel_3.add(scrollPane);
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		
