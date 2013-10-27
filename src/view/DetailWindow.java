@@ -84,10 +84,13 @@ public class DetailWindow implements Observer{
 		frmDetail.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+			
 				book.setAuthor(textField_1.getText());
 				book.setName(textField.getText());
 				book.setPublisher(textField_2.getText());
+				
 				// TODO: Fix Shelf safe routine!
+				// book.setShelf(comboBox.getSelectedItem());
 			
 			}
 		});
