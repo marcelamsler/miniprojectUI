@@ -40,6 +40,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
 import domain.Library;
+import domain.Loan;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -118,6 +119,10 @@ public class StartWindow implements Observer{
 			 System.out.println("Buch nicht gefunden");
 		}
 		
+	}
+	
+	private void openDetailLoanWindow(Loan loan){
+		System.out.println(loan.getCopy().getTitle());
 	}
 	
 	private RowFilter< StartWindowBookTableModel, Object> getCheckBoxFilter() {
@@ -381,8 +386,9 @@ public class StartWindow implements Observer{
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
+			         Loan loan = library.getLoans().get(table.convertRowIndexToModel(row));
 			         String loanName= (String) table.getValueAt(row, 1);
-			         openDetailLoanWindow(bookName);
+			         openDetailLoanWindow(loan);
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
 			    		  btnSelektierteAnzeigen.setEnabled(true);

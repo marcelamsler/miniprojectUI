@@ -144,6 +144,8 @@ public class Library extends Observable{
 		}
 		return retCopies;
 	}
+	
+
 
 	public List<Copy> getCopies() {
 		return copies;

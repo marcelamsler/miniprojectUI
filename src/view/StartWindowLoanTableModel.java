@@ -43,8 +43,7 @@ public class StartWindowLoanTableModel extends AbstractTableModel {
 	        Loan column = list.get(rowIndex);
 	        
 	        switch (columnIndex){
-	            case 0 : 
-	            	
+	            case 0 :	            	
 	            	
 	            	if (column.isOverdue()){
 	            		return "fällig";
