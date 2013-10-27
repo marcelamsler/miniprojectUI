@@ -56,6 +56,7 @@ public class StartWindow implements Observer{
 	private String bookSearchBoxText = "Bücher suchen";
 	private String loanSearchBoxText = "Ausleihe suchen";
 	private JButton btnSelektierteAnzeigen;
+	private JButton btnSelektierteAusleiheAnzeigen;
 	
 	
 	public StartWindow(Library library) {
@@ -391,7 +392,8 @@ public class StartWindow implements Observer{
 			}
 		});
 		
-		JButton btnSelektierteAusleiheAnzeigen = new JButton("Selektierte Ausleihe anzeigen");
+		btnSelektierteAusleiheAnzeigen = new JButton("Selektierte Ausleihe anzeigen");
+		btnSelektierteAusleiheAnzeigen.setEnabled(false);
 		GridBagConstraints gbc_btnSelektierteAusleiheAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAusleiheAnzeigen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSelektierteAusleiheAnzeigen.gridx = 10;
@@ -424,7 +426,7 @@ public class StartWindow implements Observer{
 			         openDetailLoanWindow(loan);
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
-			    		  btnSelektierteAnzeigen.setEnabled(true);
+			    		  btnSelektierteAusleiheAnzeigen.setEnabled(true);
 			    	  }
 			      }
 			   }
