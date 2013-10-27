@@ -58,6 +58,7 @@ public class StartWindow implements Observer{
 	private JCheckBox chckbxNurVerfgbareBcher;
 	private JTextField txtAusleihenSuchen;
 	private JTable table_1;
+	private String searchBoxText = "Bücher suchen";
 	
 	public StartWindow(Library library) {
 		
@@ -76,14 +77,14 @@ public class StartWindow implements Observer{
 		 
 		
 		  if (chckbxNurVerfgbareBcher.isSelected()) {
-		    if (txtSuc.getText().length() > 0 && !(txtSuc.getText().equals("Bücher suchen")) ) {
+		    if (txtSuc.getText().length() > 0 && !(txtSuc.getText().equals(searchBoxText)) ) {
 		       // Both filters active so construct an and filter.
 		       sorter.setRowFilter(RowFilter.andFilter(andFilters));
 		    } else {
 		       // Checkbox selected but text field empty.
 		       sorter.setRowFilter(checkBoxFilter);
 		    }
-		  } else if (txtSuc.getText().length() > 0) {
+		  } else if (txtSuc.getText().length() > 0 && !(txtSuc.getText().equals(searchBoxText))) {
 		    // Checkbox deselected but text field non-empty.
 		    sorter.setRowFilter(textFilter);
 		  } else {
@@ -203,12 +204,12 @@ public class StartWindow implements Observer{
 		txtSuc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtSuc.getText().equals("Bücher suchen")) {
+				if (txtSuc.getText().equals(searchBoxText)) {
 					txtSuc.setText("");
 				} 				
 			}
 		});
-		txtSuc.setText("Bücher suchen");
+		txtSuc.setText(searchBoxText);
 		txtSuc.getDocument().addDocumentListener(  
 		  new DocumentListener()  
 		   {  
