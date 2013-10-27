@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -43,12 +44,12 @@ public class StartWindowLoanTableModel extends AbstractTableModel {
 	        
 	        switch (columnIndex){
 	            case 0 : 
-	            	Boolean status = column.getDaysOverdue() < 1;
 	            	
-	            	if (status){
-	            		return "ok";
-	            	}else{
+	            	
+	            	if (column.isOverdue()){
 	            		return "fällig";
+	            	}else{
+	            		return "ok";
 	            	}
 	                            
 	            case 1:
@@ -58,10 +59,11 @@ public class StartWindowLoanTableModel extends AbstractTableModel {
 	                return column.getCopy().getTitle();
 	                              
 	            case 3:
-	                return column.getDaysOfLoanDuration();
+	            	return column.getFormattedExpectedReturnDate();
+	                
 	             
 	            case 4: 
-	            	return column.getCustomer().getName() + column.getCustomer().getName();
+	            	return column.getCustomer().getSurname() + " " + column.getCustomer().getName();
 	                          
 	            default:
 	                throw new UnsupportedOperationException("Da ist wohl was Schiefgelaufen beim laden der Daten in die Tabelle");

@@ -108,7 +108,7 @@ public class StartWindow implements Observer{
 	    return rf;  
 	}  
 	
-	private void openDetailWindow(String bookName){
+	private void openDetailBookWindow(String bookName){
 		
 		domain.Book book = library.findByBookTitle(bookName);
 		if(book != null) {
@@ -244,7 +244,7 @@ public class StartWindow implements Observer{
 				int[] rows = table.getSelectedRows();
 				for (int row: rows){
 					String bookName = (String) table.getValueAt(row, 1);
-					openDetailWindow(bookName);
+					openDetailBookWindow(bookName);
 				}
 		
 			}
@@ -281,7 +281,7 @@ public class StartWindow implements Observer{
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
 			         String bookName= (String) table.getValueAt(row, 1);
-			         openDetailWindow(bookName);
+			         openDetailBookWindow(bookName);
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
 			    		  btnSelektierteAnzeigen.setEnabled(true);
@@ -375,6 +375,22 @@ public class StartWindow implements Observer{
 		StartWindowLoanTableModel loanTableModel = new StartWindowLoanTableModel(library);
 		table_1 = new JTable(loanTableModel);
 		scrollPane_1.setViewportView(table_1);
+		
+		table_1.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+				   JTable target = (JTable)e.getSource();
+			      if (e.getClickCount() == 2) {			         
+			         int row = target.getSelectedRow();
+			         String loanName= (String) table.getValueAt(row, 1);
+			         openDetailLoanWindow(bookName);
+			      } else if(e.getClickCount() == 1) {
+			    	  if (target.getSelectedColumnCount() > 0) {
+			    		  btnSelektierteAnzeigen.setEnabled(true);
+			    	  }
+			      }
+			   }
+			});
+		
 	}
 
 	@Override

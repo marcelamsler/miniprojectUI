@@ -2,6 +2,7 @@ package domain;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Loan {
@@ -99,15 +100,31 @@ public class Loan {
 				dueDate.getTimeInMillis())/ 1000 /60 /60 /24;
 	}
 	
-	public boolean isOverdue() {
-		if ( !isLent() )
-			return false;
-		
+	
+	private GregorianCalendar getExpectedReturnDate() {
+
 		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
 		dueDate.add(GregorianCalendar.HOUR_OF_DAY, 23);
 		dueDate.add(GregorianCalendar.MINUTE, 59);
 		dueDate.add(GregorianCalendar.SECOND, 59);
+		
+		return dueDate;
+		
+		
+	}
+	
+	public String getFormattedExpectedReturnDate() {
+		return getFormattedDate(getExpectedReturnDate());
+	}
+	
+	
+	
+	public boolean isOverdue() {
+		if ( !isLent() )
+			return false;
+		
+		GregorianCalendar dueDate = getExpectedReturnDate();
 		
 		return ( new GregorianCalendar().after(dueDate) );
 	}
