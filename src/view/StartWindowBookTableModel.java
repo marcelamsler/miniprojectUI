@@ -19,6 +19,7 @@ public class StartWindowBookTableModel extends AbstractTableModel {
 			this.library = library;
 			this.list = library.getBooks();
 			
+			
 		}
 	
 	

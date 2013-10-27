@@ -72,6 +72,8 @@ public class DetailWindow implements Observer{
 			comboBox.addItem(tmpShelf.toString());
 		}
 		comboBox.setSelectedItem(this.book.getShelf());
+		table.setModel(new DetailWindowTableModel(library, book));
+		sorter = new TableRowSorter<>(tableModel);
 		
 		frmDetail.repaint();
 		
@@ -214,10 +216,10 @@ public class DetailWindow implements Observer{
 		gbc_btnExemplareHinzufgen.gridy = 0;
 		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 		
-		tableModel = new DetailWindowTableModel(library, book); 
-		table = new JTable(tableModel);
 		
-		sorter = new TableRowSorter<>(tableModel);
+		table = new JTable();
+		
+		
 		table.setFillsViewportHeight(true);
 		table.setRowSorter(sorter);  
 		

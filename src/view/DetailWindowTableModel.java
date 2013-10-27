@@ -19,6 +19,7 @@ public class DetailWindowTableModel extends AbstractTableModel {
 		this.book = book;
 		this.list = library.getCopiesOfBook(book);
 		
+		
 	}
 	
     private String[] columnNames = {"ID", "Titel", "Zustand"};
@@ -28,7 +29,7 @@ public class DetailWindowTableModel extends AbstractTableModel {
     }
 
     public int getRowCount() {
-        return list.size();
+    	return list.size();
     }
 
 	@Override
@@ -36,7 +37,7 @@ public class DetailWindowTableModel extends AbstractTableModel {
         Copy column  = list.get(rowIndex);
         
         switch (columnIndex){
-            case 0 : 
+            case 0 :
                 return column.getInventoryNumber();
                             
             case 1:
