@@ -152,21 +152,10 @@ public class StartWindow implements Observer{
 		
 		JLayeredPane layeredPane = new JLayeredPane();
 		tabbedPane.addTab("Bücher", null, layeredPane, null);
-		GridBagLayout gbl_layeredPane = new GridBagLayout();
-		gbl_layeredPane.columnWidths = new int[]{395, 0};
-		gbl_layeredPane.rowHeights = new int[]{47, 0, 0};
-		gbl_layeredPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_layeredPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		layeredPane.setLayout(gbl_layeredPane);
+		layeredPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.anchor = GridBagConstraints.NORTH;
-		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		layeredPane.add(panel, gbc_panel);
+		layeredPane.add(panel, BorderLayout.NORTH);
 		panel.setBorder(new TitledBorder(null, "Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -184,11 +173,7 @@ public class StartWindow implements Observer{
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Buch-Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 1;
-		layeredPane.add(panel_1, gbc_panel_1);
+		layeredPane.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_2 = new JPanel();
@@ -301,22 +286,11 @@ public class StartWindow implements Observer{
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
-		GridBagLayout gbl_layeredPane_2 = new GridBagLayout();
-		gbl_layeredPane_2.columnWidths = new int[]{0, 0};
-		gbl_layeredPane_2.rowHeights = new int[]{47, 424, 0};
-		gbl_layeredPane_2.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_layeredPane_2.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		layeredPane_2.setLayout(gbl_layeredPane_2);
+		layeredPane_2.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "Ausleihe Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-		gbc_panel_4.anchor = GridBagConstraints.NORTH;
-		gbc_panel_4.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_4.gridx = 0;
-		gbc_panel_4.gridy = 0;
-		layeredPane_2.add(panel_4, gbc_panel_4);
+		layeredPane_2.add(panel_4, BorderLayout.NORTH);
 		panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen:");
@@ -339,12 +313,7 @@ public class StartWindow implements Observer{
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(null, "Erfasste Ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
-		gbc_panel_5.anchor = GridBagConstraints.SOUTH;
-		gbc_panel_5.fill = GridBagConstraints.BOTH;
-		gbc_panel_5.gridx = 0;
-		gbc_panel_5.gridy = 1;
-		layeredPane_2.add(panel_5, gbc_panel_5);
+		layeredPane_2.add(panel_5, BorderLayout.CENTER);
 		panel_5.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_6 = new JPanel();
