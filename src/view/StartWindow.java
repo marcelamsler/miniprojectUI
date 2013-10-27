@@ -59,6 +59,7 @@ public class StartWindow implements Observer{
 	private JTextField txtAusleihenSuchen;
 	private JTable table_1;
 	private String searchBoxText = "Bücher suchen";
+	private JButton btnSelektierteAnzeigen;
 	
 	public StartWindow(Library library) {
 		
@@ -236,7 +237,8 @@ public class StartWindow implements Observer{
 		gbc_chckbxNurVerfgbareBcher.gridy = 0;
 		panel_2.add(chckbxNurVerfgbareBcher, gbc_chckbxNurVerfgbareBcher);
 		
-		JButton btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
+		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
+		btnSelektierteAnzeigen.setEnabled(false);
 		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int[] rows = table.getSelectedRows();
@@ -275,12 +277,16 @@ public class StartWindow implements Observer{
 		
 		 table.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
-			      if (e.getClickCount() == 2) {
-			         JTable target = (JTable)e.getSource();
+				   JTable target = (JTable)e.getSource();
+			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
 			         String bookName= (String) table.getValueAt(row, 1);
 			         openDetailWindow(bookName);
-			      }   
+			      } else if(e.getClickCount() == 1) {
+			    	  if (target.getSelectedColumnCount() > 0) {
+			    		  btnSelektierteAnzeigen.setEnabled(true);
+			    	  }
+			      }
 			   }
 			});
 		
