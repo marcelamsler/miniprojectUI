@@ -1,13 +1,10 @@
 package view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
 
-import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
@@ -17,23 +14,18 @@ import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-
-import java.awt.GridLayout;
-
 import javax.swing.border.TitledBorder;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.print.Book;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
@@ -51,16 +43,20 @@ import java.util.Observer;
 public class StartWindow implements Observer{
 
 	private JFrame frame;
-	private JTextField txtSuc;
-	private JTable table;
+	private JTextField bookSearchTextField;
+	private JTable bookTable;
 	private StartWindowBookTableModel tableModel; 
-	private TableRowSorter<StartWindowBookTableModel> sorter; 
+	private TableRowSorter<StartWindowBookTableModel> bookSorter; 
+	private TableRowSorter<StartWindowLoanTableModel> loanSorter; 
 	private Library library;
-	private JCheckBox chckbxNurVerfgbareBcher;
-	private JTextField txtAusleihenSuchen;
-	private JTable table_1;
-	private String searchBoxText = "Bücher suchen";
+	private JCheckBox onlyAvailable;
+	private JCheckBox onlyOverdues;
+	private JTextField loanSearchTextField;
+	private JTable loanTable;
+	private String bookSearchBoxText = "Bücher suchen";
+	private String loanSearchBoxText = "Ausleihe suchen";
 	private JButton btnSelektierteAnzeigen;
+	
 	
 	public StartWindow(Library library) {
 		
@@ -70,23 +66,27 @@ public class StartWindow implements Observer{
 
 	}
 	
-	public void updateFilters() {
-		 RowFilter<StartWindowBookTableModel, Object> textFilter = getTextFilter(); 
-		 RowFilter<StartWindowBookTableModel, Object> checkBoxFilter = getCheckBoxFilter();
-		 ArrayList<RowFilter<StartWindowBookTableModel, Object>> andFilters = new ArrayList<>();
+	public void updateFilters(JCheckBox checkBox, String checkBoxCondition, JTextField textfield, TableRowSorter<? extends AbstractTableModel> sorter) {
+		
+		RowFilter<AbstractTableModel, Object> textFilter = (RowFilter<AbstractTableModel, Object>) getTextFilter(textfield); 
+		RowFilter<AbstractTableModel, Object> checkBoxFilter = (RowFilter<AbstractTableModel, Object>) getCheckBoxFilter(checkBoxCondition);
+	
+		
+		 
+		 ArrayList<RowFilter<AbstractTableModel, Object>> andFilters = new ArrayList<>();
 		 andFilters.add(textFilter);
 		 andFilters.add(checkBoxFilter);
 		 
 		
-		  if (chckbxNurVerfgbareBcher.isSelected()) {
-		    if (txtSuc.getText().length() > 0 && !(txtSuc.getText().equals(searchBoxText)) ) {
+		  if (checkBox.isSelected()) {
+		    if (textfield.getText().length() > 0 && !((textfield.getText().equals(bookSearchBoxText)) || (textfield.getText().equals(loanSearchBoxText)) )) {
 		       // Both filters active so construct an and filter.
 		       sorter.setRowFilter(RowFilter.andFilter(andFilters));
 		    } else {
 		       // Checkbox selected but text field empty.
 		       sorter.setRowFilter(checkBoxFilter);
 		    }
-		  } else if (txtSuc.getText().length() > 0 && !(txtSuc.getText().equals(searchBoxText))) {
+		  } else if (textfield.getText().length() > 0 && !((textfield.getText().equals(bookSearchBoxText)) || (textfield.getText().equals(loanSearchBoxText)) ))  {
 		    // Checkbox deselected but text field non-empty.
 		    sorter.setRowFilter(textFilter);
 		  } else {
@@ -95,19 +95,32 @@ public class StartWindow implements Observer{
 		  }
 		}
 	
-	private  RowFilter< StartWindowBookTableModel, Object> getTextFilter() {  
-	    RowFilter< StartWindowBookTableModel, Object> rf = null;     
-	    try  
-	    {  
-	        rf = RowFilter.regexFilter("(?i)" + txtSuc.getText(), 1 ,2 ,3);    
-	        
-	    }  
-	    catch (java.util.regex.PatternSyntaxException e)  
-	    {  
-	        return null;  
-	    }  
+	
+	private  RowFilter<? extends AbstractTableModel, Object> getTextFilter(JTextField txtField) {  
+	    RowFilter<? extends AbstractTableModel, Object> rf = null;     
+	     rf = RowFilter.regexFilter("(?i)" + txtField.getText(), 1 ,2 ,3,4,5);    
 	    return rf;  
-	}  
+	}  	
+	
+	private RowFilter<? extends AbstractTableModel, Object> getCheckBoxFilter(String condition) {
+		final String cond = condition;
+		RowFilter<AbstractTableModel, Object> filter = new RowFilter<AbstractTableModel, Object>(){
+				@Override
+				public boolean include(
+					RowFilter.Entry<? extends AbstractTableModel, ? extends Object> entry) {
+					for (int i = entry.getValueCount() - 1; i >= 0; i--) {
+					       if (entry.getStringValue(i).startsWith(cond)) {					      
+					         return false;
+					       }
+					     }					    
+					     return true;
+						}
+		};
+		return filter;
+		
+	}
+	
+	
 	
 	private void openDetailBookWindow(String bookName){
 		
@@ -123,24 +136,6 @@ public class StartWindow implements Observer{
 	
 	private void openDetailLoanWindow(Loan loan){
 		System.out.println(loan.getCopy().getTitle());
-	}
-	
-	private RowFilter< StartWindowBookTableModel, Object> getCheckBoxFilter() {
-		
-		RowFilter< StartWindowBookTableModel, Object> filter = new RowFilter< StartWindowBookTableModel, Object>(){
-				@Override
-				public boolean include(
-					RowFilter.Entry<? extends StartWindowBookTableModel, ? extends Object> entry) {
-					for (int i = entry.getValueCount() - 1; i >= 0; i--) {
-					       if (entry.getStringValue(i).startsWith("0")) {					      
-					         return false;
-					       }
-					     }					    
-					     return true;
-						}
-		};
-		return filter;
-		
 	}
 
 	/**
@@ -191,30 +186,30 @@ public class StartWindow implements Observer{
 		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
-		txtSuc = new JTextField();
-		txtSuc.addMouseListener(new MouseAdapter() {
+		bookSearchTextField = new JTextField();
+		bookSearchTextField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtSuc.getText().equals(searchBoxText)) {
-					txtSuc.setText("");
+				if (bookSearchTextField.getText().equals(bookSearchBoxText)) {
+					bookSearchTextField.setText("");
 				} 				
 			}
 		});
-		txtSuc.setText(searchBoxText);
-		txtSuc.getDocument().addDocumentListener(  
+		bookSearchTextField.setText(bookSearchBoxText);
+		bookSearchTextField.getDocument().addDocumentListener(  
 		  new DocumentListener()  
 		   {  
 		      public void changedUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters();
+		    	  updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
 		      }  
 		      public void insertUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters();  
+		    	  updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
 		      }  
 		      public void removeUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(); 
+		    	  updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
 		      }  
 		   }  
 		);
@@ -226,13 +221,13 @@ public class StartWindow implements Observer{
 		gbc_txtSuc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSuc.gridx = 1;
 		gbc_txtSuc.gridy = 0;
-		panel_2.add(txtSuc, gbc_txtSuc);
-		txtSuc.setColumns(10);
+		panel_2.add(bookSearchTextField, gbc_txtSuc);
+		bookSearchTextField.setColumns(10);
 		
-		chckbxNurVerfgbareBcher = new JCheckBox("nur verfügbare Bücher anzeigen");
-		chckbxNurVerfgbareBcher.addActionListener(new ActionListener() {
+		onlyAvailable = new JCheckBox("nur verfügbare Bücher anzeigen");
+		onlyAvailable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFilters();
+				updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
 				
 			}
 		});
@@ -240,20 +235,21 @@ public class StartWindow implements Observer{
 		gbc_chckbxNurVerfgbareBcher.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxNurVerfgbareBcher.gridx = 8;
 		gbc_chckbxNurVerfgbareBcher.gridy = 0;
-		panel_2.add(chckbxNurVerfgbareBcher, gbc_chckbxNurVerfgbareBcher);
+		panel_2.add(onlyAvailable, gbc_chckbxNurVerfgbareBcher);
 		
 		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		btnSelektierteAnzeigen.setEnabled(false);
 		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int[] rows = table.getSelectedRows();
+				int[] rows = bookTable.getSelectedRows();
 				for (int row: rows){
-					String bookName = (String) table.getValueAt(row, 1);
+					String bookName = (String) bookTable.getValueAt(row, 1);
 					openDetailBookWindow(bookName);
 				}
 		
 			}
 		});
+		
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSelektierteAnzeigen.gridx = 13;
@@ -273,19 +269,19 @@ public class StartWindow implements Observer{
 		
 		 
 		tableModel= new StartWindowBookTableModel(library);
-		sorter = new TableRowSorter<>(tableModel);
-		table = new JTable(tableModel);
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setFillsViewportHeight(true);
-		table.setRowSorter(sorter);  
+		bookSorter = new TableRowSorter<>(tableModel);
+		bookTable = new JTable(tableModel);
+		JScrollPane scrollPane = new JScrollPane(bookTable);
+		bookTable.setFillsViewportHeight(true);
+		bookTable.setRowSorter(bookSorter);  
 		panel_3.add(scrollPane);
 		
-		 table.addMouseListener(new MouseAdapter() {
+		 bookTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
-			         String bookName= (String) table.getValueAt(row, 1);
+			         String bookName= (String) bookTable.getValueAt(row, 1);
 			         openDetailBookWindow(bookName);
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
@@ -336,22 +332,58 @@ public class StartWindow implements Observer{
 		gbl_panel_6.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_6.setLayout(gbl_panel_6);
 		
-		txtAusleihenSuchen = new JTextField();
-		txtAusleihenSuchen.setText("Ausleihen suchen");
+		loanSearchTextField = new JTextField();
+		loanSearchTextField.setText("Ausleihen suchen");
+		loanSearchTextField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (loanSearchTextField.getText().equals(loanSearchBoxText)) {
+					loanSearchTextField.setText("");
+				} 				
+			}
+		});
+		loanSearchTextField.setText(loanSearchBoxText);
+		loanSearchTextField.getDocument().addDocumentListener(  
+		  new DocumentListener()  
+		   {  
+		      public void changedUpdate(DocumentEvent e)  
+		      {  
+		    	  updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);
+		      }  
+		      public void insertUpdate(DocumentEvent e)  
+		      {  
+		    	  updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);  
+		      }  
+		      public void removeUpdate(DocumentEvent e)  
+		      {  
+		    	  updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter); 
+		      }  
+		   }  
+		);
+		
+		
 		GridBagConstraints gbc_txtAusleihenSuchen = new GridBagConstraints();
 		gbc_txtAusleihenSuchen.insets = new Insets(0, 0, 0, 5);
 		gbc_txtAusleihenSuchen.anchor = GridBagConstraints.WEST;
 		gbc_txtAusleihenSuchen.gridx = 0;
 		gbc_txtAusleihenSuchen.gridy = 0;
-		panel_6.add(txtAusleihenSuchen, gbc_txtAusleihenSuchen);
-		txtAusleihenSuchen.setColumns(10);
+		panel_6.add(loanSearchTextField, gbc_txtAusleihenSuchen);
+		loanSearchTextField.setColumns(10);
 		
-		JCheckBox chckbxNurberfllige = new JCheckBox("Nur überfällige");
+		onlyOverdues = new JCheckBox("Nur überfällige");
+		onlyOverdues.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);
+				
+			}
+		});
+		
+		
 		GridBagConstraints gbc_chckbxNurberfllige = new GridBagConstraints();
 		gbc_chckbxNurberfllige.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxNurberfllige.gridx = 2;
 		gbc_chckbxNurberfllige.gridy = 0;
-		panel_6.add(chckbxNurberfllige, gbc_chckbxNurberfllige);
+		panel_6.add(onlyOverdues, gbc_chckbxNurberfllige);
 		
 		JButton btnNeueAusleiheErfassen = new JButton("Neue Ausleihe erfassen");
 		btnNeueAusleiheErfassen.addActionListener(new ActionListener() {
@@ -378,16 +410,17 @@ public class StartWindow implements Observer{
 		panel_7.add(scrollPane_1, BorderLayout.CENTER);
 		
 		StartWindowLoanTableModel loanTableModel = new StartWindowLoanTableModel(library);
-		table_1 = new JTable(loanTableModel);
-		scrollPane_1.setViewportView(table_1);
+		loanSorter = new TableRowSorter<>(loanTableModel);
+		loanTable = new JTable(loanTableModel);
+		scrollPane_1.setViewportView(loanTable);
+		loanTable.setRowSorter(loanSorter);
 		
-		table_1.addMouseListener(new MouseAdapter() {
+		loanTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
-			         Loan loan = library.getLoans().get(table.convertRowIndexToModel(row));
-			         String loanName= (String) table.getValueAt(row, 1);
+			         Loan loan = library.getLoans().get(bookTable.convertRowIndexToModel(row));			         
 			         openDetailLoanWindow(loan);
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
