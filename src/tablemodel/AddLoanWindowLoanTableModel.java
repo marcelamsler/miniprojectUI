@@ -1,45 +1,50 @@
 package tablemodel;
 
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
-import domain.Book;
-import domain.Copy;
 import domain.Customer;
 import domain.Library;
+import domain.Loan;
 
-public class AddLoanWindowCustomerTableModel extends AbstractTableModel {
+public class AddLoanWindowLoanTableModel extends AbstractTableModel{
 	Library library;
+	Customer customer;
 	
-	public AddLoanWindowCustomerTableModel(Library library){
+	public AddLoanWindowLoanTableModel(Library library, Customer customer){
 		this.library = library;		
-		
+		this.customer = customer;	
 	}
 	
-    private String[] columnNames = {"Kunden-Nr.", "Name", "Status"};
+    private String[] columnNames = {"Exemplar-Id", "Titel", "bis", "Status"};
     
     public int getColumnCount() {
         return columnNames.length;
     }
 
     public int getRowCount() {
-    	return library.getCustomers().size();
+    	return library.getCustomerLoans(customer).size();
     }
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-        Customer column  = library.getCustomers().get(rowIndex);
+        Loan column  = library.getCustomerLoans(customer).get(rowIndex);
         
         switch (columnIndex){
             case 0 :
-                return column.getId();
+                return column.getCopy().getInventoryNumber();
                             
             case 1:
-            	return column.getSurname() + " " +column.getName();
+            	return column.getCopy().getTitle();
                             
             case 2:
-            	return library.getCustomerStatus(column);
+            	return column.getFormattedExpectedReturnDate();
+            
+            case 3:
+    	      	if (column.isOverdue()){
+            		return "fällig";
+            	}else{
+            		return "ok";           	}
+            	
                               
             default:
                 throw new UnsupportedOperationException("Da ist wohl was Schiefgelaufen beim laden der Daten in die Tabelle");
@@ -52,4 +57,3 @@ public class AddLoanWindowCustomerTableModel extends AbstractTableModel {
     }
 	
 }
-

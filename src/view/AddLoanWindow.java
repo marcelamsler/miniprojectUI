@@ -13,6 +13,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import domain.Customer;
 import domain.Library;
 
 import java.awt.GridLayout;
@@ -34,9 +35,12 @@ import javax.swing.JSplitPane;
 import javax.swing.RowSorter;
 
 import tablemodel.AddLoanWindowCustomerTableModel;
+import tablemodel.AddLoanWindowLoanTableModel;
 import tablemodel.DetailWindowTableModel;
 
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class AddLoanWindow extends JFrame {
@@ -49,7 +53,7 @@ public class AddLoanWindow extends JFrame {
 	private JTable table_1;
 
 	
-	public AddLoanWindow(Library library) {
+	public AddLoanWindow(final Library library) {
 		setTitle("Ausleihe hinzufügen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 450);
@@ -92,6 +96,18 @@ public class AddLoanWindow extends JFrame {
 		table_1.setFillsViewportHeight(true);
 		scrollPane_1.add(table_1);
 		scrollPane_1.setViewportView(table_1);
+		
+		table_1.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+				  JTable target = (JTable)e.getSource();
+			      if (e.getClickCount() == 1) {			         
+			         int row = target.getSelectedRow();
+			         Customer cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
+			         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
+			         table.setEnabled(true);
+			      }
+			   }   
+		});
 		
 		JPanel panel_6 = new JPanel();
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
@@ -168,7 +184,10 @@ public class AddLoanWindow extends JFrame {
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.setEnabled(false);
+		table.setFillsViewportHeight(true);
 		scrollPane.add(table);
+		scrollPane.setViewportView(table);
 		
 		JSplitPane splitPane = new JSplitPane();
 		contentPane.add(splitPane);	
