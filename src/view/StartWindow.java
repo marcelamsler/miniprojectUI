@@ -327,9 +327,9 @@ public class StartWindow implements Observer{
 		JPanel panel_6 = new JPanel();
 		panel_5.add(panel_6, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_6 = new GridBagLayout();
-		gbl_panel_6.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_6.columnWidths = new int[]{248, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_6.rowHeights = new int[]{0, 0};
-		gbl_panel_6.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_6.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_6.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_6.setLayout(gbl_panel_6);
 		
@@ -364,8 +364,8 @@ public class StartWindow implements Observer{
 		
 		
 		GridBagConstraints gbc_txtAusleihenSuchen = new GridBagConstraints();
+		gbc_txtAusleihenSuchen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAusleihenSuchen.insets = new Insets(0, 0, 0, 5);
-		gbc_txtAusleihenSuchen.anchor = GridBagConstraints.WEST;
 		gbc_txtAusleihenSuchen.gridx = 0;
 		gbc_txtAusleihenSuchen.gridy = 0;
 		panel_6.add(loanSearchTextField, gbc_txtAusleihenSuchen);
@@ -392,7 +392,7 @@ public class StartWindow implements Observer{
 			}
 		});
 		
-		btnSelektierteAusleiheAnzeigen = new JButton("Selektierte Ausleihe anzeigen");
+		btnSelektierteAusleiheAnzeigen = new JButton("Selektierte anzeigen");
 		btnSelektierteAusleiheAnzeigen.setEnabled(false);
 		GridBagConstraints gbc_btnSelektierteAusleiheAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAusleiheAnzeigen.insets = new Insets(0, 0, 0, 5);
