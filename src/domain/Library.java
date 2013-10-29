@@ -130,10 +130,10 @@ public class Library extends Observable{
 	public String getCustomerStatus(Customer cust) {
 		for(Loan loan : this.getLoansOfCustomer(cust)) {
 			if(loan.isOverdue()) {
-				return "OK";
+				return "überfällig";
 			}
 		} 
-		return "überfällig";
+		return "OK";
 		
 	}
 	
