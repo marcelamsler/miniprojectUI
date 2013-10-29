@@ -3,11 +3,22 @@ package domain;
 public class Customer {
 	
 	private String name, surname, street, city;
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	private int zip;
 
 	public Customer(String name, String surname) {
 		this.name = name;
 		this.surname = surname;
+		this.id = (int) (Math.random() * 1000); 
 	}
 	
 	public void setAdress(String street, int zip, String city) {
