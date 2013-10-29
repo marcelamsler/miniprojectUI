@@ -73,7 +73,7 @@ public class DetailBookWindow implements Observer{
 		for(Shelf tmpShelf : Shelf.values()){
 			comboBox.addItem(tmpShelf.toString());
 		}
-		comboBox.setSelectedItem(this.book.getShelf());
+		comboBox.setSelectedItem(book.getShelf().toString());
 		table.setModel(new DetailWindowTableModel(library, book));
 		sorter = new TableRowSorter<>(tableModel);
 		
@@ -89,13 +89,10 @@ public class DetailBookWindow implements Observer{
 		frmDetail.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-			
 				book.setAuthor(textField_1.getText());
 				book.setName(textField.getText());
 				book.setPublisher(textField_2.getText());
-				
-				// TODO: Fix Shelf safe routine!
-				// book.setShelf(comboBox.getSelectedItem());
+				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
 			
 			}
 		});
