@@ -391,6 +391,8 @@ public class StartWindow implements Observer{
 		JButton btnNeueAusleiheErfassen = new JButton("Neue Ausleihe erfassen");
 		btnNeueAusleiheErfassen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AddLoanWindow newWindow = new AddLoanWindow(library);
+				newWindow.setVisible(true);
 			}
 		});
 		

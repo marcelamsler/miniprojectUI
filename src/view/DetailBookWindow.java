@@ -77,7 +77,7 @@ public class DetailBookWindow implements Observer{
 		table.setModel(new DetailWindowTableModel(library, book));
 		sorter = new TableRowSorter<>(tableModel);
 		
-		frmDetail.repaint();
+		
 		
 	}
 
@@ -216,10 +216,7 @@ public class DetailBookWindow implements Observer{
 		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 		
 		
-		table = new JTable();
-		
-		
-		table.setFillsViewportHeight(true);
+		table = new JTable();		
 		table.setRowSorter(sorter);  
 		
 		JScrollPane scrollPane = new JScrollPane(table);

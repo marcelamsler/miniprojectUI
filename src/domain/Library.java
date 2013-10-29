@@ -127,6 +127,29 @@ public class Library extends Observable{
 		return overdueLoans;
 	}
 	
+	public String getCustomerStatus(Customer cust) {
+		for(Loan loan : this.getLoansOfCustomer(cust)) {
+			if(loan.isOverdue()) {
+				return "überfällig";
+			}
+		} 
+		return "OK";
+		
+	}
+	
+	public List<Loan> getLoansOfCustomer(Customer cust) {
+		List<Loan> customerLoans = new ArrayList<>();
+		
+		for(Loan loan : this.getLoans()) {
+			if(loan.getCustomer().equals(cust)){
+				customerLoans.add(loan);
+			}
+		}
+		return customerLoans;
+		
+		
+	}
+	
 	public List<Copy> getAvailableCopies(){
 		return getCopies(false);
 	}
