@@ -1,4 +1,4 @@
-package view;
+package tablemodel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -38,9 +38,11 @@ import java.util.Observer;
 
 import javax.swing.JComboBox;
 
+import tablemodel.DetailWindowTableModel;
 import domain.Book;
 import domain.Library;
 import domain.Shelf;
+
 import java.awt.event.WindowAdapter;
 
 public class DetailBookWindow implements Observer{
