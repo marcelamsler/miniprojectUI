@@ -127,7 +127,7 @@ public class StartWindow implements Observer{
 		
 		domain.Book book = library.findByBookTitle(bookName);
 		if(book != null) {
-			DetailWindow detailFrame = new DetailWindow(library);
+			DetailBookWindow detailFrame = new DetailBookWindow(library);
 		    detailFrame.setBook(book);			        	 
 		}else{
 			 System.out.println("Buch nicht gefunden");
