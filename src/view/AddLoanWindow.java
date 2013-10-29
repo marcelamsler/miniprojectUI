@@ -6,20 +6,36 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableRowSorter;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import domain.Library;
+
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JTextField;
+
 import java.awt.Insets;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
+import javax.swing.RowSorter;
+
+import tablemodel.AddLoanWindowCustomerTableModel;
+import tablemodel.DetailWindowTableModel;
+
 import java.awt.FlowLayout;
 
 
@@ -33,7 +49,7 @@ public class AddLoanWindow extends JFrame {
 	private JTable table_1;
 
 	
-	public AddLoanWindow() {
+	public AddLoanWindow(Library library) {
 		setTitle("Ausleihe hinzufügen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 450);
@@ -56,7 +72,7 @@ public class AddLoanWindow extends JFrame {
 		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(panel_4, BorderLayout.NORTH);
-		
+		 
 		txtKundeSuchen = new JTextField();
 		txtKundeSuchen.setText("Kunde suchen");
 		panel_4.add(txtKundeSuchen);
@@ -65,12 +81,17 @@ public class AddLoanWindow extends JFrame {
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(null, "Kunde ausw\u00E4hlen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.add(panel_5, BorderLayout.CENTER);
+		panel_5.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_5.add(scrollPane_1);
 		
+		AddLoanWindowCustomerTableModel custTableModel = new AddLoanWindowCustomerTableModel(library);
 		table_1 = new JTable();
+		table_1.setModel(custTableModel);
+		table_1.setFillsViewportHeight(true);
 		scrollPane_1.add(table_1);
+		scrollPane_1.setViewportView(table_1);
 		
 		JPanel panel_6 = new JPanel();
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();

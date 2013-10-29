@@ -18,7 +18,7 @@ public class Customer {
 	public Customer(String name, String surname) {
 		this.name = name;
 		this.surname = surname;
-		this.id = (int) (Math.random() * 1000); 
+		this.id = (int) (Math.random() * 10000); 
 	}
 	
 	public void setAdress(String street, int zip, String city) {

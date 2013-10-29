@@ -11,13 +11,9 @@ import domain.Library;
 
 public class AddLoanWindowCustomerTableModel extends AbstractTableModel {
 	Library library;
-	Book book;
-	List<Copy> list;
 	
 	public AddLoanWindowCustomerTableModel(Library library){
-		this.library = library;
-		
-		
+		this.library = library;		
 		
 	}
 	
@@ -28,7 +24,7 @@ public class AddLoanWindowCustomerTableModel extends AbstractTableModel {
     }
 
     public int getRowCount() {
-    	return library.getCustomers().size();
+    	return 5;
     }
 
 	@Override
