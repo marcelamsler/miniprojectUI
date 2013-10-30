@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -32,6 +34,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
+import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 
 import tablemodel.AddLoanWindowCustomerTableModel;
@@ -51,6 +54,10 @@ public class AddLoanWindow extends JFrame {
 	private JTable table;
 	private JTextField txtKundeSuchen;
 	private JTable table_1;
+	private TableRowSorter<? extends AbstractTableModel> sorter;
+	private String custName;
+	private JPanel panel_2; 
+	
 
 	
 	public AddLoanWindow(final Library library) {
@@ -81,6 +88,23 @@ public class AddLoanWindow extends JFrame {
 		txtKundeSuchen.setText("Kunde suchen");
 		panel_4.add(txtKundeSuchen);
 		txtKundeSuchen.setColumns(10);
+		txtKundeSuchen.getDocument().addDocumentListener(  
+				  new DocumentListener()  
+				   {  
+				      public void changedUpdate(DocumentEvent e)  
+				      {  
+				    	  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
+				      }  
+				      public void insertUpdate(DocumentEvent e)  
+				      {  
+				    	  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
+				      }  
+				      public void removeUpdate(DocumentEvent e)  
+				      {  
+				    	  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
+				      }  
+				   }  
+				);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(null, "Kunde ausw\u00E4hlen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -96,6 +120,8 @@ public class AddLoanWindow extends JFrame {
 		table_1.setFillsViewportHeight(true);
 		scrollPane_1.add(table_1);
 		scrollPane_1.setViewportView(table_1);
+		sorter = new TableRowSorter<> (custTableModel);
+		table_1.setRowSorter(sorter);
 		
 		table_1.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
@@ -105,6 +131,7 @@ public class AddLoanWindow extends JFrame {
 			         Customer cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
 			         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
 			         table.setEnabled(true);
+			         panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			      }
 			   }   
 		});
@@ -175,9 +202,9 @@ public class AddLoanWindow extends JFrame {
 		panel_1.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 		
-		JPanel panel_2 = new JPanel();
+		panel_2 = new JPanel();
 		panel_6.add(panel_2);
-		panel_2.setBorder(new TitledBorder(null, "Ausleihen von Peter Possum", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(null,"Ausleihen von...", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();

@@ -72,7 +72,7 @@ public class StartWindow implements Observer{
 	
 	public void updateFilters(JCheckBox checkBox, String checkBoxCondition, JTextField textfield, TableRowSorter<? extends AbstractTableModel> sorter) {
 		
-		RowFilter<AbstractTableModel, Object> textFilter = (RowFilter<AbstractTableModel, Object>) getTextFilter(textfield); 
+		RowFilter<AbstractTableModel, Object> textFilter = getTextFilter(textfield); 
 		RowFilter<AbstractTableModel, Object> checkBoxFilter = (RowFilter<AbstractTableModel, Object>) getCheckBoxFilter(checkBoxCondition);
 	
 		
@@ -100,7 +100,7 @@ public class StartWindow implements Observer{
 		}
 	
 	
-	private  RowFilter<? extends AbstractTableModel, Object> getTextFilter(JTextField txtField) { 
+	public static RowFilter<AbstractTableModel, Object> getTextFilter(JTextField txtField) { 
 		try {
 		       
 			return RowFilter.regexFilter("(?i)" + txtField.getText(), 1 ,2 ,3,4,5);    
