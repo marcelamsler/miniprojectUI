@@ -41,6 +41,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.PatternSyntaxException;
 
 public class StartWindow implements Observer{
 
@@ -99,10 +100,15 @@ public class StartWindow implements Observer{
 		}
 	
 	
-	private  RowFilter<? extends AbstractTableModel, Object> getTextFilter(JTextField txtField) {  
-	    RowFilter<? extends AbstractTableModel, Object> rf = null;     
-	     rf = RowFilter.regexFilter("(?i)" + txtField.getText(), 1 ,2 ,3,4,5);    
-	    return rf;  
+	private  RowFilter<? extends AbstractTableModel, Object> getTextFilter(JTextField txtField) { 
+		try {
+		       
+			return RowFilter.regexFilter("(?i)" + txtField.getText(), 1 ,2 ,3,4,5);    
+		     
+		} catch (PatternSyntaxException e) {
+			
+			return null;
+		}
 	}  	
 	
 	private RowFilter<? extends AbstractTableModel, Object> getCheckBoxFilter(String condition) {
