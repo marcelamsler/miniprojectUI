@@ -128,10 +128,12 @@ public class AddLoanWindow extends JFrame {
 				  JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 1) {			         
 			         int row = target.getSelectedRow();
-			         Customer cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
-			         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
-			         table.setEnabled(true);
-			         panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			         if (row > 0) {
+				         Customer cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
+				         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
+				         table.setEnabled(true);
+				         panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			         }    
 			      }
 			   }   
 		});
