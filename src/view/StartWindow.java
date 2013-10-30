@@ -2,9 +2,11 @@ package view;
 
 import javax.swing.JFrame;
 
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
@@ -102,11 +104,11 @@ public class StartWindow implements Observer{
 	
 	public static RowFilter<AbstractTableModel, Object> getTextFilter(JTextField txtField) { 
 		try {
-		       
+		    txtField.setBorder(null);   
 			return RowFilter.regexFilter("(?i)" + txtField.getText(), 1 ,2 ,3,4,5);    
 		     
 		} catch (PatternSyntaxException e) {
-			
+			txtField.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
 			return null;
 		}
 	}  	
