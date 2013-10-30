@@ -55,8 +55,9 @@ public class AddLoanWindow extends JFrame {
 	private JTextField txtKundeSuchen;
 	private JTable table_1;
 	private TableRowSorter<? extends AbstractTableModel> sorter;
-	private String custName;
+	private String kundeSuchenText = "Kunde suchen";
 	private JPanel panel_2; 
+	
 	
 
 	
@@ -85,7 +86,15 @@ public class AddLoanWindow extends JFrame {
 		panel.add(panel_4, BorderLayout.NORTH);
 		 
 		txtKundeSuchen = new JTextField();
-		txtKundeSuchen.setText("Kunde suchen");
+		txtKundeSuchen.setText(kundeSuchenText);
+		txtKundeSuchen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (txtKundeSuchen.getText().equals(kundeSuchenText)) {
+					txtKundeSuchen.setText("");
+				} 
+			}
+		});
 		panel_4.add(txtKundeSuchen);
 		txtKundeSuchen.setColumns(10);
 		txtKundeSuchen.getDocument().addDocumentListener(  

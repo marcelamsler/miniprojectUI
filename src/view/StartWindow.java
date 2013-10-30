@@ -434,8 +434,10 @@ public class StartWindow implements Observer{
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
-			         Loan loan = library.getLoans().get(bookTable.convertRowIndexToModel(row));			         
-			         openDetailLoanWindow(loan);
+			         if (row > 0) {
+				         Loan loan = library.getLoans().get(bookTable.convertRowIndexToModel(row));			         
+				         openDetailLoanWindow(loan);
+			         }    
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
 			    		  btnSelektierteAusleiheAnzeigen.setEnabled(true);
