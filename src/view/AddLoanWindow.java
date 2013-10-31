@@ -44,9 +44,11 @@ import tablemodel.DetailWindowTableModel;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class AddLoanWindow extends JFrame {
+public class AddLoanWindow extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JTextField textField_1;
@@ -234,6 +236,15 @@ public class AddLoanWindow extends JFrame {
 		splitPane.setRightComponent(panel_6);
 		
 		splitPane.setDividerLocation(350);
+	}
+
+
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
