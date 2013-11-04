@@ -11,11 +11,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
 import javax.swing.RowFilter;
+import javax.swing.UIManager;
 
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import java.awt.GridBagConstraints;
@@ -62,6 +64,8 @@ public class StartWindow implements Observer{
 	private String loanSearchBoxText = "Ausleihe suchen";
 	private JButton btnSelektierteAnzeigen;
 	private JButton btnSelektierteAusleiheAnzeigen;
+	private static Border border;
+
 	
 	
 	public StartWindow(Library library) {
@@ -103,8 +107,9 @@ public class StartWindow implements Observer{
 	
 	
 	public static RowFilter<AbstractTableModel, Object> getTextFilter(JTextField txtField) { 
+		if (border == null) border = txtField.getBorder(); 
 		try {
-		    txtField.setBorder(null);   
+		    txtField.setBorder(border);   
 			return RowFilter.regexFilter("(?i)" + txtField.getText(), 1 ,2 ,3,4,5);    
 		     
 		} catch (PatternSyntaxException e) {
