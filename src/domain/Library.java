@@ -1,6 +1,11 @@
 package domain;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
 
@@ -78,6 +83,15 @@ public class Library extends Observable{
 			}
 		}
 		return false;
+	}
+	
+	public Copy getCopyfromId(int id) {
+		for (Copy c : copies) {
+			if (c.getInventoryNumber() == (id)) {
+				return c;
+			}
+		}
+		return null;
 	}
 
 	public List<Copy> getCopiesOfBook(Book book) {
@@ -184,6 +198,15 @@ public class Library extends Observable{
 
 	public List<Customer> getCustomers() {
 		return customers;
+	}
+	
+	public String getDateplusDays(Date date, int days){
+		GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        DateFormat f = SimpleDateFormat.getDateInstance();
+		return f.format(cal.getTime());
+        
 	}
 
 }

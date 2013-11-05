@@ -1,5 +1,6 @@
 package view;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -15,8 +16,10 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import domain.Copy;
 import domain.Customer;
 import domain.Library;
+import domain.Loan;
 
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
@@ -29,6 +32,7 @@ import javax.swing.JTextField;
 
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -44,8 +48,14 @@ import tablemodel.DetailWindowTableModel;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.SwingConstants;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class AddLoanWindow extends JFrame implements Observer{
@@ -59,11 +69,14 @@ public class AddLoanWindow extends JFrame implements Observer{
 	private TableRowSorter<? extends AbstractTableModel> sorter;
 	private String kundeSuchenText = "Kunde suchen";
 	private JPanel panel_2; 
+	private Customer cust;
+	private Library library;
 	
 	
 
 	
 	public AddLoanWindow(final Library library) {
+		this.library = library;
 		setTitle("Ausleihe hinzufügen");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
@@ -98,7 +111,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 			}
 		});
 		panel_4.add(txtKundeSuchen);
-		txtKundeSuchen.setColumns(10);
+		txtKundeSuchen.setColumns(20);
 		txtKundeSuchen.getDocument().addDocumentListener(  
 				  new DocumentListener()  
 				   {  
@@ -140,7 +153,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 			      if (e.getClickCount() == 1) {			         
 			         int row = target.getSelectedRow();
 			         if (row > 0) {
-				         Customer cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
+				         cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
 				         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
 				         table.setEnabled(true);
 				         panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -169,9 +182,9 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.setBorder(new TitledBorder(null, "Neues Exemplar ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gbl_panel_1.columnWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblExemplarid = new JLabel("Exemplar-ID");
@@ -192,10 +205,18 @@ public class AddLoanWindow extends JFrame implements Observer{
 		textField_1.setColumns(10);
 		
 		JButton btnAnzeigen = new JButton("Hinzufügen");
+		btnAnzeigen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryAddingLoanToCustomer();
+				
+				
+			}
+		});
 		GridBagConstraints gbc_btnAnzeigen = new GridBagConstraints();
+		gbc_btnAnzeigen.fill = GridBagConstraints.BOTH;
 		gbc_btnAnzeigen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnAnzeigen.gridx = 2;
-		gbc_btnAnzeigen.gridy = 0;
+		gbc_btnAnzeigen.gridx = 1;
+		gbc_btnAnzeigen.gridy = 3;
 		panel_1.add(btnAnzeigen, gbc_btnAnzeigen);
 		
 		JLabel lblZurckAm = new JLabel("Zurück am");
@@ -207,6 +228,9 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.add(lblZurckAm, gbc_lblZurckAm);
 		
 		textField_2 = new JTextField();
+		Date today = new Date();
+		
+		textField_2.setText(library.getDateplusDays(today, 30));
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 0, 5);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
@@ -237,6 +261,18 @@ public class AddLoanWindow extends JFrame implements Observer{
 		splitPane.setResizeWeight(0.5);
 		splitPane.setDividerLocation(500);
 	}
+	
+	public void tryAddingLoanToCustomer() {
+		
+		Integer copy_id = Integer.parseInt(textField_1.getText());
+		Copy copy = library.getCopyfromId(copy_id);
+		Loan feedback = library.createAndAddLoan(cust, copy);
+		
+		if (feedback == null){
+			textField_1.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+		}
+		
+	}
 
 
 	@Override
@@ -244,5 +280,4 @@ public class AddLoanWindow extends JFrame implements Observer{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

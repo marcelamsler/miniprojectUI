@@ -1,5 +1,7 @@
 package tablemodel;
 
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 import domain.Customer;
@@ -9,10 +11,12 @@ import domain.Loan;
 public class AddLoanWindowLoanTableModel extends AbstractTableModel{
 	Library library;
 	Customer customer;
+	List<Loan> list;
 	
 	public AddLoanWindowLoanTableModel(Library library, Customer customer){
 		this.library = library;		
-		this.customer = customer;	
+		this.customer = customer;
+		this.list = library.getCustomerLoans(customer);
 	}
 	
     private String[] columnNames = {"Exemplar-Id", "Titel", "bis", "Status"};
@@ -22,12 +26,13 @@ public class AddLoanWindowLoanTableModel extends AbstractTableModel{
     }
 
     public int getRowCount() {
-    	return library.getCustomerLoans(customer).size();
+    	
+		return list.size();
     }
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-        Loan column  = library.getCustomerLoans(customer).get(rowIndex);
+        Loan column  = list.get(rowIndex);
         
         switch (columnIndex){
             case 0 :
