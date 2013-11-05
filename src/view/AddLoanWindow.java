@@ -284,7 +284,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 			table.setEnabled(true);				       
 			panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-			if (library.getCustomerStatus(cust).equals("OK")) {
+			if (library.getCustomerStatus(cust) == "OK") {
 				textField_1.setEnabled(true);
 				textField_2.setEnabled(true);
 				btnAnzeigen.setEnabled(true);						         

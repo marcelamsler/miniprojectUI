@@ -142,12 +142,21 @@ public class Library extends Observable{
 	}
 	
 	public String getCustomerStatus(Customer cust) {
-		for(Loan loan : this.getLoansOfCustomer(cust)) {
+		boolean overdue = false;
+		boolean count = false;
+		for(Loan loan : getLoansOfCustomer(cust)) {
 			if(loan.isOverdue()) {
-				return "überfällig";
+				overdue = true;
+			}
+			if (getLoansOfCustomer(cust).size() >= 3) {
+				count = true;
 			}
 		} 
-		return "OK";
+		
+		if(overdue && count) return "überfällig und zu viele Bücher"; 
+		else if (overdue) return "überfällig";
+		else if (count) return "zu viele Bücher";
+		else return "OK" ;
 		
 	}
 	

@@ -43,6 +43,8 @@ public class AddLoanWindowCustomerTableModel extends AbstractTableModel {
                             
             case 2:
             	return library.getCustomerStatus(column);
+            	
+            			
                               
             default:
                 throw new UnsupportedOperationException("Da ist wohl was Schiefgelaufen beim laden der Daten in die Tabelle");
