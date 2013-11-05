@@ -87,7 +87,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(panel_4, BorderLayout.NORTH);
 		 
-		txtKundeSuchen = new JTextField();
+ 		txtKundeSuchen = new JTextField();
 		txtKundeSuchen.setText(kundeSuchenText);
 		txtKundeSuchen.addMouseListener(new MouseAdapter() {
 			@Override
