@@ -71,6 +71,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 	private JPanel panel_2; 
 	private Customer cust;
 	private Library library;
+	JButton btnAnzeigen;
 	
 	
 
@@ -153,10 +154,9 @@ public class AddLoanWindow extends JFrame implements Observer{
 			      if (e.getClickCount() == 1) {			         
 			         int row = target.getSelectedRow();
 			         if (row >= 0) {
-				         cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
-				         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
-				         table.setEnabled(true);
-				         panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			        	 updateRightSide(row);
+				        
+				         
 			         }    
 			      }
 			   }   
@@ -196,6 +196,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.add(lblExemplarid, gbc_lblExemplarid);
 		
 		textField_1 = new JTextField();
+		textField_1.setEnabled(false);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -204,7 +205,8 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 		
-		JButton btnAnzeigen = new JButton("Hinzufügen");
+		btnAnzeigen = new JButton("Hinzufügen");
+		btnAnzeigen.setEnabled(false);
 		btnAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tryAddingLoanToCustomer();
@@ -228,6 +230,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.add(lblZurckAm, gbc_lblZurckAm);
 		
 		textField_2 = new JTextField();
+		textField_2.setEnabled(false);
 		Date today = new Date();
 		
 		textField_2.setText(library.getDateplusDays(today, 30));
@@ -270,6 +273,26 @@ public class AddLoanWindow extends JFrame implements Observer{
 		
 		if (feedback == null){
 			textField_1.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+		}
+		
+	}
+	
+	public void updateRightSide(int row) {
+		cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));
+		if (cust != null) {
+			table.setModel(new AddLoanWindowLoanTableModel(library, cust));
+			table.setEnabled(true);				       
+			panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+			if (library.getCustomerStatus(cust).equals("OK")) {
+				textField_1.setEnabled(true);
+				textField_2.setEnabled(true);
+				btnAnzeigen.setEnabled(true);						         
+			} else {
+				textField_1.setEnabled(false);
+				textField_2.setEnabled(false);
+				btnAnzeigen.setEnabled(false);
+			}
 		}
 		
 	}
