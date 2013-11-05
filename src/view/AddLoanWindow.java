@@ -152,7 +152,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 				  JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 1) {			         
 			         int row = target.getSelectedRow();
-			         if (row > 0) {
+			         if (row >= 0) {
 				         cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));			         
 				         table.setModel(new AddLoanWindowLoanTableModel(library, cust));
 				         table.setEnabled(true);

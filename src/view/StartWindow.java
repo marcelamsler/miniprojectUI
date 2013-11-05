@@ -295,9 +295,10 @@ public class StartWindow implements Observer{
 		 bookTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
 				   JTable target = (JTable)e.getSource();
+				   
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
-			         if (row > 0) {
+			         if (row >= 0) {
 				         String bookName= (String) bookTable.getValueAt(row, 1);
 				         openDetailBookWindow(bookName);
 			         }    
@@ -441,7 +442,7 @@ public class StartWindow implements Observer{
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
-			         if (row > 0) {
+			         if (row >= 0) {
 				         Loan loan = library.getLoans().get(bookTable.convertRowIndexToModel(row));			         
 				         openDetailLoanWindow(loan);
 			         }    
