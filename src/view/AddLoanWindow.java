@@ -66,7 +66,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 	public AddLoanWindow(final Library library) {
 		setTitle("Ausleihe hinzufügen");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 450);
+		setBounds(100, 100, 1000, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -234,8 +234,8 @@ public class AddLoanWindow extends JFrame implements Observer{
 		
 		splitPane.setLeftComponent(panel);
 		splitPane.setRightComponent(panel_6);
-		
-		splitPane.setDividerLocation(350);
+		splitPane.setResizeWeight(0.5);
+		splitPane.setDividerLocation(500);
 	}
 
 
