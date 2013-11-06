@@ -71,7 +71,8 @@ public class AddLoanWindow extends JFrame implements Observer{
 	private JPanel panel_2; 
 	private Customer cust;
 	private Library library;
-	JButton btnAnzeigen;
+	private JButton btnAnzeigen;
+	private AddLoanWindowCustomerTableModel custTableModel;
 	
 	
 
@@ -139,7 +140,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_5.add(scrollPane_1);
 		
-		AddLoanWindowCustomerTableModel custTableModel = new AddLoanWindowCustomerTableModel(library);
+		custTableModel = new AddLoanWindowCustomerTableModel(library);
 		table_1 = new JTable();
 		table_1.setModel(custTableModel);
 		table_1.setFillsViewportHeight(true);
@@ -300,7 +301,7 @@ public class AddLoanWindow extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		custTableModel.fireTableDataChanged();
 		
 	}
 }
