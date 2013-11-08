@@ -29,10 +29,10 @@ public class Library extends Observable{
 		if (!isCopyLent(copy)) {
 			Loan l = new Loan(customer, copy);
 			loans.add(l);
+			setChanged();
 			this.notifyObservers(this);
 			return l;
 		} else {
-			this.notifyObservers(this);
 			return null;
 		}
 	}

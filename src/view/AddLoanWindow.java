@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
@@ -73,12 +74,14 @@ public class AddLoanWindow extends JFrame implements Observer{
 	private Library library;
 	private JButton btnAnzeigen;
 	private AddLoanWindowCustomerTableModel custTableModel;
+	private JLabel errorLabel;
 	
 	
 
 	
 	public AddLoanWindow(final Library library) {
 		this.library = library;
+		library.addObserver(this);
 		setTitle("Ausleihe hinzufügen");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
@@ -183,9 +186,9 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.setBorder(new TitledBorder(null, "Neues Exemplar ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowHeights = new int[]{0, 25, 0, 0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblExemplarid = new JLabel("Exemplar-ID");
@@ -197,6 +200,24 @@ public class AddLoanWindow extends JFrame implements Observer{
 		panel_1.add(lblExemplarid, gbc_lblExemplarid);
 		
 		textField_1 = new JTextField();
+		textField_1.getDocument().addDocumentListener(  
+				  new DocumentListener()  
+				   {  
+				      public void changedUpdate(DocumentEvent e)  
+				      {  
+				    	 errorLabel.setText("");
+				    	 
+				      }  
+				      public void insertUpdate(DocumentEvent e)  
+				      {  
+				    	  errorLabel.setText("");
+				      }  
+				      public void removeUpdate(DocumentEvent e)  
+				      { 			    	  
+				    	  errorLabel.setText("");
+				      }  
+				   }  
+				);
 		textField_1.setEnabled(false);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -215,19 +236,28 @@ public class AddLoanWindow extends JFrame implements Observer{
 				
 			}
 		});
+		
+		errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		GridBagConstraints gbc_errorLabel = new GridBagConstraints();
+		gbc_errorLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_errorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_errorLabel.gridx = 1;
+		gbc_errorLabel.gridy = 1;
+		panel_1.add(errorLabel, gbc_errorLabel);
 		GridBagConstraints gbc_btnAnzeigen = new GridBagConstraints();
 		gbc_btnAnzeigen.fill = GridBagConstraints.BOTH;
-		gbc_btnAnzeigen.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAnzeigen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAnzeigen.gridx = 1;
-		gbc_btnAnzeigen.gridy = 3;
+		gbc_btnAnzeigen.gridy = 4;
 		panel_1.add(btnAnzeigen, gbc_btnAnzeigen);
 		
 		JLabel lblZurckAm = new JLabel("Zurück am");
 		GridBagConstraints gbc_lblZurckAm = new GridBagConstraints();
 		gbc_lblZurckAm.anchor = GridBagConstraints.WEST;
-		gbc_lblZurckAm.insets = new Insets(0, 0, 0, 5);
+		gbc_lblZurckAm.insets = new Insets(0, 0, 5, 5);
 		gbc_lblZurckAm.gridx = 0;
-		gbc_lblZurckAm.gridy = 1;
+		gbc_lblZurckAm.gridy = 2;
 		panel_1.add(lblZurckAm, gbc_lblZurckAm);
 		
 		textField_2 = new JTextField();
@@ -236,10 +266,10 @@ public class AddLoanWindow extends JFrame implements Observer{
 		
 		textField_2.setText(library.getDateplusDays(today, 30));
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 0, 5);
+		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 1;
+		gbc_textField_2.gridy = 2;
 		panel_1.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 		
@@ -267,15 +297,22 @@ public class AddLoanWindow extends JFrame implements Observer{
 	}
 	
 	public void tryAddingLoanToCustomer() {
-		
-		Integer copy_id = Integer.parseInt(textField_1.getText());
-		Copy copy = library.getCopyfromId(copy_id);
-		Loan feedback = library.createAndAddLoan(cust, copy);
-		
-		if (feedback == null){
-			textField_1.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+		try {
+			Integer copy_id = Integer.parseInt(textField_1.getText());
+			Copy copy = library.getCopyfromId(copy_id);
+
+			if (copy != null) {
+				Loan feedback = library.createAndAddLoan(cust, copy);			
+				
+				if (feedback == null){
+					errorLabel.setText("Dieses Exemplar ist bereits ausgeliehen");
+				}
+			} else {
+				errorLabel.setText("Diese Exemplarnummer existiert nicht");
+			}
+		} catch (NumberFormatException e) {
+			errorLabel.setText("Diese Exemplarnummer ist zu gross");
 		}
-		
 	}
 	
 	public void updateRightSide(int row) {
@@ -287,10 +324,12 @@ public class AddLoanWindow extends JFrame implements Observer{
 		
 			if (library.getCustomerStatus(cust) == "OK") {
 				textField_1.setEnabled(true);
+				textField_1.setText("");
 				textField_2.setEnabled(true);
 				btnAnzeigen.setEnabled(true);						         
 			} else {
 				textField_1.setEnabled(false);
+				textField_1.setText("");
 				textField_2.setEnabled(false);
 				btnAnzeigen.setEnabled(false);
 			}
@@ -301,7 +340,12 @@ public class AddLoanWindow extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		int row = table_1.getSelectedRow();
+		updateRightSide(row);
 		custTableModel.fireTableDataChanged();
+		((AbstractTableModel) table.getModel()).fireTableDataChanged();
+		table_1.setRowSelectionInterval(row, row);
+		
 		
 	}
 }
