@@ -51,9 +51,17 @@ public class Loan {
 	public GregorianCalendar getPickupDate() {
 		return pickupDate;
 	}
+	
+	public String getFormattedPickupDate() {
+		return getFormattedDate(getPickupDate());
+	}
 
-	public GregorianCalendar getReturnDate() {
+	private GregorianCalendar getReturnDate() {
 		return returnDate;
+	}
+	
+	public String getFormattedReturnDate() {
+		return getFormattedDate(getReturnDate());
 	}
 
 	public Copy getCopy() {
@@ -66,7 +74,7 @@ public class Loan {
 
 	@Override
 	public String toString() {
-		return "Loan of: " + copy.getTitle().getName() + "\tFrom: "
+		return "Loan of: " + copy.getBook().getName() + "\tFrom: "
 				+ customer.getName() + " " + customer.getSurname()
 				+ "\tPick up: " + getFormattedDate(pickupDate) + "\tReturn: "
 				+ getFormattedDate(returnDate) + "\tDays: "

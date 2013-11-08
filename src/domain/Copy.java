@@ -16,7 +16,11 @@ public class Copy {
 		condition = Condition.NEW;
 	}
 
-	public Book getTitle() {
+	public String getTitle() {
+		return book.getName();
+	}
+	
+	public Book getBook() {
 		return book;
 	}
 
