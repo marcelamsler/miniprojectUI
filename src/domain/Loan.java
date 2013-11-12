@@ -29,9 +29,6 @@ public class Loan extends Observable{
 	public boolean returnCopy() {
 		try {
 			returnCopy(new GregorianCalendar());
-			setChanged();
-			notifyObservers();
-			
 		} catch (IllegalLoanOperationException e) {
 			return false;
 		}
@@ -45,6 +42,8 @@ public class Loan extends Observable{
 					"Return Date is before pickupDate");
 		}
 		this.returnDate = returnDate;
+		setChanged();
+		notifyObservers();
 	}
 
 	public void setPickupDate(GregorianCalendar pickupDate)
