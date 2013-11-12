@@ -32,7 +32,7 @@ public class Library extends Observable implements Observer{
 			l.addObserver(this);
 			loans.add(l);
 			setChanged();
-			this.notifyObservers(this);
+			notifyObservers();
 			return l;
 		} else {
 			return null;
@@ -43,31 +43,32 @@ public class Library extends Observable implements Observer{
 		this.setChanged();
 		
 		Customer c = new Customer(name, surname);
-		c.addObserver(this);
-		customers.add(c);
-		this.notifyObservers(this);
-
+		customers.add(c);		
+		
+		notifyObservers();
+		setChanged();
+		
 		return c;
 	}
 
 	public Book createAndAddBook(String name) {
-		this.setChanged();
 		
 		Book b = new Book(name);
-		b.addObserver(this);
-		books.add(b);
-		this.notifyObservers(this);
-
+		books.add(b);	
+		
+		notifyObservers();
+		setChanged();
+		
 		return b;
 	}
 
-	public Copy createAndAddCopy(Book title) {
-		this.setChanged();
+	public Copy createAndAddCopy(Book title) {	
 
 		Copy c = new Copy(title);
-		c.addObserver(this);
 		copies.add(c);
-		this.notifyObservers(this);
+		
+		notifyObservers();
+		setChanged();
 
 		return c;
 	}
@@ -102,7 +103,7 @@ public class Library extends Observable implements Observer{
 	public List<Copy> getCopiesOfBook(Book book) {
 		List<Copy> res = new ArrayList<Copy>();
 		for (Copy c : copies) {
-			if (c.getTitle().equals(book)) {
+			if (c.getBook().equals(book)) {
 				res.add(c);
 			}
 		}
@@ -113,7 +114,7 @@ public class Library extends Observable implements Observer{
 	public List<Loan> getLentCopiesOfBook(Book book) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
 		for (Loan l : loans) {
-			if (l.getCopy().getTitle().equals(book) && l.isLent()) {
+			if (l.getCopy().getBook().equals(book) && l.isLent()) {
 				lentCopies.add(l);
 			}
 		}
