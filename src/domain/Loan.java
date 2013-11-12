@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+
 public class Loan {
 
 	private Copy copy;
@@ -25,6 +26,7 @@ public class Loan {
 	public boolean returnCopy() {
 		try {
 			returnCopy(new GregorianCalendar());
+			
 		} catch (IllegalLoanOperationException e) {
 			return false;
 		}
@@ -43,10 +45,12 @@ public class Loan {
 	public void setPickupDate(GregorianCalendar pickupDate)
 			throws IllegalLoanOperationException {
 		if (!isLent()) {
-			throw new IllegalLoanOperationException("Loan is already retuned");
+			throw new IllegalLoanOperationException("Loan is already returned");
 		}
 		this.pickupDate = pickupDate;
 	}
+	
+	
 
 	public GregorianCalendar getPickupDate() {
 		return pickupDate;

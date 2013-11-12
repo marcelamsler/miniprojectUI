@@ -151,7 +151,12 @@ public class StartWindow implements Observer{
 	}
 	
 	private void openDetailLoanWindow(Loan loan){
-		System.out.println(loan.getCopy().getTitle());
+		if(loan != null) {
+			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library);
+			detailFrame.setVisible(true);
+		} else {
+			System.out.println("Ausleihe nicht gefunden");
+		}
 	}
 
 	/**
@@ -413,6 +418,17 @@ public class StartWindow implements Observer{
 		});
 		
 		btnSelektierteAusleiheAnzeigen = new JButton("Selektierte anzeigen");
+		btnSelektierteAusleiheAnzeigen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] rows = loanTable.getSelectedRows();
+				for (int row: rows){
+					Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));			         
+			        openDetailLoanWindow(loan);
+				}
+		
+			}
+		});
+		
 		btnSelektierteAusleiheAnzeigen.setEnabled(false);
 		GridBagConstraints gbc_btnSelektierteAusleiheAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAusleiheAnzeigen.insets = new Insets(0, 0, 0, 5);
@@ -443,7 +459,7 @@ public class StartWindow implements Observer{
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
 			         if (row >= 0) {
-				         Loan loan = library.getLoans().get(bookTable.convertRowIndexToModel(row));			         
+				         Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));			         
 				         openDetailLoanWindow(loan);
 			         }    
 			      } else if(e.getClickCount() == 1) {
