@@ -73,6 +73,7 @@ public class StartWindow implements Observer{
 		this.library = library;
 		initialize();
 		this.frame.setVisible(true);
+		library.addObserver(this);
 
 	}
 	
@@ -475,7 +476,8 @@ public class StartWindow implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		
-		// TODO Auto-generated method stub
+		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
+		((AbstractTableModel) bookTable.getModel()).fireTableDataChanged();
 		
 	}
 }

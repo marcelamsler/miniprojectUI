@@ -8,8 +8,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
-public class Library extends Observable{
+public class Library extends Observable implements Observer{
 
 	private List<Copy> copies;
 	private List<Customer> customers;
@@ -28,6 +29,7 @@ public class Library extends Observable{
 		
 		if (!isCopyLent(copy)) {
 			Loan l = new Loan(customer, copy);
+			l.addObserver(this);
 			loans.add(l);
 			setChanged();
 			this.notifyObservers(this);
@@ -41,6 +43,7 @@ public class Library extends Observable{
 		this.setChanged();
 		
 		Customer c = new Customer(name, surname);
+		c.addObserver(this);
 		customers.add(c);
 		this.notifyObservers(this);
 
@@ -51,6 +54,7 @@ public class Library extends Observable{
 		this.setChanged();
 		
 		Book b = new Book(name);
+		b.addObserver(this);
 		books.add(b);
 		this.notifyObservers(this);
 
@@ -61,6 +65,7 @@ public class Library extends Observable{
 		this.setChanged();
 
 		Copy c = new Copy(title);
+		c.addObserver(this);
 		copies.add(c);
 		this.notifyObservers(this);
 
@@ -216,6 +221,13 @@ public class Library extends Observable{
         DateFormat f = SimpleDateFormat.getDateInstance();
 		return f.format(cal.getTime());
         
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setChanged();
+		notifyObservers();
+		
 	}
 
 }

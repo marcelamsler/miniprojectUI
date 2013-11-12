@@ -4,9 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class Loan {
+public class Loan extends Observable{
 
 	private Copy copy;
 	private Customer customer;
@@ -14,6 +16,7 @@ public class Loan {
 	private final static int DAYS_TO_RETURN_BOOK = 30;
 
 	public Loan(Customer customer, Copy copy) {
+		
 		this.copy = copy;
 		this.customer = customer;
 		pickupDate = new GregorianCalendar();
@@ -26,6 +29,8 @@ public class Loan {
 	public boolean returnCopy() {
 		try {
 			returnCopy(new GregorianCalendar());
+			setChanged();
+			notifyObservers();
 			
 		} catch (IllegalLoanOperationException e) {
 			return false;
@@ -48,6 +53,8 @@ public class Loan {
 			throw new IllegalLoanOperationException("Loan is already returned");
 		}
 		this.pickupDate = pickupDate;
+		setChanged();
+		notifyObservers();
 	}
 	
 	

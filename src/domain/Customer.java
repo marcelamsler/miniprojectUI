@@ -1,6 +1,8 @@
 package domain;
 
-public class Customer {
+import java.util.Observable;
+
+public class Customer extends Observable{
 	
 	private String name, surname, street, city;
 	private int id;
@@ -11,6 +13,8 @@ public class Customer {
 
 	public void setId(int id) {
 		this.id = id;
+		setChanged();
+		notifyObservers();
 	}
 
 	private int zip;
@@ -25,6 +29,8 @@ public class Customer {
 		this.street = street;
 		this.zip = zip;
 		this.city = city;
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getName() {
@@ -33,6 +39,8 @@ public class Customer {
 
 	public void setName(String name) {
 		this.name = name;
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getSurname() {
@@ -41,6 +49,8 @@ public class Customer {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getStreet() {
@@ -49,6 +59,8 @@ public class Customer {
 
 	public void setStreet(String street) {
 		this.street = street;
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getCity() {
@@ -57,6 +69,8 @@ public class Customer {
 
 	public void setCity(String city) {
 		this.city = city;
+		setChanged();
+		notifyObservers();
 	}
 
 	public int getZip() {
@@ -65,6 +79,8 @@ public class Customer {
 
 	public void setZip(int zip) {
 		this.zip = zip;
+		setChanged();
+		notifyObservers();
 	}
 	
 	@Override

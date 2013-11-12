@@ -233,6 +233,7 @@ public class DetailLoanWindow extends JFrame implements Observer{
 	public void update(Observable o, Object arg) {
 		lblNewLabel_3.setText(loan.getFormattedReturnDate());
 		
+		
 	}
 
 }
