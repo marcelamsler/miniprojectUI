@@ -39,4 +39,8 @@ public class Copy extends Observable{
 	public long getInventoryNumber() {
 		return inventoryNumber;
 	}
+	
+	public String toString(){
+		return inventoryNumber + ", " + book.toString() + ", " + condition.toString();
+	}
 }

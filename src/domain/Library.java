@@ -202,6 +202,12 @@ public class Library extends Observable implements Observer{
 	public List<Copy> getCopies() {
 		return copies;
 	}
+	
+	public void removeCopy(Copy c){
+		this.setChanged();
+		copies.remove(c);
+		this.notifyObservers(this);
+	}
 
 	public List<Loan> getLoans() {
 		return loans;
