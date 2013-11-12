@@ -65,12 +65,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	public DetailBookWindow(Library library){
 		super(library);
 		this.library = library;
-		initialize();
-		this.detailWindowTableModel = new DetailWindowTableModel(library, book);
-		table.setModel(this.detailWindowTableModel);
-
-		sorter = new TableRowSorter<>(tableModel);
-	
+		initialize();	
 	}
 
 	public void setBook(Book book){
@@ -83,7 +78,9 @@ public class DetailBookWindow extends ListenerJFrame{
 			comboBox.addItem(tmpShelf.toString());
 		}
 		comboBox.setSelectedItem(book.getShelf().toString());
-		this.detailWindowTableModel.fireTableDataChanged();
+		table.setModel(new DetailWindowTableModel(library, book));
+		sorter = new TableRowSorter<>(tableModel);
+		detailWindowTableModel.fireTableDataChanged();
 	
 			
 	}
@@ -248,8 +245,9 @@ public class DetailBookWindow extends ListenerJFrame{
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBook(this.book);
+		detailWindowTableModel.fireTableDataChanged();
 		table.repaint();
-		//table.repaint();
+		
 	}
 
 }

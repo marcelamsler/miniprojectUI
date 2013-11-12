@@ -53,7 +53,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		lib.addObserver(this);
 		
 		setTitle("Ausleihe Detail");
-		setBounds(100, 100, 944, 339);
+		setBounds(100, 100, 663, 361);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,7 +62,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{80, 0, 0};
+		gbl_panel.columnWidths = new int[]{679, 0, 0};
 		gbl_panel.rowHeights = new int[]{37, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
@@ -91,7 +91,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		gbc_lblNewLabel.gridy = 0;
 		panel_1.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel(loan.getCopy().getTitle());
+		JLabel lblNewLabel_1 = new JLabel("<html>" + loan.getCopy().getTitle()  + "</html>");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
@@ -221,19 +221,27 @@ public class DetailLoanWindow extends ListenerJFrame{
 		GridBagConstraints gbc_lblRckgabedatum = new GridBagConstraints();
 		gbc_lblRckgabedatum.anchor = GridBagConstraints.WEST;
 		gbc_lblRckgabedatum.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRckgabedatum.gridx = 1;
+		gbc_lblRckgabedatum.gridx = 0;
 		gbc_lblRckgabedatum.gridy = 1;
 		panel_3.add(lblRckgabedatum, gbc_lblRckgabedatum);
 		
 		returnDatetextField = new JTextField();
 		GridBagConstraints gbc_returnDatetextField = new GridBagConstraints();
-		gbc_returnDatetextField.insets = new Insets(0, 0, 5, 0);
+		gbc_returnDatetextField.insets = new Insets(0, 0, 5, 5);
 		gbc_returnDatetextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_returnDatetextField.gridx = 2;
+		gbc_returnDatetextField.gridx = 1;
 		gbc_returnDatetextField.gridy = 1;
 		panel_3.add(returnDatetextField, gbc_returnDatetextField);
 		returnDatetextField.setColumns(10);
 		returnDatetextField.setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+		
+		errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 5, 0);
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 2;
+		panel_3.add(errorLabel, gbc_label);
 		
 		btnAusleiheAbschliessen = new JButton("Ausleihe abschliessen");
 		btnAusleiheAbschliessen.addActionListener(new ActionListener() {
@@ -254,19 +262,12 @@ public class DetailLoanWindow extends ListenerJFrame{
 				
 			}
 		});
-		
-		errorLabel = new JLabel("");
-		errorLabel.setForeground(Color.RED);
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 0);
-		gbc_label.gridx = 2;
-		gbc_label.gridy = 2;
-		panel_3.add(errorLabel, gbc_label);
 		btnAusleiheAbschliessen.setVerticalAlignment(SwingConstants.BOTTOM);
 		GridBagConstraints gbc_btnAusleiheAbschliessen = new GridBagConstraints();
+		gbc_btnAusleiheAbschliessen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAusleiheAbschliessen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAusleiheAbschliessen.anchor = GridBagConstraints.NORTH;
-		gbc_btnAusleiheAbschliessen.gridx = 2;
+		gbc_btnAusleiheAbschliessen.gridx = 0;
 		gbc_btnAusleiheAbschliessen.gridy = 3;
 		panel_3.add(btnAusleiheAbschliessen, gbc_btnAusleiheAbschliessen);
 		updateButton(loan);
