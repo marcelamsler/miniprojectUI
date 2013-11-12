@@ -36,7 +36,7 @@ import domain.Loan;
 import javax.swing.JTextField;
 import java.awt.Color;
 
-public class DetailLoanWindow extends JFrame implements Observer{
+public class DetailLoanWindow extends ListenerJFrame{
 
 	private JPanel contentPane;
 	private JButton btnAusleiheAbschliessen;
@@ -48,6 +48,7 @@ public class DetailLoanWindow extends JFrame implements Observer{
 
 	
 	public DetailLoanWindow(Loan loan1, Library lib) {
+		super(lib);
 		this.loan = loan1;	
 		lib.addObserver(this);
 		

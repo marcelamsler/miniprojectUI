@@ -45,7 +45,7 @@ import domain.Shelf;
 
 import java.awt.event.WindowAdapter;
 
-public class DetailBookWindow implements Observer{
+public class DetailBookWindow extends ListenerJFrame{
 
 	private JFrame frmDetail;
 	private JTextField textField;
@@ -60,6 +60,7 @@ public class DetailBookWindow implements Observer{
 	private JTable table;
 
 	public DetailBookWindow(Library library){
+		super(library);
 		this.library = library;
 		initialize();
 	}

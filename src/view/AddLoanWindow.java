@@ -49,6 +49,8 @@ import tablemodel.DetailWindowTableModel;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -59,7 +61,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class AddLoanWindow extends JFrame implements Observer{
+public class AddLoanWindow extends ListenerJFrame{
 
 	private JPanel contentPane;
 	private JTextField textField_1;
@@ -80,8 +82,9 @@ public class AddLoanWindow extends JFrame implements Observer{
 
 	
 	public AddLoanWindow(final Library library) {
-		this.library = library;
-		library.addObserver(this);
+		super(library);
+		this.library = library;			
+		
 		setTitle("Ausleihe hinzufügen");
 		
 		setBounds(100, 100, 1000, 500);

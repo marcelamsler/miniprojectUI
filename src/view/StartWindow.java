@@ -47,9 +47,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.regex.PatternSyntaxException;
 
-public class StartWindow implements Observer{
-
-	private JFrame frame;
+public class StartWindow extends ListenerJFrame{
+	
 	private JTextField bookSearchTextField;
 	private JTable bookTable;
 	private StartWindowBookTableModel tableModel; 
@@ -69,10 +68,10 @@ public class StartWindow implements Observer{
 	
 	
 	public StartWindow(Library library) {
-		
+		super(library);
 		this.library = library;
 		initialize();
-		this.frame.setVisible(true);
+		this.setVisible(true);
 		library.addObserver(this);
 
 	}
@@ -165,13 +164,12 @@ public class StartWindow implements Observer{
 	 */
 	@SuppressWarnings("rawtypes")
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 980, 534);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		this.setBounds(100, 100, 980, 534);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
 		tabbedPane.addTab("Bücher", null, layeredPane, null);
