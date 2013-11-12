@@ -34,6 +34,7 @@ import domain.Library;
 import domain.Loan;
 
 import javax.swing.JTextField;
+import java.awt.Color;
 
 public class DetailLoanWindow extends JFrame implements Observer{
 
@@ -43,6 +44,7 @@ public class DetailLoanWindow extends JFrame implements Observer{
 	private JLabel lblNewLabel_3;
 	private JTextField returnDatetextField;
 	private JLabel lblRckgabedatum;
+	private JLabel errorLabel;
 
 	
 	public DetailLoanWindow(Loan loan1, Library lib) {
@@ -59,9 +61,9 @@ public class DetailLoanWindow extends JFrame implements Observer{
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{80, 80, 0};
+		gbl_panel.columnWidths = new int[]{80, 0, 0};
 		gbl_panel.rowHeights = new int[]{37, 0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
@@ -235,6 +237,7 @@ public class DetailLoanWindow extends JFrame implements Observer{
 		btnAusleiheAbschliessen = new JButton("Ausleihe abschliessen");
 		btnAusleiheAbschliessen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				errorLabel.setText("");
 				String strDate = returnDatetextField.getText();
 				Date date = null;
 				try {
@@ -243,21 +246,27 @@ public class DetailLoanWindow extends JFrame implements Observer{
 					cal.setTime(date);
 					loan.returnCopy(cal);
 				} catch (ParseException | IllegalLoanOperationException e1) {
-					// Do nothing in order to avoid Stack-Traces that are unwanted in this project
-					System.out.println("Bitte geben Sie ein gültiges Datum ein");
+					errorLabel.setText("Bitte geben Sie ein gültiges Datum ein");
 				}
 				
 				updateButton(loan);
 				
 			}
 		});
+		
+		errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 5, 0);
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 2;
+		panel_3.add(errorLabel, gbc_label);
 		btnAusleiheAbschliessen.setVerticalAlignment(SwingConstants.BOTTOM);
 		GridBagConstraints gbc_btnAusleiheAbschliessen = new GridBagConstraints();
-		gbc_btnAusleiheAbschliessen.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAusleiheAbschliessen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAusleiheAbschliessen.anchor = GridBagConstraints.NORTH;
 		gbc_btnAusleiheAbschliessen.gridx = 2;
-		gbc_btnAusleiheAbschliessen.gridy = 2;
+		gbc_btnAusleiheAbschliessen.gridy = 3;
 		panel_3.add(btnAusleiheAbschliessen, gbc_btnAusleiheAbschliessen);
 		updateButton(loan);
 	}

@@ -316,7 +316,11 @@ public class AddLoanWindow extends JFrame implements Observer{
 	}
 	
 	public void updateRightSide(int row) {
-		cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));
+		try {
+			cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));
+		} catch (IndexOutOfBoundsException e){
+			//Do Nothing
+		}
 		if (cust != null) {
 			table.setModel(new AddLoanWindowLoanTableModel(library, cust));
 			table.setEnabled(true);				       
