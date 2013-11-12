@@ -44,6 +44,8 @@ import domain.Library;
 import domain.Shelf;
 
 import java.awt.event.WindowAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DetailBookWindow implements Observer{
 
@@ -58,10 +60,16 @@ public class DetailBookWindow implements Observer{
 	private DetailWindowTableModel tableModel;
 	private TableRowSorter<DetailWindowTableModel> sorter; 
 	private JTable table;
+	private DetailWindowTableModel detailWindowTableModel;
 
 	public DetailBookWindow(Library library){
 		this.library = library;
 		initialize();
+		this.detailWindowTableModel = new DetailWindowTableModel(library, book);
+		table.setModel(this.detailWindowTableModel);
+
+		sorter = new TableRowSorter<>(tableModel);
+	
 	}
 
 	public void setBook(Book book){
@@ -74,11 +82,9 @@ public class DetailBookWindow implements Observer{
 			comboBox.addItem(tmpShelf.toString());
 		}
 		comboBox.setSelectedItem(book.getShelf().toString());
-		table.setModel(new DetailWindowTableModel(library, book));
-		sorter = new TableRowSorter<>(tableModel);
-		
-		
-		
+		this.detailWindowTableModel.fireTableDataChanged();
+	
+			
 	}
 
 	/**
@@ -200,6 +206,14 @@ public class DetailBookWindow implements Observer{
 		panel_2.add(lblAnzahlX, gbc_lblAnzahlX);
 		
 		JButton btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
+		btnAusgewhlteEntfernen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				library.removeCopy(library.getCopiesOfBook(book).get(table.getSelectedColumn()));
+				table.updateUI();
+				
+			}
+		});
 		GridBagConstraints gbc_btnAusgewhlteEntfernen = new GridBagConstraints();
 		gbc_btnAusgewhlteEntfernen.anchor = GridBagConstraints.EAST;
 		gbc_btnAusgewhlteEntfernen.insets = new Insets(0, 0, 0, 5);
@@ -233,6 +247,8 @@ public class DetailBookWindow implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBook(this.book);
+		table.repaint();
+		//table.repaint();
 	}
 
 }
