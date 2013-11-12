@@ -62,7 +62,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{679, 0, 0};
+		gbl_panel.columnWidths = new int[]{1, 0, 0};
 		gbl_panel.rowHeights = new int[]{37, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
@@ -93,7 +93,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		JLabel lblNewLabel_1 = new JLabel("<html>" + loan.getCopy().getTitle()  + "</html>");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 0;
@@ -109,7 +109,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		JLabel lblNewLabel_7 = new JLabel(loan.getFormattedPickupDate());
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_7.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_7.gridx = 2;
 		gbc_lblNewLabel_7.gridy = 1;
@@ -125,7 +125,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		JLabel lblNewLabel_2 = new JLabel(loan.getFormattedExpectedReturnDate());
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_2.gridx = 2;
 		gbc_lblNewLabel_2.gridy = 2;
@@ -141,7 +141,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		lblNewLabel_3 = new JLabel(loan.getFormattedReturnDate());
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_3.gridx = 2;
 		gbc_lblNewLabel_3.gridy = 3;
 		panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
