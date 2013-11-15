@@ -8,6 +8,8 @@ import javax.swing.table.AbstractTableModel;
 import domain.Book;
 import domain.Library;
 
+//stupid comment
+
 public class StartWindowBookTableModel extends AbstractTableModel {
 	
 		Library library;

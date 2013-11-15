@@ -43,6 +43,8 @@ import domain.Book;
 import domain.Library;
 import domain.Shelf;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -54,6 +56,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JComboBox<String> comboBox; 
+	private JButton btnAusgewhlteEntfernen;
 	private Library library;
 	private Book book;
 	
@@ -78,10 +81,17 @@ public class DetailBookWindow extends ListenerJFrame{
 			comboBox.addItem(tmpShelf.toString());
 		}
 		comboBox.setSelectedItem(book.getShelf().toString());
-		table.setModel(new DetailWindowTableModel(library, book));
+		detailWindowTableModel = new DetailWindowTableModel(library,book);
+		table.setModel(detailWindowTableModel);
 		sorter = new TableRowSorter<>(tableModel);
 		detailWindowTableModel.fireTableDataChanged();
-	
+		
+//		if(library.getCopiesOfBook(this.book).isEmpty()){
+//			btnAusgewhlteEntfernen.setEnabled(false);
+//		}
+//		else{
+//			btnAusgewhlteEntfernen.setVisible(true);
+//		}
 			
 	}
 
@@ -203,15 +213,18 @@ public class DetailBookWindow extends ListenerJFrame{
 		gbc_lblAnzahlX.gridy = 0;
 		panel_2.add(lblAnzahlX, gbc_lblAnzahlX);
 		
-		JButton btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
-		btnAusgewhlteEntfernen.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				library.removeCopy(library.getCopiesOfBook(book).get(table.getSelectedColumn()));
+		btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
+		btnAusgewhlteEntfernen.setEnabled(false);
+		btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] rows = table.getSelectedRows();
+				for (int row: rows){
+					library.removeCopy(library.getCopiesOfBook(book).get(row));
+				}
 				table.updateUI();
-				
 			}
 		});
+		
 		GridBagConstraints gbc_btnAusgewhlteEntfernen = new GridBagConstraints();
 		gbc_btnAusgewhlteEntfernen.anchor = GridBagConstraints.EAST;
 		gbc_btnAusgewhlteEntfernen.insets = new Insets(0, 0, 0, 5);
@@ -227,9 +240,14 @@ public class DetailBookWindow extends ListenerJFrame{
 		gbc_btnExemplareHinzufgen.gridy = 0;
 		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 		
-		
 		table = new JTable();		
-		table.setRowSorter(sorter);  
+		table.setRowSorter(sorter);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				btnAusgewhlteEntfernen.setEnabled(true);
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		
@@ -245,6 +263,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBook(this.book);
+
 		detailWindowTableModel.fireTableDataChanged();
 		table.repaint();
 		
