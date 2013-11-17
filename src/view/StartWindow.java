@@ -140,8 +140,7 @@ public class StartWindow implements Observer{
 	
 	
 	
-	private void openDetailBookWindow(Book book){
-		
+	private void openDetailBookWindow(Book book){		
 		if(book != null) {
 			DetailBookWindow detailFrame = new DetailBookWindow(library);
 		    detailFrame.setBook(book);			        	 
