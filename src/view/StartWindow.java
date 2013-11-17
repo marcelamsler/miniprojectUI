@@ -141,13 +141,8 @@ public class StartWindow implements Observer{
 	
 	
 	private void openDetailBookWindow(Book book){		
-		if(book != null) {
 			DetailBookWindow detailFrame = new DetailBookWindow(library);
 		    detailFrame.setBook(book);			        	 
-		}else{
-			 System.out.println("Buch nicht gefunden");
-		}
-		
 	}
 	
 	private void openDetailLoanWindow(Loan loan){
@@ -278,6 +273,11 @@ public class StartWindow implements Observer{
 		panel_2.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 		
 		JButton btnNeuesBuchHinzufgen = new JButton("Neues Buch hinzufügen");
+		btnNeuesBuchHinzufgen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openDetailBookWindow(null);
+			}
+		});
 		GridBagConstraints gbc_btnNeuesBuchHinzufgen = new GridBagConstraints();
 		gbc_btnNeuesBuchHinzufgen.gridx = 14;
 		gbc_btnNeuesBuchHinzufgen.gridy = 0;
