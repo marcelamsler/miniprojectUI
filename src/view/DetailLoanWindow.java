@@ -76,6 +76,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 			panel_1.setForeground(Color.RED);			
 		}
 		panel_1.setBorder(new TitledBorder(null, "Buch", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_1.anchor = GridBagConstraints.NORTH;
