@@ -82,6 +82,7 @@ public class DetailBookWindow extends ListenerJFrame{
 		}
 		comboBox.setSelectedItem(book.getShelf().toString());
 		detailWindowTableModel = new DetailWindowTableModel(library,book);
+
 		table.setModel(detailWindowTableModel);
 		sorter = new TableRowSorter<>(tableModel);
 		detailWindowTableModel.fireTableDataChanged();

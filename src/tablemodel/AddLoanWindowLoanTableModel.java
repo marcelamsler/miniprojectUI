@@ -42,11 +42,13 @@ public class AddLoanWindowLoanTableModel extends AbstractTableModel{
             	return column.getCopy().getTitle();
                             
             case 2:
-            	return column.getFormattedExpectedReturnDate();
+            	return column.getFormattedExpectedReturnDateOrReturnDate();
             
             case 3:
     	      	if (column.isOverdue()){
             		return "fällig";
+    	      	}else if(!column.isLent()){
+    	      		return "abgeschlossen";
             	}else{
             		return "ok";           	}
             	

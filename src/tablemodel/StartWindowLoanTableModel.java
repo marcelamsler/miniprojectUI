@@ -58,7 +58,7 @@ public class StartWindowLoanTableModel extends AbstractTableModel {
 	                return column.getCopy().getTitle();
 	                              
 	            case 3:
-	            	return column.getFormattedExpectedReturnDate();
+	            	return column.getFormattedExpectedReturnDateOrReturnDate();
 	                
 	             
 	            case 4: 

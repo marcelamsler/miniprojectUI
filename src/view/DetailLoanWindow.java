@@ -35,6 +35,7 @@ import domain.Loan;
 
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Font;
 
 public class DetailLoanWindow extends ListenerJFrame{
 
@@ -45,6 +46,8 @@ public class DetailLoanWindow extends ListenerJFrame{
 	private JTextField returnDatetextField;
 	private JLabel lblRckgabedatum;
 	private JLabel errorLabel;
+	private JPanel panel_1;
+	private JLabel lblberfllig;
 
 	
 	public DetailLoanWindow(Loan loan1, Library lib) {
@@ -62,14 +65,18 @@ public class DetailLoanWindow extends ListenerJFrame{
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{679, 0, 0};
+		gbl_panel.columnWidths = new int[]{1, 0, 0};
 		gbl_panel.rowHeights = new int[]{37, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
+		if (loan.isOverdue()) {
+			panel_1.setForeground(Color.RED);			
+		}
 		panel_1.setBorder(new TitledBorder(null, "Buch", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_1.anchor = GridBagConstraints.NORTH;
@@ -93,7 +100,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		JLabel lblNewLabel_1 = new JLabel("<html>" + loan.getCopy().getTitle()  + "</html>");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 0;
@@ -109,7 +116,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		JLabel lblNewLabel_7 = new JLabel(loan.getFormattedPickupDate());
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_7.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_7.gridx = 2;
 		gbc_lblNewLabel_7.gridy = 1;
@@ -125,7 +132,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		JLabel lblNewLabel_2 = new JLabel(loan.getFormattedExpectedReturnDate());
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_2.gridx = 2;
 		gbc_lblNewLabel_2.gridy = 2;
@@ -141,7 +148,7 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		lblNewLabel_3 = new JLabel(loan.getFormattedReturnDate());
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_3.gridx = 2;
 		gbc_lblNewLabel_3.gridy = 3;
 		panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
@@ -217,6 +224,22 @@ public class DetailLoanWindow extends ListenerJFrame{
 		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
+		lblberfllig = new JLabel("!!! Überfällig !!!");
+		
+		if (loan.isOverdue()) {
+			panel_1.setForeground(Color.RED);			
+		}else {
+			lblberfllig.setVisible(false);
+		}
+		lblberfllig.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblberfllig.setForeground(Color.RED);
+		GridBagConstraints gbc_lblberfllig_1 = new GridBagConstraints();
+		gbc_lblberfllig_1.anchor = GridBagConstraints.WEST;
+		gbc_lblberfllig_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblberfllig_1.gridx = 1;
+		gbc_lblberfllig_1.gridy = 0;
+		panel_3.add(lblberfllig, gbc_lblberfllig_1);
+		
 		lblRckgabedatum = new JLabel("Rückgabe-Datum");
 		GridBagConstraints gbc_lblRckgabedatum = new GridBagConstraints();
 		gbc_lblRckgabedatum.anchor = GridBagConstraints.WEST;
@@ -237,11 +260,11 @@ public class DetailLoanWindow extends ListenerJFrame{
 		
 		errorLabel = new JLabel("");
 		errorLabel.setForeground(Color.RED);
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 0);
-		gbc_label.gridx = 2;
-		gbc_label.gridy = 2;
-		panel_3.add(errorLabel, gbc_label);
+		GridBagConstraints gbc_lblberfllig = new GridBagConstraints();
+		gbc_lblberfllig.insets = new Insets(0, 0, 5, 0);
+		gbc_lblberfllig.gridx = 2;
+		gbc_lblberfllig.gridy = 2;
+		panel_3.add(errorLabel, gbc_lblberfllig);
 		
 		btnAusleiheAbschliessen = new JButton("Ausleihe abschliessen");
 		btnAusleiheAbschliessen.addActionListener(new ActionListener() {
@@ -254,9 +277,12 @@ public class DetailLoanWindow extends ListenerJFrame{
 					GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(date);
 					loan.returnCopy(cal);
-				} catch (ParseException | IllegalLoanOperationException e1) {
+				} catch (IllegalLoanOperationException e1) {
+					errorLabel.setText(e1.getMessage());
+				} catch (ParseException e2) {
 					errorLabel.setText("Bitte geben Sie ein gültiges Datum ein");
 				}
+				
 				
 				updateButton(loan);
 				
@@ -280,6 +306,8 @@ public class DetailLoanWindow extends ListenerJFrame{
 				returnDatetextField.setVisible(false);
 				lblRckgabedatum.setVisible(false);
 				btnAusleiheAbschliessen.setEnabled(false);
+				panel_1.setForeground(Color.BLACK);
+				lblberfllig.setVisible(false);
 				btnAusleiheAbschliessen.setText("Ausleihe abgeschlossen");
 			} else {
 				returnDatetextField.setVisible(true);

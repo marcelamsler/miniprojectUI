@@ -37,6 +37,7 @@ import javax.swing.JTable;
 
 import tablemodel.StartWindowBookTableModel;
 import tablemodel.StartWindowLoanTableModel;
+import domain.Book;
 import domain.Library;
 import domain.Loan;
 
@@ -139,9 +140,8 @@ public class StartWindow implements Observer{
 	
 	
 	
-	private void openDetailBookWindow(String bookName){
+	private void openDetailBookWindow(Book book){
 		
-		domain.Book book = library.findByBookTitle(bookName);
 		if(book != null) {
 			DetailBookWindow detailFrame = new DetailBookWindow(library);
 		    detailFrame.setBook(book);			        	 
@@ -265,8 +265,8 @@ public class StartWindow implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				int[] rows = bookTable.getSelectedRows();
 				for (int row: rows){
-					String bookName = (String) bookTable.getValueAt(row, 1);
-					openDetailBookWindow(bookName);
+					Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));	
+			        openDetailBookWindow(book);
 				}
 		
 			}
@@ -305,8 +305,9 @@ public class StartWindow implements Observer{
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
 			         if (row >= 0) {
-				         String bookName= (String) bookTable.getValueAt(row, 1);
-				         openDetailBookWindow(bookName);
+			        	 
+			        	 Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));	
+				         openDetailBookWindow(book);
 			         }    
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {

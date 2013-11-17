@@ -154,7 +154,7 @@ public class Library extends Observable implements Observer{
 			if(loan.isOverdue()) {
 				overdue = true;
 			}
-			if (getLoansOfCustomer(cust).size() >= 3) {
+			if (getPendingLoansOfCustomer(cust).size() >= 3) {
 				count = true;
 			}
 		} 
@@ -176,6 +176,18 @@ public class Library extends Observable implements Observer{
 		}
 		return customerLoans;
 		
+		
+	}
+	
+	public List<Loan> getPendingLoansOfCustomer(Customer cust) {
+		List<Loan> pendingCustomerLoans = new ArrayList<>();
+		for(Loan loan : getLoansOfCustomer(cust)) {
+			if(loan.isLent()) {
+				pendingCustomerLoans.add(loan);
+			}
+			
+		}
+		return pendingCustomerLoans;
 		
 	}
 	

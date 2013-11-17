@@ -2,6 +2,7 @@ package domain;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Observable;
@@ -37,7 +38,7 @@ public class Loan extends Observable{
 
 	public void returnCopy(GregorianCalendar returnDate)
 			throws IllegalLoanOperationException {
-		if (returnDate.before(pickupDate)) {
+		if (returnDate.before((Calendar)pickupDate) && !(getFormattedDate(returnDate).equals(getFormattedDate(pickupDate)))) {
 			throw new IllegalLoanOperationException(
 					"Return Date is before pickupDate");
 		}
@@ -66,7 +67,7 @@ public class Loan extends Observable{
 		return getFormattedDate(getPickupDate());
 	}
 
-	private GregorianCalendar getReturnDate() {
+	public GregorianCalendar getReturnDate() {
 		return returnDate;
 	}
 	
@@ -125,15 +126,32 @@ public class Loan extends Observable{
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
 		dueDate.add(GregorianCalendar.HOUR_OF_DAY, 23);
 		dueDate.add(GregorianCalendar.MINUTE, 59);
-		dueDate.add(GregorianCalendar.SECOND, 59);
+		dueDate.add(GregorianCalendar.SECOND, 58);
 		
 		return dueDate;
 		
 		
 	}
 	
+	private GregorianCalendar getExpectedReturnDateOrReturnDate() {
+		
+		if(returnDate == null)  {
+			GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
+			dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);						
+			return dueDate;
+		} else {
+			return returnDate;
+		}
+		
+		
+	}
+	
 	public String getFormattedExpectedReturnDate() {
 		return getFormattedDate(getExpectedReturnDate());
+	}
+	
+	public String getFormattedExpectedReturnDateOrReturnDate() {
+		return getFormattedDate(getExpectedReturnDateOrReturnDate());
 	}
 	
 	
