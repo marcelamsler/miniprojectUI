@@ -67,6 +67,9 @@ public class StartWindow implements Observer{
 	private JButton btnSelektierteAusleiheAnzeigen;
 	private JLabel bookCount;
 	private JLabel copyCount;
+	private JLabel loanCount;
+	private JLabel activeLoanCount;
+	private JLabel overdueLoanCount;
 	private static Border border;
 
 	
@@ -350,25 +353,60 @@ public class StartWindow implements Observer{
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "Ausleihe Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		layeredPane_2.add(panel_4, BorderLayout.NORTH);
-		panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel_4 = new GridBagLayout();
+		gbl_panel_4.columnWidths = new int[]{100, 127, 24, 129, 16, 131, 16, 0, 0, 0};
+		gbl_panel_4.rowHeights = new int[]{15, 0};
+		gbl_panel_4.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_4.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_4.setLayout(gbl_panel_4);
 		
 		JLabel lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen:");
-		panel_4.add(lblAnzahlAusleihen);
+		GridBagConstraints gbc_lblAnzahlAusleihen = new GridBagConstraints();
+		gbc_lblAnzahlAusleihen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlAusleihen.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlAusleihen.gridx = 0;
+		gbc_lblAnzahlAusleihen.gridy = 0;
+		panel_4.add(lblAnzahlAusleihen, gbc_lblAnzahlAusleihen);
 		
-		JLabel label_1 = new JLabel("842");
-		panel_4.add(label_1);
+		loanCount = new JLabel(String.valueOf(library.getLoans().size()));
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.anchor = GridBagConstraints.WEST;
+		gbc_label_1.insets = new Insets(0, 0, 0, 5);
+		gbc_label_1.gridx = 1;
+		gbc_label_1.gridy = 0;
+		panel_4.add(loanCount, gbc_label_1);
 		
 		JLabel lblAktuellAusgeliehen = new JLabel("Aktuell ausgeliehen:");
-		panel_4.add(lblAktuellAusgeliehen);
+		GridBagConstraints gbc_lblAktuellAusgeliehen = new GridBagConstraints();
+		gbc_lblAktuellAusgeliehen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAktuellAusgeliehen.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAktuellAusgeliehen.gridx = 3;
+		gbc_lblAktuellAusgeliehen.gridy = 0;
+		panel_4.add(lblAktuellAusgeliehen, gbc_lblAktuellAusgeliehen);
 		
-		JLabel label_2 = new JLabel("86");
-		panel_4.add(label_2);
+		activeLoanCount = new JLabel(String.valueOf(library.getActiveLoans().size()));
+		GridBagConstraints gbc_label_2 = new GridBagConstraints();
+		gbc_label_2.anchor = GridBagConstraints.NORTHWEST;
+		gbc_label_2.insets = new Insets(0, 0, 0, 5);
+		gbc_label_2.gridx = 4;
+		gbc_label_2.gridy = 0;
+		panel_4.add(activeLoanCount, gbc_label_2);
 		
 		JLabel lblberflligeAusleihen = new JLabel("Überfällige Ausleihen:");
-		panel_4.add(lblberflligeAusleihen);
+		GridBagConstraints gbc_lblberflligeAusleihen = new GridBagConstraints();
+		gbc_lblberflligeAusleihen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblberflligeAusleihen.insets = new Insets(0, 0, 0, 5);
+		gbc_lblberflligeAusleihen.gridx = 6;
+		gbc_lblberflligeAusleihen.gridy = 0;
+		panel_4.add(lblberflligeAusleihen, gbc_lblberflligeAusleihen);
 		
-		JLabel label_3 = new JLabel("16");
-		panel_4.add(label_3);
+		overdueLoanCount = new JLabel(String.valueOf(library.getOverdueLoans().size()));
+		GridBagConstraints gbc_label_3 = new GridBagConstraints();
+		gbc_label_3.insets = new Insets(0, 0, 0, 5);
+		gbc_label_3.anchor = GridBagConstraints.NORTHWEST;
+		gbc_label_3.gridx = 7;
+		gbc_label_3.gridy = 0;
+		panel_4.add(overdueLoanCount, gbc_label_3);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(null, "Erfasste Ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -504,6 +542,11 @@ public class StartWindow implements Observer{
 	public void update(Observable o, Object arg) {
 		copyCount.setText(library.getCopies().size() + "");
 		bookCount.setText(library.getBooks().size() + "");
+		loanCount.setText(String.valueOf(library.getLoans().size()));
+		activeLoanCount.setText(String.valueOf(library.getActiveLoans().size()));
+		overdueLoanCount.setText(String.valueOf(library.getOverdueLoans().size()));
+		
+		
 		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
 		((AbstractTableModel) bookTable.getModel()).fireTableDataChanged();
 		

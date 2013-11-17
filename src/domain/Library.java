@@ -121,6 +121,16 @@ public class Library extends Observable implements Observer{
 		return lentCopies;
 	}
 	
+	public List<Loan> getActiveLoans() {
+		List<Loan> activeLoans = new ArrayList<>();
+		for(Loan loan : getLoans()){
+			if(loan.isLent()) {
+				activeLoans.add(loan);
+			}
+		}
+		return activeLoans;
+	}
+	
 	public int getNoOfAvailableCopiesOfBook(Book book){
 	
 		return getCopiesOfBook(book).size() - getLentCopiesOfBook(book).size();
