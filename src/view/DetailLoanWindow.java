@@ -277,9 +277,12 @@ public class DetailLoanWindow extends ListenerJFrame{
 					GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(date);
 					loan.returnCopy(cal);
-				} catch (ParseException | IllegalLoanOperationException e1) {
+				} catch (IllegalLoanOperationException e1) {
+					errorLabel.setText(e1.getMessage());
+				} catch (ParseException e2) {
 					errorLabel.setText("Bitte geben Sie ein gültiges Datum ein");
 				}
+				
 				
 				updateButton(loan);
 				
