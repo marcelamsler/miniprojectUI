@@ -176,19 +176,44 @@ public class StartWindow implements Observer{
 		JPanel panel = new JPanel();
 		layeredPane.add(panel, BorderLayout.NORTH);
 		panel.setBorder(new TitledBorder(null, "Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{118, 106, 8, 130, 8, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{15, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
 		JLabel lblAnzahlBcher = new JLabel("Anzahl Bücher:");
-		panel.add(lblAnzahlBcher);
+		GridBagConstraints gbc_lblAnzahlBcher = new GridBagConstraints();
+		gbc_lblAnzahlBcher.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlBcher.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlBcher.gridx = 0;
+		gbc_lblAnzahlBcher.gridy = 0;
+		panel.add(lblAnzahlBcher, gbc_lblAnzahlBcher);
 		
 		bookCount = new JLabel(library.getBooks().size() + "");
-		panel.add(bookCount);
+		GridBagConstraints gbc_bookCount = new GridBagConstraints();
+		gbc_bookCount.anchor = GridBagConstraints.NORTHWEST;
+		gbc_bookCount.insets = new Insets(0, 0, 0, 5);
+		gbc_bookCount.gridx = 1;
+		gbc_bookCount.gridy = 0;
+		panel.add(bookCount, gbc_bookCount);
 		
 		JLabel lblAnzahlExemplare = new JLabel("Anzahl Exemplare:");
-		panel.add(lblAnzahlExemplare);
+		GridBagConstraints gbc_lblAnzahlExemplare = new GridBagConstraints();
+		gbc_lblAnzahlExemplare.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlExemplare.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlExemplare.gridx = 3;
+		gbc_lblAnzahlExemplare.gridy = 0;
+		panel.add(lblAnzahlExemplare, gbc_lblAnzahlExemplare);
 		
 		copyCount = new JLabel(library.getCopies().size() + "");
-		panel.add(copyCount);
+		GridBagConstraints gbc_copyCount = new GridBagConstraints();
+		gbc_copyCount.insets = new Insets(0, 0, 0, 5);
+		gbc_copyCount.anchor = GridBagConstraints.NORTHWEST;
+		gbc_copyCount.gridx = 5;
+		gbc_copyCount.gridy = 0;
+		panel.add(copyCount, gbc_copyCount);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Buch-Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
