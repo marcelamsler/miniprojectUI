@@ -67,7 +67,7 @@ public class Loan extends Observable{
 		return getFormattedDate(getPickupDate());
 	}
 
-	private GregorianCalendar getReturnDate() {
+	public GregorianCalendar getReturnDate() {
 		return returnDate;
 	}
 	
@@ -133,8 +133,25 @@ public class Loan extends Observable{
 		
 	}
 	
+	private GregorianCalendar getExpectedReturnDateOrReturnDate() {
+		
+		if(returnDate == null)  {
+			GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
+			dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);						
+			return dueDate;
+		} else {
+			return returnDate;
+		}
+		
+		
+	}
+	
 	public String getFormattedExpectedReturnDate() {
 		return getFormattedDate(getExpectedReturnDate());
+	}
+	
+	public String getFormattedExpectedReturnDateOrReturnDate() {
+		return getFormattedDate(getExpectedReturnDateOrReturnDate());
 	}
 	
 	

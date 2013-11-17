@@ -66,9 +66,9 @@ public class AddLoanWindow extends ListenerJFrame{
 	private JPanel contentPane;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTable table;
+	private JTable loanTable;
 	private JTextField txtKundeSuchen;
-	private JTable table_1;
+	private JTable customerTable;
 	private TableRowSorter<? extends AbstractTableModel> sorter;
 	private String kundeSuchenText = "Kunde suchen";
 	private JPanel panel_2; 
@@ -147,15 +147,15 @@ public class AddLoanWindow extends ListenerJFrame{
 		panel_5.add(scrollPane_1);
 		
 		custTableModel = new AddLoanWindowCustomerTableModel(library);
-		table_1 = new JTable();
-		table_1.setModel(custTableModel);
-		table_1.setFillsViewportHeight(true);
-		scrollPane_1.add(table_1);
-		scrollPane_1.setViewportView(table_1);
+		customerTable = new JTable();
+		customerTable.setModel(custTableModel);
+		customerTable.setFillsViewportHeight(true);
+		scrollPane_1.add(customerTable);
+		scrollPane_1.setViewportView(customerTable);
 		sorter = new TableRowSorter<> (custTableModel);
-		table_1.setRowSorter(sorter);
+		customerTable.setRowSorter(sorter);
 		
-		table_1.addMouseListener(new MouseAdapter() {
+		customerTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
 				  JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 1) {			         
@@ -284,11 +284,24 @@ public class AddLoanWindow extends ListenerJFrame{
 		JScrollPane scrollPane = new JScrollPane();
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
-		table = new JTable();
-		table.setEnabled(false);
-		table.setFillsViewportHeight(true);
-		scrollPane.add(table);
-		scrollPane.setViewportView(table);
+		loanTable = new JTable();
+		loanTable.setEnabled(false);
+		loanTable.setFillsViewportHeight(true);
+		scrollPane.add(loanTable);
+		scrollPane.setViewportView(loanTable);
+		
+		loanTable.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+				   JTable target = (JTable)e.getSource();
+			      if (e.getClickCount() == 2) {			         
+			         int row = target.getSelectedRow();
+			         if (row >= 0) {
+				         Loan loan = library.getLoansOfCustomer(cust).get(row);			         
+				         openDetailLoanWindow(loan);
+			         }
+			      }
+			}
+		});
 		
 		JSplitPane splitPane = new JSplitPane();
 		contentPane.add(splitPane);	
@@ -320,13 +333,13 @@ public class AddLoanWindow extends ListenerJFrame{
 	
 	public void updateRightSide(int row) {
 		try {
-			cust = library.getCustomers().get(table_1.convertRowIndexToModel(row));
+			cust = library.getCustomers().get(customerTable.convertRowIndexToModel(row));
 		} catch (IndexOutOfBoundsException e){
 			//Do Nothing
 		}
 		if (cust != null) {
-			table.setModel(new AddLoanWindowLoanTableModel(library, cust));
-			table.setEnabled(true);				       
+			loanTable.setModel(new AddLoanWindowLoanTableModel(library, cust));
+			loanTable.setEnabled(true);				       
 			panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 			if (library.getCustomerStatus(cust) == "OK") {
@@ -343,15 +356,24 @@ public class AddLoanWindow extends ListenerJFrame{
 		}
 		
 	}
+	
+	private void openDetailLoanWindow(Loan loan){
+		if(loan != null) {
+			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library);
+			detailFrame.setVisible(true);
+		} else {
+			System.out.println("Ausleihe nicht gefunden");
+		}
+	}
 
 
 	@Override
 	public void update(Observable o, Object arg) {
-		int row = table_1.getSelectedRow();
+		int row = customerTable.getSelectedRow();
 		updateRightSide(row);
 		custTableModel.fireTableDataChanged();
-		((AbstractTableModel) table.getModel()).fireTableDataChanged();
-		table_1.setRowSelectionInterval(row, row);
+		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
+		customerTable.setRowSelectionInterval(row, row);
 		
 		
 	}
