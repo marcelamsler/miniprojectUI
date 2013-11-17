@@ -19,11 +19,9 @@ public class StartWindowBookTableModel extends AbstractTableModel {
 		public StartWindowBookTableModel(Library library){
 			
 			this.library = library;
-			this.list = library.getBooks();
-			
+			this.list = library.getBooks();			
 			
 		}
-	
 	
 
 	    private String[] columnNames = {"Verfügbar", "Titel", "Author", "Verlag"};
