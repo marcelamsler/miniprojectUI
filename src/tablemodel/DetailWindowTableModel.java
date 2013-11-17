@@ -20,7 +20,7 @@ public class DetailWindowTableModel extends AbstractTableModel {
 		this.list = library.getCopiesOfBook(book);
 	}
 	
-    private String[] columnNames = {"ID", "Titel", "Zustand"};
+    private String[] columnNames = {"ID", "Titel", "Zustand", "StatusS"};
     
     public int getColumnCount() {
         return columnNames.length;
@@ -43,6 +43,12 @@ public class DetailWindowTableModel extends AbstractTableModel {
                             
             case 2:
             	return column.getCondition();
+            case 3: 
+            	if(library.isCopyLent(column)) {
+            		return "ausgeliehen";
+            	}else{
+            		return "verfügbar";
+            	}
                               
             default:
                 throw new UnsupportedOperationException("Da ist wohl was Schiefgelaufen beim laden der Daten in die Tabelle");

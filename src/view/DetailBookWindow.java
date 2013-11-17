@@ -71,6 +71,7 @@ public class DetailBookWindow extends ListenerJFrame{
 		super(library);
 		this.library = library;
 		initialize();
+		library.addObserver(this);
 	}
 
 	public void setBook(Book book1){
@@ -149,9 +150,8 @@ public class DetailBookWindow extends ListenerJFrame{
 				public void actionPerformed(ActionEvent e) {
 					int[] rows = table.getSelectedRows();
 					for (int row: rows){
-						library.removeCopy(library.getCopiesOfBook(book).get(row));
+						library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(row)));
 					}
-					table.updateUI();
 				}
 			});
 			
@@ -171,7 +171,6 @@ public class DetailBookWindow extends ListenerJFrame{
 			panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 			
 			table = new JTable();		
-			table.setRowSorter(sorter);
 			table.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e){
@@ -191,8 +190,8 @@ public class DetailBookWindow extends ListenerJFrame{
 			detailWindowTableModel = new DetailWindowTableModel(library,book);
 	
 			table.setModel(detailWindowTableModel);
-			sorter = new TableRowSorter<>(tableModel);
-			detailWindowTableModel.fireTableDataChanged();
+//			detailWindowTableModel.fireTableDataChanged();
+			
 			
 		}
 	}
@@ -292,11 +291,7 @@ public class DetailBookWindow extends ListenerJFrame{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.setBook(this.book);
-
-		if(detailWindowTableModel != null) {
-			detailWindowTableModel.fireTableDataChanged();
-		}		
+		setBook(this.book);
 		
 	}
 
