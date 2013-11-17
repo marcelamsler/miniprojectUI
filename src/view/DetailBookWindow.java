@@ -70,17 +70,18 @@ public class DetailBookWindow extends ListenerJFrame{
 	public DetailBookWindow(Library library){
 		super(library);
 		this.library = library;
-		initialize();	
+		initialize();
 	}
 
-	public void setBook(final Book book){
-		this.book = book;
+	public void setBook(Book book1){
+		this.book = book1;
 		
 		for(Shelf tmpShelf : Shelf.values()){
 			comboBox.addItem(tmpShelf.toString());
 		}
 		
 		if(this.book == null) {
+			frmDetail.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			
 			JButton btnBuchHinzufgen = new JButton("Buch hinzufügen");
 			btnBuchHinzufgen.addActionListener(new ActionListener() {
@@ -96,13 +97,21 @@ public class DetailBookWindow extends ListenerJFrame{
 			gbc_btnBuchHinzufgen.insets = new Insets(0, 0, 0, 5);
 			gbc_btnBuchHinzufgen.gridx = 0;
 			gbc_btnBuchHinzufgen.gridy = 4;
-			panel.add(btnBuchHinzufgen, gbc_btnBuchHinzufgen);
+			panel.add(btnBuchHinzufgen, gbc_btnBuchHinzufgen);	
 			
 			
 			
-			
-		} else {		
-			
+		} else {
+			frmDetail.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					book.setAuthor(textField_1.getText());
+					book.setName(textField.getText());
+					book.setPublisher(textField_2.getText());
+					book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+				
+				}
+			});		
 			
 			textField.setText(this.book.getName());
 			textField_1.setText(this.book.getAuthor());
@@ -193,16 +202,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	 */
 	private void initialize() {
 		frmDetail = new JFrame();
-		frmDetail.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				book.setAuthor(textField_1.getText());
-				book.setName(textField.getText());
-				book.setPublisher(textField_2.getText());
-				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-			
-			}
-		});
+		
 		frmDetail.setTitle("Buch Detailansicht");
 		frmDetail.setBounds(100, 100, 592, 473);
 		frmDetail.getContentPane().setLayout(new BorderLayout(0, 0));

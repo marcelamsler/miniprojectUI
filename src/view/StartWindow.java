@@ -65,6 +65,8 @@ public class StartWindow implements Observer{
 	private String loanSearchBoxText = "Ausleihe suchen";
 	private JButton btnSelektierteAnzeigen;
 	private JButton btnSelektierteAusleiheAnzeigen;
+	private JLabel bookCount;
+	private JLabel copyCount;
 	private static Border border;
 
 	
@@ -179,14 +181,14 @@ public class StartWindow implements Observer{
 		JLabel lblAnzahlBcher = new JLabel("Anzahl Bücher:");
 		panel.add(lblAnzahlBcher);
 		
-		JLabel label = new JLabel(library.getBooks().size() + "");
-		panel.add(label);
+		bookCount = new JLabel(library.getBooks().size() + "");
+		panel.add(bookCount);
 		
 		JLabel lblAnzahlExemplare = new JLabel("Anzahl Exemplare:");
 		panel.add(lblAnzahlExemplare);
 		
-		JLabel lblNewLabel = new JLabel(library.getCopies().size() + "");
-		panel.add(lblNewLabel);
+		copyCount = new JLabel(library.getCopies().size() + "");
+		panel.add(copyCount);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Buch-Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -475,7 +477,8 @@ public class StartWindow implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		
+		copyCount.setText(library.getCopies().size() + "");
+		bookCount.setText(library.getBooks().size() + "");
 		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
 		((AbstractTableModel) bookTable.getModel()).fireTableDataChanged();
 		
