@@ -39,7 +39,7 @@ import java.util.Observer;
 
 import javax.swing.JComboBox;
 
-import tablemodel.DetailWindowTableModel;
+import tablemodel.DetailBookWindowTableModel;
 import domain.Book;
 import domain.Library;
 import domain.Shelf;
@@ -61,10 +61,10 @@ public class DetailBookWindow extends ListenerJFrame{
 	private Library library;
 	private Book book;
 	
-	private DetailWindowTableModel tableModel;
-	private TableRowSorter<DetailWindowTableModel> sorter; 
+	private DetailBookWindowTableModel tableModel;
+	private TableRowSorter<DetailBookWindowTableModel> sorter; 
 	private JTable table;
-	private DetailWindowTableModel detailWindowTableModel;
+	private DetailBookWindowTableModel detailWindowTableModel;
 	private JPanel panel;
 
 	public DetailBookWindow(Library library){
@@ -187,7 +187,7 @@ public class DetailBookWindow extends ListenerJFrame{
 			
 			
 			comboBox.setSelectedItem(book.getShelf().toString());
-			detailWindowTableModel = new DetailWindowTableModel(library,book);
+			detailWindowTableModel = new DetailBookWindowTableModel(library,book);
 	
 			table.setModel(detailWindowTableModel);
 //			detailWindowTableModel.fireTableDataChanged();

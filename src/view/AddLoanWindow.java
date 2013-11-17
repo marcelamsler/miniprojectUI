@@ -44,7 +44,7 @@ import javax.swing.RowSorter;
 
 import tablemodel.AddLoanWindowCustomerTableModel;
 import tablemodel.AddLoanWindowLoanTableModel;
-import tablemodel.DetailWindowTableModel;
+import tablemodel.DetailBookWindowTableModel;
 
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;

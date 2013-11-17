@@ -8,13 +8,13 @@ import domain.Book;
 import domain.Copy;
 import domain.Library;
 
-public class DetailWindowTableModel extends AbstractTableModel {
+public class DetailBookWindowTableModel extends AbstractTableModel {
 
 	Library library;
 	Book book;
 	List<Copy> list;
 	
-	public DetailWindowTableModel(Library library, Book book){
+	public DetailBookWindowTableModel(Library library, Book book){
 		this.library = library;
 		this.book = book;
 		this.list = library.getCopiesOfBook(book);
