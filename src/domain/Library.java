@@ -45,8 +45,8 @@ public class Library extends Observable implements Observer{
 		Customer c = new Customer(name, surname);
 		customers.add(c);		
 		
-		notifyObservers();
 		setChanged();
+		notifyObservers();
 		
 		return c;
 	}
@@ -56,9 +56,8 @@ public class Library extends Observable implements Observer{
 		Book b = new Book(name);
 		books.add(b);	
 		
-		notifyObservers();
 		setChanged();
-		
+		notifyObservers();
 		return b;
 	}
 
@@ -67,8 +66,8 @@ public class Library extends Observable implements Observer{
 		Copy c = new Copy(title);
 		copies.add(c);
 		
-		notifyObservers();
 		setChanged();
+		notifyObservers();
 
 		return c;
 	}
