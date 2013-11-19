@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Observable;
 
-public class Book extends Observable{
+public class Book extends Observable implements Comparable<Book>{
 	
 	private String title, author, publisher;
 	private Shelf shelf;
@@ -55,4 +55,11 @@ public class Book extends Observable{
 	public String toString() {
 		return title + ", " + author + ", " + publisher;
 	}
-}
+	
+	
+
+	@Override
+	public int compareTo(Book o) {
+		// TODO Auto-generated method stub
+		return (o.getName()).compareTo(this.getName());
+	}}

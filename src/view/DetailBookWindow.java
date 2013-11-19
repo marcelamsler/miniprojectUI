@@ -288,6 +288,11 @@ public class DetailBookWindow extends ListenerJFrame{
 
 		frmDetail.setVisible(true);
 	}
+	
+	@Override
+	public void setVisible(boolean b){
+		frmDetail.setVisible(true);
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {

@@ -1,17 +1,28 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.swing.JFrame;
+
 import view.AddLoanWindow;
 import view.DetailBookWindow;
 import view.DetailLoanWindow;
+import view.ListenerJFrame;
 import view.StartWindow;
 import domain.Book;
+import domain.Customer;
 import domain.Library;
 import domain.Loan;
 
 public class WindowController {
 	
 	Library library;
-	
+	Map<Book, ListenerJFrame> openBooks = new TreeMap<>();
+	Map<Loan, ListenerJFrame> openLoans = new TreeMap<>();
+	Map<Customer, JFrame> openCustomers = new TreeMap<>();
 	
 	
 	public WindowController (Library lib) {
@@ -20,12 +31,19 @@ public class WindowController {
 	}
 	
 	public void openMainWindow() {
-		StartWindow window = new StartWindow(library, this);
+		new StartWindow(library, this);
 	}
 	
-	public void openDetailBookWindow(Book book){		
-		DetailBookWindow detailFrame = new DetailBookWindow(library);
-	    detailFrame.setBook(book);			        	 
+	public void openDetailBookWindow(Book book){	
+		if (openBooks.containsKey(book)){
+			ListenerJFrame frame = openBooks.get(book);
+			frame.setVisible(true);
+			
+		}else{	
+			DetailBookWindow detailFrame = new DetailBookWindow(library);
+		    detailFrame.setBook(book);
+		    openBooks.put(book, detailFrame);
+		}    
 	}
 	
 	public void openAddBookWindow(){
