@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import controller.WindowController;
 import view.StartWindow;
 import domain.Copy;
 import domain.Customer;
@@ -39,8 +40,7 @@ public class LibraryApp {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
-		
-		StartWindow window = new StartWindow(library);
+		WindowController windowCtrl = new WindowController(library);
 	}
 
 

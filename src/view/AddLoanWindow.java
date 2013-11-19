@@ -17,6 +17,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import controller.WindowController;
 import domain.Copy;
 import domain.Customer;
 import domain.Library;
@@ -77,14 +78,20 @@ public class AddLoanWindow extends ListenerJFrame{
 	private JButton btnAnzeigen;
 	private AddLoanWindowCustomerTableModel custTableModel;
 	private JLabel errorLabel;
+	private WindowController windowCtrl;
 	
 	
 
 	
-	public AddLoanWindow(final Library library) {
+	public AddLoanWindow(final Library library, WindowController windowCtrl) {
 		super(library);
-		this.library = library;			
+		this.library = library;
+		this.windowCtrl = windowCtrl;			
+		initialize();
 		
+	}
+	
+	private void initialize() {
 		setTitle("Ausleihe hinzufügen");
 		
 		setBounds(100, 100, 1000, 500);
@@ -292,12 +299,13 @@ public class AddLoanWindow extends ListenerJFrame{
 		
 		loanTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
+				   System.out.println(this.hashCode());
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();
 			         if (row >= 0) {
 				         Loan loan = library.getLoansOfCustomer(cust).get(row);			         
-				         openDetailLoanWindow(loan);
+				         windowCtrl.openDetailLoanWindow(loan);
 			         }
 			      }
 			}
@@ -310,8 +318,9 @@ public class AddLoanWindow extends ListenerJFrame{
 		splitPane.setRightComponent(panel_6);
 		splitPane.setResizeWeight(0.5);
 		splitPane.setDividerLocation(500);
+		
 	}
-	
+
 	public void tryAddingLoanToCustomer() {
 		try {
 			Integer copy_id = Integer.parseInt(textField_1.getText());
@@ -355,15 +364,6 @@ public class AddLoanWindow extends ListenerJFrame{
 			}
 		}
 		
-	}
-	
-	private void openDetailLoanWindow(Loan loan){
-		if(loan != null) {
-			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library);
-			detailFrame.setVisible(true);
-		} else {
-			System.out.println("Ausleihe nicht gefunden");
-		}
 	}
 
 

@@ -35,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
+import controller.WindowController;
 import tablemodel.StartWindowBookTableModel;
 import tablemodel.StartWindowLoanTableModel;
 import domain.Book;
@@ -70,12 +71,13 @@ public class StartWindow implements Observer{
 	private JLabel loanCount;
 	private JLabel activeLoanCount;
 	private JLabel overdueLoanCount;
+	private WindowController windowCtrl;
 	private static Border border;
 
 	
 	
-	public StartWindow(Library library) {
-		
+	public StartWindow(Library library, WindowController windowCtrl) {
+		this.windowCtrl = windowCtrl;
 		this.library = library;
 		initialize();
 		this.frame.setVisible(true);
@@ -142,22 +144,7 @@ public class StartWindow implements Observer{
 		return filter;
 		
 	}
-	
-	
-	
-	private void openDetailBookWindow(Book book){		
-			DetailBookWindow detailFrame = new DetailBookWindow(library);
-		    detailFrame.setBook(book);			        	 
-	}
-	
-	private void openDetailLoanWindow(Loan loan){
-		if(loan != null) {
-			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library);
-			detailFrame.setVisible(true);
-		} else {
-			System.out.println("Ausleihe nicht gefunden");
-		}
-	}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -290,7 +277,7 @@ public class StartWindow implements Observer{
 				int[] rows = bookTable.getSelectedRows();
 				for (int row: rows){
 					Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));	
-			        openDetailBookWindow(book);
+			        windowCtrl.openDetailBookWindow(book);
 				}
 		
 			}
@@ -305,7 +292,7 @@ public class StartWindow implements Observer{
 		JButton btnNeuesBuchHinzufgen = new JButton("Neues Buch hinzufügen");
 		btnNeuesBuchHinzufgen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openDetailBookWindow(null);
+				windowCtrl.openDetailBookWindow(null);
 			}
 		});
 		GridBagConstraints gbc_btnNeuesBuchHinzufgen = new GridBagConstraints();
@@ -336,7 +323,7 @@ public class StartWindow implements Observer{
 			         if (row >= 0) {
 			        	 
 			        	 Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));	
-				         openDetailBookWindow(book);
+			        	 windowCtrl.openDetailBookWindow(book);
 			         }    
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
@@ -478,8 +465,8 @@ public class StartWindow implements Observer{
 		JButton btnNeueAusleiheErfassen = new JButton("Neue Ausleihe erfassen");
 		btnNeueAusleiheErfassen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddLoanWindow newWindow = new AddLoanWindow(library);
-				newWindow.setVisible(true);
+				windowCtrl.openAddLoanWindow();
+				
 			}
 		});
 		
@@ -489,7 +476,7 @@ public class StartWindow implements Observer{
 				int[] rows = loanTable.getSelectedRows();
 				for (int row: rows){
 					Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));			         
-			        openDetailLoanWindow(loan);
+					windowCtrl.openDetailLoanWindow(loan);
 				}
 		
 			}
@@ -526,7 +513,7 @@ public class StartWindow implements Observer{
 			         int row = target.getSelectedRow();
 			         if (row >= 0) {
 				         Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));			         
-				         openDetailLoanWindow(loan);
+				         windowCtrl.openDetailLoanWindow(loan);
 			         }    
 			      } else if(e.getClickCount() == 1) {
 			    	  if (target.getSelectedColumnCount() > 0) {
