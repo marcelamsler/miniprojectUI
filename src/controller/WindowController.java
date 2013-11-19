@@ -52,12 +52,16 @@ public class WindowController {
 	}
 
 	public void openDetailLoanWindow(Loan loan){
-		if(loan != null) {
+		if (openLoans.containsKey(loan)){
+			ListenerJFrame frame = openLoans.get(loan);
+			frame.setVisible(true);
+		} else {
 			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library);
 			detailFrame.setVisible(true);
-		} else {
-			System.out.println("Ausleihe nicht gefunden");
-		}
+			openLoans.put(loan, detailFrame);
+		}	
+		
+	
 	}
 	
 	public void openAddLoanWindow() {

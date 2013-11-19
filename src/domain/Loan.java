@@ -9,7 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class Loan extends Observable{
+public class Loan extends Observable implements Comparable<Loan>{
 
 	private Copy copy;
 	private Customer customer;
@@ -163,5 +163,10 @@ public class Loan extends Observable{
 		GregorianCalendar dueDate = getExpectedReturnDate();
 		
 		return ( new GregorianCalendar().after(dueDate) );
+	}
+
+	@Override
+	public int compareTo(Loan o) {
+		return (o.toString()).compareTo(this.toString());
 	}
 }
