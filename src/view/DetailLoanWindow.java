@@ -34,6 +34,9 @@ import domain.Library;
 import domain.Loan;
 
 import javax.swing.JTextField;
+
+import controller.WindowController;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -50,10 +53,10 @@ public class DetailLoanWindow extends ListenerJFrame{
 	private JLabel lblberfllig;
 
 	
-	public DetailLoanWindow(Loan loan1, Library lib) {
-		super(lib);
+	public DetailLoanWindow(Loan loan1, Library library, WindowController windowCtrl) {
+		super(library, windowCtrl);
 		this.loan = loan1;	
-		lib.addObserver(this);
+		library.addObserver(this);
 		
 		setTitle("Ausleihe Detail");
 		setBounds(100, 100, 663, 361);

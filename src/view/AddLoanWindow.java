@@ -84,7 +84,7 @@ public class AddLoanWindow extends ListenerJFrame{
 
 	
 	public AddLoanWindow(final Library library, WindowController windowCtrl) {
-		super(library);
+		super(library, windowCtrl);
 		this.library = library;
 		this.windowCtrl = windowCtrl;			
 		initialize();

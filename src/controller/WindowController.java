@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.JFrame;
+import javax.swing.RowFilter.Entry;
 
 import view.AddLoanWindow;
 import view.DetailBookWindow;
@@ -40,14 +41,14 @@ public class WindowController {
 			frame.setVisible(true);
 			
 		}else{	
-			DetailBookWindow detailFrame = new DetailBookWindow(library);
+			DetailBookWindow detailFrame = new DetailBookWindow(library, this);
 		    detailFrame.setBook(book);
 		    openBooks.put(book, detailFrame);
 		}    
 	}
 	
 	public void openAddBookWindow(){
-		DetailBookWindow detailFrame = new DetailBookWindow(library);
+		DetailBookWindow detailFrame = new DetailBookWindow(library, this);
 	    detailFrame.setBook(null);	
 	}
 
@@ -56,12 +57,22 @@ public class WindowController {
 			ListenerJFrame frame = openLoans.get(loan);
 			frame.setVisible(true);
 		} else {
-			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library);
+			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library, this);
 			detailFrame.setVisible(true);
 			openLoans.put(loan, detailFrame);
 		}	
 		
 	
+	}
+	
+	public void remove(ListenerJFrame o){
+		for(Entry e : openLoans) {
+			if (frame.equals(o)){
+				openLoans.remove(openLoans.);
+			}
+		}
+		
+		
 	}
 	
 	public void openAddLoanWindow() {
