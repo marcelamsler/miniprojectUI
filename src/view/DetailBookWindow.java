@@ -71,11 +71,12 @@ public class DetailBookWindow extends ListenerJFrame{
 	public DetailBookWindow(Library library, WindowController windowCtrl){
 		super(library, windowCtrl);
 		this.library = library;
+		this.windowCtrl = windowCtrl;
 		initialize();
 		library.addObserver(this);
 	}
 
-	public void setBook(Book book1){
+	public JFrame setBook(Book book1){
 		this.book = book1;
 		
 		for(Shelf tmpShelf : Shelf.values()){
@@ -111,6 +112,7 @@ public class DetailBookWindow extends ListenerJFrame{
 					book.setName(textField.getText());
 					book.setPublisher(textField_2.getText());
 					book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+					windowCtrl.remove(frmDetail);
 				
 				}
 			});		
@@ -195,6 +197,7 @@ public class DetailBookWindow extends ListenerJFrame{
 			
 			
 		}
+		return frmDetail;
 	}
 
 	/**

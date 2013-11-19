@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import view.AddLoanWindow;
 import view.DetailBookWindow;
 import view.DetailLoanWindow;
-import view.ListenerJFrame;
 import view.StartWindow;
 import domain.Book;
 import domain.Customer;
@@ -21,9 +20,9 @@ import domain.Loan;
 public class WindowController {
 	
 	Library library;
-	Map<Book, ListenerJFrame> openBooks = new TreeMap<>();
-	Map<Loan, ListenerJFrame> openLoans = new TreeMap<>();
-	Map<Customer, ListenerJFrame> openCustomers = new TreeMap<>();
+	Map<Book, JFrame> openBooks = new TreeMap<>();
+	Map<Loan, JFrame> openLoans = new TreeMap<>();
+	Map<Customer, JFrame> openCustomers = new TreeMap<>();
 	
 	
 	public WindowController (Library lib) {
@@ -37,13 +36,13 @@ public class WindowController {
 	
 	public void openDetailBookWindow(Book book){	
 		if (openBooks.containsKey(book)){
-			ListenerJFrame frame = openBooks.get(book);
+			JFrame frame = openBooks.get(book);
 			frame.setVisible(true);
 			
 		}else{	
 			DetailBookWindow detailFrame = new DetailBookWindow(library, this);
-		    detailFrame.setBook(book);
-		    openBooks.put(book, detailFrame);
+		    JFrame frame = detailFrame.setBook(book);
+		    openBooks.put(book, frame);
 		}    
 	}
 	
@@ -54,7 +53,7 @@ public class WindowController {
 
 	public void openDetailLoanWindow(Loan loan){
 		if (openLoans.containsKey(loan)){
-			ListenerJFrame frame = openLoans.get(loan);
+			JFrame frame = openLoans.get(loan);
 			frame.setVisible(true);
 		} else {
 			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library, this);
@@ -65,18 +64,18 @@ public class WindowController {
 	
 	}
 	
-	public void remove(ListenerJFrame o){
-		for(Entry<Loan, ListenerJFrame> e : openLoans.entrySet()) {
+	public void remove(JFrame o){
+		for(Entry<Loan, JFrame> e : openLoans.entrySet()) {
 			if (e.getValue().equals(o)){
 				openLoans.remove(e.getKey());
 			}
 		}
-		for(Entry<Book, ListenerJFrame> e : openBooks.entrySet()) {
+		for(Entry<Book, JFrame> e : openBooks.entrySet()) {
 			if (e.getValue().equals(o)){
 				openBooks.remove(e.getKey());
 			}
 		}
-		for(Entry<Customer, ListenerJFrame> e : openCustomers.entrySet()) {
+		for(Entry<Customer, JFrame> e : openCustomers.entrySet()) {
 			if (e.getValue().equals(o)){
 				openCustomers.remove(e.getKey());
 			}

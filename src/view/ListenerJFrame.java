@@ -13,7 +13,7 @@ import domain.Library;
 public abstract class ListenerJFrame extends JFrame implements Observer, WindowListener{
 
 	private Library library;
-	private WindowController windowCtrl;
+	protected WindowController windowCtrl;
 
 	public ListenerJFrame(Library library, WindowController windowCtrl) {
 		this.library = library;
