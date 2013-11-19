@@ -3,10 +3,10 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.JFrame;
-import javax.swing.RowFilter.Entry;
 
 import view.AddLoanWindow;
 import view.DetailBookWindow;
@@ -23,7 +23,7 @@ public class WindowController {
 	Library library;
 	Map<Book, ListenerJFrame> openBooks = new TreeMap<>();
 	Map<Loan, ListenerJFrame> openLoans = new TreeMap<>();
-	Map<Customer, JFrame> openCustomers = new TreeMap<>();
+	Map<Customer, ListenerJFrame> openCustomers = new TreeMap<>();
 	
 	
 	public WindowController (Library lib) {
@@ -66,9 +66,19 @@ public class WindowController {
 	}
 	
 	public void remove(ListenerJFrame o){
-		for(Entry e : openLoans) {
-			if (frame.equals(o)){
-				openLoans.remove(openLoans.);
+		for(Entry<Loan, ListenerJFrame> e : openLoans.entrySet()) {
+			if (e.getValue().equals(o)){
+				openLoans.remove(e.getKey());
+			}
+		}
+		for(Entry<Book, ListenerJFrame> e : openBooks.entrySet()) {
+			if (e.getValue().equals(o)){
+				openBooks.remove(e.getKey());
+			}
+		}
+		for(Entry<Customer, ListenerJFrame> e : openCustomers.entrySet()) {
+			if (e.getValue().equals(o)){
+				openCustomers.remove(e.getKey());
 			}
 		}
 		
