@@ -20,6 +20,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import controller.WindowController;
 import domain.Copy;
 import domain.Customer;
+import domain.CustomerStatus;
 import domain.Library;
 import domain.Loan;
 
@@ -351,7 +352,7 @@ public class AddLoanWindow extends ListenerJFrame{
 			loanTable.setEnabled(true);				       
 			panel_2.setBorder(new TitledBorder(null, "Ausleihen von " + cust.getSurname() + " " + cust.getName() , TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-			if (library.getCustomerStatus(cust) == "OK") {
+			if (library.getCustomerStatus(cust) == CustomerStatus.OK) {
 				textField_1.setEnabled(true);
 				textField_1.setText("");
 				textField_2.setEnabled(true);

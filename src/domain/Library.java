@@ -156,23 +156,36 @@ public class Library extends Observable implements Observer{
 		return overdueLoans;
 	}
 	
-	public String getCustomerStatus(Customer cust) {
-		boolean overdue = false;
-		boolean count = false;
-		for(Loan loan : getLoansOfCustomer(cust)) {
-			if(loan.isOverdue()) {
-				overdue = true;
-			}
-			if (getPendingLoansOfCustomer(cust).size() >= 3) {
-				count = true;
-			}
-		} 
+	public List<Customer> getOverdueCustomers(){
+		List<Customer> overdueCustomers = new ArrayList<Customer>();
 		
-		if(overdue && count) return "überfällig und zu viele Bücher"; 
-		else if (overdue) return "überfällig";
-		else if (count) return "zu viele Bücher";
-		else return "OK" ;
-		
+		for ( Customer c : getCustomers() ) {
+			if(this.isCustomerOverdue(c)){
+				overdueCustomers.add(c);
+			}
+		}
+		return overdueCustomers;
+	}
+	
+	public boolean isCustomerOverdue(Customer cust){
+		for(Loan loan : getLoansOfCustomer(cust)){
+			if(loan.isOverdue()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasCustomerToManyLoans(Customer cust){
+		int threshold = 3;
+		return getPendingLoansOfCustomer(cust).size() >= threshold;
+	}
+	
+	public CustomerStatus getCustomerStatus(Customer cust){
+		if(this.isCustomerOverdue(cust) && this.hasCustomerToManyLoans(cust)) return CustomerStatus.OVERDUE_TO_MANY; 
+		else if (this.isCustomerOverdue(cust)) return CustomerStatus.OVERDUE;
+		else if (this.hasCustomerToManyLoans(cust)) return CustomerStatus.TO_MANY_BOOKS;
+		else return CustomerStatus.OK;
 	}
 	
 	public List<Loan> getLoansOfCustomer(Customer cust) {

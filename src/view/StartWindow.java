@@ -37,8 +37,10 @@ import javax.swing.JTable;
 
 import controller.WindowController;
 import tablemodel.StartWindowBookTableModel;
+import tablemodel.StartWindowCustomerTableModel;
 import tablemodel.StartWindowLoanTableModel;
 import domain.Book;
+import domain.CustomerStatus;
 import domain.Library;
 import domain.Loan;
 
@@ -57,24 +59,30 @@ public class StartWindow implements Observer{
 	private StartWindowBookTableModel tableModel; 
 	private TableRowSorter<StartWindowBookTableModel> bookSorter; 
 	private TableRowSorter<StartWindowLoanTableModel> loanSorter; 
+	private TableRowSorter<StartWindowCustomerTableModel> customerSorter; 
 	private Library library;
 	private JCheckBox onlyAvailable;
 	private JCheckBox onlyOverdues;
+	private JCheckBox onlyOverdueCustomers;
 	private JTextField loanSearchTextField;
+	private JTextField customerSearchTextField;
 	private JTable loanTable;
+	private JTable customerTable;
 	private String bookSearchBoxText = "Bücher suchen";
 	private String loanSearchBoxText = "Ausleihe suchen";
+	private String customerSearchBoxText = "Kunde suchen";
 	private JButton btnSelektierteAnzeigen;
 	private JButton btnSelektierteAusleiheAnzeigen;
 	private JLabel bookCount;
 	private JLabel copyCount;
 	private JLabel loanCount;
+	private JLabel customerCount;
 	private JLabel activeLoanCount;
 	private JLabel overdueLoanCount;
+	private JLabel overdueCustomerCount;
 	private WindowController windowCtrl;
 	private static Border border;
 
-	
 	
 	public StartWindow(Library library, WindowController windowCtrl) {
 		this.windowCtrl = windowCtrl;
@@ -505,23 +513,131 @@ public class StartWindow implements Observer{
 		loanTable = new JTable(loanTableModel);
 		scrollPane_1.setViewportView(loanTable);
 		loanTable.setRowSorter(loanSorter);
+
+//KUNDE TAB AB HIER:
+		JLayeredPane layeredPane_1 = new JLayeredPane();
+		tabbedPane.addTab("Kunde", null, layeredPane_1, null);
+		layeredPane_1.setLayout(new BorderLayout(0, 0));
 		
-		loanTable.addMouseListener(new MouseAdapter() {
-			   public void mouseClicked(MouseEvent e) {
-				   JTable target = (JTable)e.getSource();
-			      if (e.getClickCount() == 2) {			         
-			         int row = target.getSelectedRow();
-			         if (row >= 0) {
-				         Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));			         
-				         windowCtrl.openDetailLoanWindow(loan);
-			         }    
-			      } else if(e.getClickCount() == 1) {
-			    	  if (target.getSelectedColumnCount() > 0) {
-			    		  btnSelektierteAusleiheAnzeigen.setEnabled(true);
-			    	  }
-			      }
-			   }
-			});
+		JPanel panel_8 = new JPanel();
+		panel_8.setBorder(new TitledBorder(null, "Kunden Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		layeredPane_1.add(panel_8, BorderLayout.NORTH);
+		GridBagLayout gbl_panel_5 = new GridBagLayout();
+		gbl_panel_5.columnWidths = new int[]{100, 127, 24, 129, 16, 131, 16, 0, 0, 0};
+		gbl_panel_5.rowHeights = new int[]{15, 0};
+		gbl_panel_5.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_5.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_8.setLayout(gbl_panel_5);
+		
+		JLabel lblAnzahlKunden = new JLabel("Anzahl Kunden:");
+		GridBagConstraints gbc_lblAnzahlKunden = new GridBagConstraints();
+		gbc_lblAnzahlKunden.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlKunden.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlKunden.gridx = 0;
+		gbc_lblAnzahlKunden.gridy = 0;
+		panel_8.add(lblAnzahlKunden, gbc_lblAnzahlKunden);	
+		
+		customerCount = new JLabel(String.valueOf(library.getCustomers().size()));
+		GridBagConstraints gbc_label_11 = new GridBagConstraints();
+		gbc_label_11.anchor = GridBagConstraints.WEST;
+		gbc_label_11.insets = new Insets(0, 0, 0, 5);
+		gbc_label_11.gridx = 1;
+		gbc_label_11.gridy = 0;
+		panel_8.add(customerCount, gbc_label_11);
+		
+		JLabel lblberflligeKunden = new JLabel("Überfällige Kunden:");
+		GridBagConstraints gbc_lblberflligeKunden = new GridBagConstraints();
+		gbc_lblberflligeKunden.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblberflligeKunden.insets = new Insets(0, 0, 0, 5);
+		gbc_lblberflligeKunden.gridx = 6;
+		gbc_lblberflligeKunden.gridy = 0;
+		panel_8.add(lblberflligeKunden, gbc_lblberflligeKunden);
+		
+		overdueCustomerCount = new JLabel(String.valueOf(library.getOverdueCustomers().size()));
+		GridBagConstraints gbc_label_31 = new GridBagConstraints();
+		gbc_label_31.insets = new Insets(0, 0, 0, 5);
+		gbc_label_31.anchor = GridBagConstraints.NORTHWEST;
+		gbc_label_31.gridx = 7;
+		gbc_label_31.gridy = 0;
+		panel_8.add(overdueCustomerCount, gbc_label_31);
+		
+		JPanel panel_9 = new JPanel();
+		panel_9.setBorder(new TitledBorder(null, "Erfasste Kunden", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		layeredPane_1.add(panel_9, BorderLayout.CENTER);
+		panel_9.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_10 = new JPanel();
+		panel_9.add(panel_10, BorderLayout.NORTH);
+		GridBagLayout gbl_panel11 = new GridBagLayout();
+		gbl_panel11.columnWidths = new int[]{248, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel11.rowHeights = new int[]{0, 0};
+		gbl_panel11.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel11.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_10.setLayout(gbl_panel11);
+		
+		customerSearchTextField = new JTextField();
+		customerSearchTextField.setText(customerSearchBoxText);
+		customerSearchTextField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (customerSearchTextField.getText().equals(customerSearchBoxText)) {
+					customerSearchTextField.setText("");
+				} 				
+			}
+		});
+		customerSearchTextField.setText(customerSearchBoxText);
+	
+		GridBagConstraints gbc_txtKundeSuchen = new GridBagConstraints();
+		gbc_txtKundeSuchen.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtKundeSuchen.insets = new Insets(0, 0, 0, 5);
+		gbc_txtKundeSuchen.gridx = 0;
+		gbc_txtKundeSuchen.gridy = 0;
+		panel_10.add(customerSearchTextField, gbc_txtKundeSuchen);
+		customerSearchTextField.setColumns(10);
+
+		onlyOverdueCustomers = new JCheckBox("Nur überfällige");
+		onlyOverdueCustomers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateFilters(onlyOverdueCustomers, "ok" , customerSearchTextField, customerSorter);
+				//updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);			
+			}
+		});
+		
+		GridBagConstraints gbc_onlyOverdueCustomers = new GridBagConstraints();
+		gbc_onlyOverdueCustomers.insets = new Insets(0, 0, 0, 5);
+		gbc_onlyOverdueCustomers.gridx = 2;
+		gbc_onlyOverdueCustomers.gridy = 0;
+		panel_10.add(onlyOverdueCustomers, gbc_onlyOverdueCustomers);
+		
+		JButton btnNeuenKundenErfassen = new JButton("Neuen Kunden erfassen");
+		
+		JButton btnSelektierteKundenAnzeigen = new JButton("Selektierte anzeigen");
+		
+		btnSelektierteKundenAnzeigen.setEnabled(false);
+		GridBagConstraints gbc_btnSelektierteKundenAnzeigen = new GridBagConstraints();
+		gbc_btnSelektierteKundenAnzeigen.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSelektierteKundenAnzeigen.gridx = 10;
+		gbc_btnSelektierteKundenAnzeigen.gridy = 0;
+		panel_10.add(btnSelektierteKundenAnzeigen, gbc_btnSelektierteKundenAnzeigen);
+		
+		GridBagConstraints gbc_btnNeuenKundenErfassen = new GridBagConstraints();
+		gbc_btnNeuenKundenErfassen.gridx = 11;
+		gbc_btnNeuenKundenErfassen.gridy = 0;
+		panel_10.add(btnNeuenKundenErfassen, gbc_btnNeuenKundenErfassen);
+		
+		JPanel panel_12 = new JPanel();
+		panel_9.add(panel_12, BorderLayout.CENTER);
+		panel_12.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel_12.add(scrollPane_2, BorderLayout.CENTER);
+		
+		StartWindowCustomerTableModel customerTableModel = new StartWindowCustomerTableModel(library);
+		customerSorter = new TableRowSorter<>(customerTableModel);
+		customerTable = new JTable(customerTableModel);
+		scrollPane_2.setViewportView(customerTable);
+		customerTable.setRowSorter(customerSorter);		
+		
 		
 	}
 
