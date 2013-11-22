@@ -93,10 +93,12 @@ public class StartWindow implements Observer{
 
 	}
 	
+	
 	public void updateFilters(JCheckBox checkBox, String checkBoxCondition, JTextField textfield, TableRowSorter<? extends AbstractTableModel> sorter) {
 		
 		RowFilter<AbstractTableModel, Object> textFilter = getTextFilter(textfield); 
 		RowFilter<AbstractTableModel, Object> checkBoxFilter = (RowFilter<AbstractTableModel, Object>) getCheckBoxFilter(checkBoxCondition);
+		
 	
 		
 		 
@@ -106,14 +108,14 @@ public class StartWindow implements Observer{
 		 
 		
 		  if (checkBox.isSelected()) {
-		    if (textfield.getText().length() > 0 && !((textfield.getText().equals(bookSearchBoxText)) || (textfield.getText().equals(loanSearchBoxText)) )) {
+		    if (textfield.getText().length() > 0 && !((textfield.getText().equals(bookSearchBoxText)) || (textfield.getText().equals(loanSearchBoxText)) || (textfield.getText().equals(customerSearchBoxText)))) {
 		       // Both filters active so construct an and filter.
 		       sorter.setRowFilter(RowFilter.andFilter(andFilters));
 		    } else {
 		       // Checkbox selected but text field empty.
 		       sorter.setRowFilter(checkBoxFilter);
 		    }
-		  } else if (textfield.getText().length() > 0 && !((textfield.getText().equals(bookSearchBoxText)) || (textfield.getText().equals(loanSearchBoxText)) ))  {
+		  } else if (textfield.getText().length() > 0 && !((textfield.getText().equals(bookSearchBoxText)) || (textfield.getText().equals(loanSearchBoxText))  || (textfield.getText().equals(customerSearchBoxText))))  {
 		    // Checkbox deselected but text field non-empty.
 		    sorter.setRowFilter(textFilter);
 		  } else {
@@ -586,6 +588,23 @@ public class StartWindow implements Observer{
 			}
 		});
 		customerSearchTextField.setText(customerSearchBoxText);
+		customerSearchTextField.getDocument().addDocumentListener(  
+				  new DocumentListener()  
+				   {  
+				      public void changedUpdate(DocumentEvent e)  
+				      {  
+				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+				      }  
+				      public void insertUpdate(DocumentEvent e)  
+				      {  
+				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+				      }  
+				      public void removeUpdate(DocumentEvent e)  
+				      {  
+				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+				      }  
+				   }  
+				);
 	
 		GridBagConstraints gbc_txtKundeSuchen = new GridBagConstraints();
 		gbc_txtKundeSuchen.fill = GridBagConstraints.HORIZONTAL;
@@ -598,7 +617,7 @@ public class StartWindow implements Observer{
 		onlyOverdueCustomers = new JCheckBox("Nur überfällige");
 		onlyOverdueCustomers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFilters(onlyOverdueCustomers, "ok" , customerSearchTextField, customerSorter);
+				updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
 				//updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);			
 			}
 		});

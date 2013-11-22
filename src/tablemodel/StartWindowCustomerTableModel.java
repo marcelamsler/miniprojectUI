@@ -22,7 +22,7 @@ public class StartWindowCustomerTableModel extends AbstractTableModel {
 		this.list = library.getCustomers();	
 	}
 
-    private String[] columnNames = {"Name", "Vorname", "Strasse", "Plz", "Ort"};
+    private String[] columnNames = {"Status", "Name", "Vorname", "Strasse", "Ort"};
     
     
     public int getColumnCount() {
@@ -43,19 +43,19 @@ public class StartWindowCustomerTableModel extends AbstractTableModel {
 
         Customer column = list.get(rowIndex);
         
-        switch (columnIndex){
-            case 0 : 
+        switch (columnIndex){                            
+         
+        	case 0 :
+        		return library.getCustomerStatus(column);
+            case 1 : 
                 return column.getName();
                             
-            case 1:
+            case 2:
                 return column.getSurname();
                             
-            case 2:
-                return column.getStreet();
-                              
             case 3:
-                return column.getZip();
-                
+                return column.getStreet();
+ 
             case 4:
             	return column.getCity();
                           
