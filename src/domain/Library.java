@@ -175,7 +175,7 @@ public class Library extends Observable implements Observer{
 		}
 		return false;
 	}
-	
+	 
 	public boolean hasCustomerToManyLoans(Customer cust){
 		int threshold = 3;
 		//System.out.println(cust.toString() + " Number Loans: " + getPendingLoansOfCustomer(cust).size());
