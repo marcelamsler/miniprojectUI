@@ -178,14 +178,22 @@ public class Library extends Observable implements Observer{
 	
 	public boolean hasCustomerToManyLoans(Customer cust){
 		int threshold = 3;
+		//System.out.println(cust.toString() + " Number Loans: " + getPendingLoansOfCustomer(cust).size());
 		return getPendingLoansOfCustomer(cust).size() >= threshold;
 	}
 	
 	public CustomerStatus getCustomerStatus(Customer cust){
-		if(this.isCustomerOverdue(cust) && this.hasCustomerToManyLoans(cust)) return CustomerStatus.OVERDUE_TO_MANY; 
-		else if (this.isCustomerOverdue(cust)) return CustomerStatus.OVERDUE;
-		else if (this.hasCustomerToManyLoans(cust)) return CustomerStatus.TO_MANY_BOOKS;
-		else return CustomerStatus.OK;
+		if (this.isCustomerOverdue(cust) && this.hasCustomerToManyLoans(cust)){
+			return CustomerStatus.OVERDUE_TO_MANY; 
+		}
+		if (this.isCustomerOverdue(cust)){
+			return CustomerStatus.OVERDUE;
+		}
+		if (this.hasCustomerToManyLoans(cust)){
+			return CustomerStatus.TO_MANY_BOOKS;
+		}
+		
+		return CustomerStatus.OK;
 	}
 	
 	public List<Loan> getLoansOfCustomer(Customer cust) {

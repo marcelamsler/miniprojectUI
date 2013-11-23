@@ -6,11 +6,11 @@ public enum CustomerStatus {
 	public String toString(){
 		switch (this){
 			case OVERDUE_TO_MANY:
-			 	return "überfällig und zu viele Bücher";
+			 	return "überfällig und zu viel ausgeliehene Bücher";
 			case OVERDUE:
-				return "überfällig und zu viele Bücher";
-			case TO_MANY_BOOKS:
 				return "überfällig";
+			case TO_MANY_BOOKS:
+				return "zu viel ausgeliehene Bücher";
 			case OK:
 				return "OK";
 			default:
