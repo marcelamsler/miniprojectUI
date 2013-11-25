@@ -35,15 +35,15 @@ public class WindowController {
 	}
 	
 	public void openDetailBookWindow(Book book){	
-		if (openBooks.containsKey(book)){
-			JFrame frame = openBooks.get(book);
-			frame.setVisible(true);
-			
-		}else{	
+		if(book == null || !openBooks.containsKey(book)){
 			DetailBookWindow detailFrame = new DetailBookWindow(library, this);
 		    JFrame frame = detailFrame.setBook(book);
 		    openBooks.put(book, frame);
-		}    
+		    return;
+		}
+		JFrame frame = openBooks.get(book);
+		frame.setVisible(true);
+			
 	}
 	
 	public void openAddBookWindow(){
@@ -55,13 +55,11 @@ public class WindowController {
 		if (openLoans.containsKey(loan)){
 			JFrame frame = openLoans.get(loan);
 			frame.setVisible(true);
-		} else {
-			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library, this);
-			detailFrame.setVisible(true);
-			openLoans.put(loan, detailFrame);
-		}	
-		
-	
+			return;
+		} 
+		DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library, this);
+		detailFrame.setVisible(true);
+		openLoans.put(loan, detailFrame);
 	}
 	
 	public void remove(JFrame o){
@@ -89,9 +87,4 @@ public class WindowController {
 		newWindow.setVisible(true);
 	}
 	
-	
-	
-	
-	
-
 }
