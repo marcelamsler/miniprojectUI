@@ -63,7 +63,7 @@ public class WindowController {
 
     public void openCustomerWindow (Customer customer) {
         if (openCustomers.containsKey(customer)) {
-            JFrame frame = openLoans.get(customer);
+            JFrame frame = openCustomers.get(customer);
             frame.setVisible(true);
         } else {
             AddLoanWindow newWindow = new AddLoanWindow(library, this);
