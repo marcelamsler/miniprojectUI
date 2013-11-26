@@ -22,6 +22,7 @@ public class WindowController {
 	Map<Customer, JFrame> openCustomers = new TreeMap<>();
 	
 	
+	
 	public WindowController (Library lib) {
 		this.library = lib;
 		openMainWindow();
@@ -32,14 +33,14 @@ public class WindowController {
 	}
 	
 	public void openDetailBookWindow(Book book){
-		
+			System.out.println(book);
 			if (book != null && openBooks.containsKey(book)){
 				JFrame frame = openBooks.get(book);
 				frame.setVisible(true);
 			}else{	
 				DetailBookWindow detailFrame = new DetailBookWindow(library, this);
-			    JFrame frame = detailFrame.setBook(book);
-			    openBooks.put(book, frame);
+			    detailFrame.setBook(book);
+			//    openBooks.put(book, frame);
 			}    
 	}
 	
