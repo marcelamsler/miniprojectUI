@@ -1,66 +1,24 @@
 package view;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
+import controller.WindowController;
+import domain.*;
+import tablemodel.AddLoanWindowCustomerTableModel;
+import tablemodel.AddLoanWindowLoanTableModel;
+
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-
-import controller.WindowController;
-import domain.Copy;
-import domain.Customer;
-import domain.CustomerStatus;
-import domain.Library;
-import domain.Loan;
-
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
-import java.awt.GridBagConstraints;
-
-import javax.swing.JTextField;
-
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JSplitPane;
-import javax.swing.RowFilter;
-import javax.swing.RowSorter;
-
-import tablemodel.AddLoanWindowCustomerTableModel;
-import tablemodel.AddLoanWindowLoanTableModel;
-import tablemodel.DetailBookWindowTableModel;
-
-import java.awt.FlowLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.Observable;
-import java.util.Observer;
-
-import javax.swing.SwingConstants;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 
 public class AddLoanWindow extends ListenerJFrame{
@@ -91,6 +49,15 @@ public class AddLoanWindow extends ListenerJFrame{
 		initialize();
 		
 	}
+
+    public void setCustomer(Customer customer) {
+
+        setTitle("Show Customer");
+        txtKundeSuchen.setText(customer.getSurname() + " " +customer.getName());
+        customerTable.setRowSelectionInterval(0, 0);
+        update(new Observable(), new Object());
+
+    }
 	
 	private void initialize() {
 		setTitle("Ausleihe hinzufügen");

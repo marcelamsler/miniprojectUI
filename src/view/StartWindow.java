@@ -1,51 +1,27 @@
 package view;
 
-import javax.swing.JFrame;
+import controller.WindowController;
+import domain.Book;
+import domain.Customer;
+import domain.Library;
+import domain.Loan;
+import tablemodel.StartWindowBookTableModel;
+import tablemodel.StartWindowCustomerTableModel;
+import tablemodel.StartWindowLoanTableModel;
 
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.RowFilter;
-import javax.swing.UIManager;
-
-import java.awt.FlowLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-
-import controller.WindowController;
-import tablemodel.StartWindowBookTableModel;
-import tablemodel.StartWindowCustomerTableModel;
-import tablemodel.StartWindowLoanTableModel;
-import domain.Book;
-import domain.CustomerStatus;
-import domain.Library;
-import domain.Loan;
-
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -82,6 +58,7 @@ public class StartWindow implements Observer{
 	private JLabel overdueCustomerCount;
 	private WindowController windowCtrl;
 	private static Border border;
+    private JButton btnSelektierteKundenAnzeigen;
 
 	
 	public StartWindow(Library library, WindowController windowCtrl) {
@@ -324,24 +301,24 @@ public class StartWindow implements Observer{
 		bookTable.setRowSorter(bookSorter);  
 		panel_3.add(scrollPane);
 		
-		 bookTable.addMouseListener(new MouseAdapter() {
-			   public void mouseClicked(MouseEvent e) {
-				   JTable target = (JTable)e.getSource();
-				   
-			      if (e.getClickCount() == 2) {			         
-			         int row = target.getSelectedRow();
-			         if (row >= 0) {
-			        	 
-			        	 Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));	
-			        	 windowCtrl.openDetailBookWindow(book);
-			         }    
-			      } else if(e.getClickCount() == 1) {
-			    	  if (target.getSelectedColumnCount() > 0) {
-			    		  btnSelektierteAnzeigen.setEnabled(true);
-			    	  }
-			      }
-			   }
-			});
+        bookTable.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e) {
+               JTable target = (JTable)e.getSource();
+
+              if (e.getClickCount() == 2) {
+                 int row = target.getSelectedRow();
+                 if (row >= 0) {
+
+                     Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));
+                     windowCtrl.openDetailBookWindow(book);
+                 }
+              } else if(e.getClickCount() == 1) {
+                  if (target.getSelectedColumnCount() > 0) {
+                      btnSelektierteAnzeigen.setEnabled(true);
+                  }
+              }
+           }
+        });
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
@@ -618,7 +595,6 @@ public class StartWindow implements Observer{
 		onlyOverdueCustomers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
-				//updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);			
 			}
 		});
 		
@@ -630,9 +606,10 @@ public class StartWindow implements Observer{
 		
 		JButton btnNeuenKundenErfassen = new JButton("Neuen Kunden erfassen");
 		
-		JButton btnSelektierteKundenAnzeigen = new JButton("Selektierte anzeigen");
-		
-		btnSelektierteKundenAnzeigen.setEnabled(false);
+
+        btnSelektierteKundenAnzeigen = new JButton("Selektierte anzeigen");
+
+        btnSelektierteKundenAnzeigen.setEnabled(false);
 		GridBagConstraints gbc_btnSelektierteKundenAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteKundenAnzeigen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSelektierteKundenAnzeigen.gridx = 10;
@@ -654,6 +631,26 @@ public class StartWindow implements Observer{
 		StartWindowCustomerTableModel customerTableModel = new StartWindowCustomerTableModel(library);
 		customerSorter = new TableRowSorter<>(customerTableModel);
 		customerTable = new JTable(customerTableModel);
+
+        customerTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                JTable target = (JTable) e.getSource();
+
+                if (e.getClickCount() == 2) {
+                    int row = target.getSelectedRow();
+                    if (row >= 0) {
+
+                        Customer customer = library.getCustomers().get(customerTable.convertRowIndexToModel(row));
+                        windowCtrl.openCustomerWindow(customer);
+                    }
+                } else if (e.getClickCount() == 1) {
+                    if (target.getSelectedColumnCount() > 0) {
+                        btnSelektierteKundenAnzeigen.setEnabled(true);
+                    }
+                }
+            }
+        });
+
 		scrollPane_2.setViewportView(customerTable);
 		customerTable.setRowSorter(customerSorter);		
 		

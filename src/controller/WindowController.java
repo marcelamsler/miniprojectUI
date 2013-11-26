@@ -1,21 +1,18 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
-import javax.swing.JFrame;
-
-import view.AddLoanWindow;
-import view.DetailBookWindow;
-import view.DetailLoanWindow;
-import view.StartWindow;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
 import domain.Loan;
+import view.AddLoanWindow;
+import view.DetailBookWindow;
+import view.DetailLoanWindow;
+import view.StartWindow;
+
+import javax.swing.*;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class WindowController {
 	
@@ -63,6 +60,20 @@ public class WindowController {
 		
 	
 	}
+
+    public void openCustomerWindow (Customer customer) {
+        if (openCustomers.containsKey(customer)) {
+            JFrame frame = openLoans.get(customer);
+            frame.setVisible(true);
+        } else {
+            AddLoanWindow newWindow = new AddLoanWindow(library, this);
+            newWindow.setVisible(true);
+            newWindow.setCustomer(customer);
+            openCustomers.put(customer, newWindow);
+        }
+
+
+    }
 	
 	public void remove(JFrame o){
 		for(Entry<Loan, JFrame> e : openLoans.entrySet()) {
