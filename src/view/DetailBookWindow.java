@@ -62,7 +62,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	private JButton btnAusgewhlteEntfernen;
 	private JButton btnBuchHinzufgen;
 	private Library library;
-	protected Book book;
+	private Book book;
 	
 	private DetailBookWindowTableModel tableModel;
 	private TableRowSorter<DetailBookWindowTableModel> sorter; 
@@ -78,9 +78,15 @@ public class DetailBookWindow extends ListenerJFrame{
 		library.addObserver(this);
 	}
 	
-	public void setBook(Book book1){
-		this.book = book1;
+	public void setBook(Book book){
+		this.book = book;
+		this.updateBook();
 		
+       // this.btnBuchHinzufgen.setEnabled(false);
+       // System.out.println(btnBuchHinzufgen.hashCode());
+	}
+	
+	private void updateBook(){
 		for(Shelf tmpShelf : Shelf.values()){
 			comboBox.addItem(tmpShelf.toString());
 		}
@@ -96,9 +102,9 @@ public class DetailBookWindow extends ListenerJFrame{
 	    table.setModel(tableModel);
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
-        
-		tableModel.fireTableDataChanged();
-		comboBox.setSelectedItem(book.getShelf().toString());
+        tableModel.fireTableDataChanged();
+		
+        comboBox.setSelectedItem(book.getShelf().toString());
 	}
 
 	/**
@@ -234,7 +240,6 @@ public class DetailBookWindow extends ListenerJFrame{
 			}
 		});
 
-		
 		GridBagConstraints gbc_btnAusgewhlteEntfernen = new GridBagConstraints();
 		gbc_btnAusgewhlteEntfernen.anchor = GridBagConstraints.EAST;
 		gbc_btnAusgewhlteEntfernen.insets = new Insets(0, 0, 0, 5);
@@ -251,6 +256,7 @@ public class DetailBookWindow extends ListenerJFrame{
 		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 		
 		JButton btnBuchHinzufgen = new JButton("Buch hinzufügen");
+		btnBuchHinzufgen.setEnabled(true);
 		btnBuchHinzufgen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Book newBook = library.createAndAddBook(textField.getText());
@@ -288,7 +294,7 @@ public class DetailBookWindow extends ListenerJFrame{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		setBook(this.book);
+		updateBook();
 	}
 
 }

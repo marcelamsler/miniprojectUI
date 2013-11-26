@@ -36,11 +36,12 @@ public class WindowController {
 			System.out.println(book);
 			if (book != null && openBooks.containsKey(book)){
 				JFrame frame = openBooks.get(book);
+				frame.toFront();
 				frame.setVisible(true);
 			}else{	
 				DetailBookWindow detailFrame = new DetailBookWindow(library, this);
 			    detailFrame.setBook(book);
-			//    openBooks.put(book, frame);
+			    openBooks.put(book, detailFrame);
 			}    
 	}
 	
@@ -52,6 +53,7 @@ public class WindowController {
 	public void openDetailLoanWindow(Loan loan){
 		if (openLoans.containsKey(loan)){
 			JFrame frame = openLoans.get(loan);
+			frame.toFront();
 			frame.setVisible(true);
 		} else {
 			DetailLoanWindow detailFrame = new DetailLoanWindow(loan, library, this);
