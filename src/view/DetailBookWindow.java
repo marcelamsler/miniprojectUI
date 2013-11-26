@@ -85,19 +85,6 @@ public class DetailBookWindow extends ListenerJFrame{
 			comboBox.addItem(tmpShelf.toString());
 		}
 		
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				book.setAuthor(textField_1.getText());
-				book.setName(textField.getText());
-				book.setPublisher(textField_2.getText());
-				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-				// Todo:
-				// windowCtrl.remove(this);
-			
-			}
-		});		
-		
 		textField.setText(this.book.getName());
 		textField_1.setText(this.book.getAuthor());
 		textField_2.setText(this.book.getPublisher());
@@ -105,32 +92,13 @@ public class DetailBookWindow extends ListenerJFrame{
 			comboBox.addItem(tmpShelf.toString());
 		}
 		
-
-		btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int[] rows = table.getSelectedRows();
-				for (int row: rows){
-					library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(row)));
-				}
-			}
-		});
-		
-
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e){
-				btnAusgewhlteEntfernen.setEnabled(true);
-			}
-		});
-		
         tableModel = new DetailBookWindowTableModel(library, book);
 	    table.setModel(tableModel);
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
-			
+        
 		tableModel.fireTableDataChanged();
 		comboBox.setSelectedItem(book.getShelf().toString());
-
 	}
 
 	/**
@@ -142,6 +110,18 @@ public class DetailBookWindow extends ListenerJFrame{
 		this.setTitle("Buch Detailansicht");
 		this.setBounds(100, 100, 592, 473);
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				book.setAuthor(textField_1.getText());
+				book.setName(textField.getText());
+				book.setPublisher(textField_2.getText());
+				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+				
+//				windowCtrl.remove(this);
+			}
+		});	
 		
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -245,6 +225,15 @@ public class DetailBookWindow extends ListenerJFrame{
 		
 		btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
 		btnAusgewhlteEntfernen.setEnabled(false);
+		btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] rows = table.getSelectedRows();
+				for (int row: rows){
+					library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(row)));
+				}
+			}
+		});
+
 		
 		GridBagConstraints gbc_btnAusgewhlteEntfernen = new GridBagConstraints();
 		gbc_btnAusgewhlteEntfernen.anchor = GridBagConstraints.EAST;
@@ -279,6 +268,12 @@ public class DetailBookWindow extends ListenerJFrame{
 		panel.add(btnBuchHinzufgen, gbc_btnBuchHinzufgen);			
 		
         table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				btnAusgewhlteEntfernen.setEnabled(true);
+			}
+		});
 
         JScrollPane scrollPane = new JScrollPane(table);
         
