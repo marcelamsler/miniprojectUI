@@ -18,6 +18,7 @@ public class DetailBookWindowTableModel extends AbstractTableModel {
 		this.library = library;
 		this.book = book;
 		this.list = library.getCopiesOfBook(book);
+		System.out.println(list.toString() + "q");
 	}
 	
     private String[] columnNames = {"ID", "Titel", "Zustand", "StatusS"};
