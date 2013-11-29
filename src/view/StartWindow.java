@@ -302,6 +302,18 @@ public class StartWindow implements Observer{
 		bookTable.setFillsViewportHeight(true);
 		bookTable.setRowSorter(bookSorter);  
 		panel_3.add(scrollPane);
+
+
+        bookTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (bookTable.getSelectedRows().length >= 1) {
+                    btnSelektierteAnzeigen.setEnabled(true);
+                } else {
+                    btnSelektierteAnzeigen.setEnabled(false);
+                }
+            }
+        });
+
 		
         bookTable.addMouseListener(new MouseAdapter() {
            public void mouseClicked(MouseEvent e) {
@@ -314,10 +326,6 @@ public class StartWindow implements Observer{
                      Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));
                      windowCtrl.openDetailBookWindow(book);
                  }
-              } else if(e.getClickCount() == 1) {
-                  if (target.getSelectedColumnCount() > 0) {
-                      btnSelektierteAnzeigen.setEnabled(true);
-                  }
               }
            }
         });

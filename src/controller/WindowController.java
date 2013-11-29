@@ -10,6 +10,7 @@ import view.DetailLoanWindow;
 import view.StartWindow;
 
 import javax.swing.*;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -33,7 +34,6 @@ public class WindowController {
 	}
 	
 	public void openDetailBookWindow(Book book){
-			System.out.println(book);
 			if (book != null && openBooks.containsKey(book)){
 				JFrame frame = openBooks.get(book);
 				frame.toFront();
@@ -79,21 +79,27 @@ public class WindowController {
     }
 	
 	public void remove(JFrame o){
-		for(Entry<Loan, JFrame> e : openLoans.entrySet()) {
-			if (e.getValue().equals(o)){
-				openLoans.remove(e.getKey());
+
+        Iterator<Entry<Loan, JFrame>> itLoan = openLoans.entrySet().iterator();
+		while(itLoan.hasNext()) {
+			if (itLoan.next().getValue().equals(o)){
+                itLoan.remove();
 			}
 		}
-		for(Entry<Book, JFrame> e : openBooks.entrySet()) {
-			if (e.getValue().equals(o)){
-				openBooks.remove(e.getKey());
-			}
-		}
-		for(Entry<Customer, JFrame> e : openCustomers.entrySet()) {
-			if (e.getValue().equals(o)){
-				openCustomers.remove(e.getKey());
-			}
-		}
+
+        Iterator<Entry<Book, JFrame>> itBook = openBooks.entrySet().iterator();
+        while(itBook.hasNext()) {
+            if (itBook.next().getValue().equals(o)){
+                itBook.remove();
+            }
+        }
+
+        Iterator<Entry<Customer, JFrame>> itCustomer = openCustomers.entrySet().iterator();
+        while(itCustomer.hasNext()) {
+            if (itCustomer.next().getValue().equals(o)){
+                itCustomer.remove();
+            }
+        }
 		
 		
 	}
