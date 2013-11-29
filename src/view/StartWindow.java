@@ -502,6 +502,21 @@ public class StartWindow implements Observer{
                 }
             }
          });
+
+        loanTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                JTable target = (JTable)e.getSource();
+
+                if (e.getClickCount() == 2) {
+                    int row = target.getSelectedRow();
+                    if (row >= 0) {
+
+                        Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));
+                        windowCtrl.openDetailLoanWindow(loan);
+                    }
+                }
+            }
+        });
 		scrollPane_1.setViewportView(loanTable);
 		loanTable.setRowSorter(loanSorter);
 
