@@ -81,9 +81,6 @@ public class DetailBookWindow extends ListenerJFrame{
 	public void setBook(Book book){
 		this.book = book;
 		this.updateBook();
-		
-       // this.btnBuchHinzufgen.setEnabled(false);
-       // System.out.println(btnBuchHinzufgen.hashCode());
 	}
 	
 	private void updateBook(){

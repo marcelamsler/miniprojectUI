@@ -21,8 +21,6 @@ public class WindowController {
 	Map<Loan, JFrame> openLoans = new TreeMap<>();
 	Map<Customer, JFrame> openCustomers = new TreeMap<>();
 	
-	
-	
 	public WindowController (Library lib) {
 		this.library = lib;
 		openMainWindow();
@@ -60,8 +58,6 @@ public class WindowController {
 			detailFrame.setVisible(true);
 			openLoans.put(loan, detailFrame);
 		}	
-		
-	
 	}
 
     public void openCustomerWindow (Customer customer) {
@@ -74,8 +70,6 @@ public class WindowController {
             newWindow.setCustomer(customer);
             openCustomers.put(customer, newWindow);
         }
-
-
     }
 	
 	public void remove(JFrame o){
@@ -94,8 +88,6 @@ public class WindowController {
 				openCustomers.remove(e.getKey());
 			}
 		}
-		
-		
 	}
 	
 	public void openAddLoanWindow() {
