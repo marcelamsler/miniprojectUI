@@ -34,16 +34,16 @@ public class WindowController {
 		new StartWindow(library, this);
 	}
 	
-	public void openDetailBookWindow(Book book){	
-		if(book == null || !openBooks.containsKey(book)){
-			DetailBookWindow detailFrame = new DetailBookWindow(library, this);
-		    JFrame frame = detailFrame.setBook(book);
-		    openBooks.put(book, frame);
-		    return;
-		}
-		JFrame frame = openBooks.get(book);
-		frame.setVisible(true);
-			
+	public void openDetailBookWindow(Book book){
+			if (book != null && openBooks.containsKey(book)){
+				JFrame frame = openBooks.get(book);
+				frame.toFront();
+				frame.setVisible(true);
+			}else{	
+				DetailBookWindow detailFrame = new DetailBookWindow(library, this);
+			    detailFrame.setBook(book);
+			    openBooks.put(book, detailFrame);
+			}    
 	}
 	
 	public void openAddBookWindow(){
@@ -54,6 +54,7 @@ public class WindowController {
 	public void openDetailLoanWindow(Loan loan){
 		if (openLoans.containsKey(loan)){
 			JFrame frame = openLoans.get(loan);
+			frame.toFront();
 			frame.setVisible(true);
 			return;
 		} 

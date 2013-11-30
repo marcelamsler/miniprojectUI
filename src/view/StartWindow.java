@@ -1,51 +1,29 @@
 package view;
 
-import javax.swing.JFrame;
-
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.RowFilter;
-import javax.swing.UIManager;
-
-import java.awt.FlowLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableRowSorter;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-
 import controller.WindowController;
+import domain.Book;
+import domain.Customer;
+import domain.Library;
+import domain.Loan;
 import tablemodel.StartWindowBookTableModel;
 import tablemodel.StartWindowCustomerTableModel;
 import tablemodel.StartWindowLoanTableModel;
-import domain.Book;
-import domain.CustomerStatus;
-import domain.Library;
-import domain.Loan;
 
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -82,6 +60,7 @@ public class StartWindow implements Observer{
 	private JLabel overdueCustomerCount;
 	private WindowController windowCtrl;
 	private static Border border;
+    private JButton btnSelektierteKundenAnzeigen;
 
 	
 	public StartWindow(Library library, WindowController windowCtrl) {
@@ -323,25 +302,33 @@ public class StartWindow implements Observer{
 		bookTable.setFillsViewportHeight(true);
 		bookTable.setRowSorter(bookSorter);  
 		panel_3.add(scrollPane);
+
+
+        bookTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (bookTable.getSelectedRows().length >= 1) {
+                    btnSelektierteAnzeigen.setEnabled(true);
+                } else {
+                    btnSelektierteAnzeigen.setEnabled(false);
+                }
+            }
+        });
+
 		
-		 bookTable.addMouseListener(new MouseAdapter() {
-			   public void mouseClicked(MouseEvent e) {
-				   JTable target = (JTable)e.getSource();
-				   
-			      if (e.getClickCount() == 2) {			         
-			         int row = target.getSelectedRow();
-			         if (row >= 0) {
-			        	 
-			        	 Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));	
-			        	 windowCtrl.openDetailBookWindow(book);
-			         }    
-			      } else if(e.getClickCount() == 1) {
-			    	  if (target.getSelectedColumnCount() > 0) {
-			    		  btnSelektierteAnzeigen.setEnabled(true);
-			    	  }
-			      }
-			   }
-			});
+        bookTable.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e) {
+               JTable target = (JTable)e.getSource();
+
+              if (e.getClickCount() == 2) {
+                 int row = target.getSelectedRow();
+                 if (row >= 0) {
+
+                     Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));
+                     windowCtrl.openDetailBookWindow(book);
+                 }
+              }
+           }
+        });
 		
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
@@ -513,6 +500,31 @@ public class StartWindow implements Observer{
 		StartWindowLoanTableModel loanTableModel = new StartWindowLoanTableModel(library);
 		loanSorter = new TableRowSorter<>(loanTableModel);
 		loanTable = new JTable(loanTableModel);
+
+        loanTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (loanTable.getSelectedRows().length >= 1) {
+                    btnSelektierteAusleiheAnzeigen.setEnabled(true);
+                } else {
+                    btnSelektierteAusleiheAnzeigen.setEnabled(false);
+                }
+            }
+         });
+
+        loanTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                JTable target = (JTable)e.getSource();
+
+                if (e.getClickCount() == 2) {
+                    int row = target.getSelectedRow();
+                    if (row >= 0) {
+
+                        Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));
+                        windowCtrl.openDetailLoanWindow(loan);
+                    }
+                }
+            }
+        });
 		scrollPane_1.setViewportView(loanTable);
 		loanTable.setRowSorter(loanSorter);
 
@@ -520,7 +532,7 @@ public class StartWindow implements Observer{
 		JLayeredPane layeredPane_1 = new JLayeredPane();
 		tabbedPane.addTab("Kunde", null, layeredPane_1, null);
 		layeredPane_1.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new TitledBorder(null, "Kunden Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		layeredPane_1.add(panel_8, BorderLayout.NORTH);
@@ -530,15 +542,15 @@ public class StartWindow implements Observer{
 		gbl_panel_5.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_5.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_8.setLayout(gbl_panel_5);
-		
+
 		JLabel lblAnzahlKunden = new JLabel("Anzahl Kunden:");
 		GridBagConstraints gbc_lblAnzahlKunden = new GridBagConstraints();
 		gbc_lblAnzahlKunden.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblAnzahlKunden.insets = new Insets(0, 0, 0, 5);
 		gbc_lblAnzahlKunden.gridx = 0;
 		gbc_lblAnzahlKunden.gridy = 0;
-		panel_8.add(lblAnzahlKunden, gbc_lblAnzahlKunden);	
-		
+		panel_8.add(lblAnzahlKunden, gbc_lblAnzahlKunden);
+
 		customerCount = new JLabel(String.valueOf(library.getCustomers().size()));
 		GridBagConstraints gbc_label_11 = new GridBagConstraints();
 		gbc_label_11.anchor = GridBagConstraints.WEST;
@@ -546,7 +558,7 @@ public class StartWindow implements Observer{
 		gbc_label_11.gridx = 1;
 		gbc_label_11.gridy = 0;
 		panel_8.add(customerCount, gbc_label_11);
-		
+
 		JLabel lblberflligeKunden = new JLabel("Überfällige Kunden:");
 		GridBagConstraints gbc_lblberflligeKunden = new GridBagConstraints();
 		gbc_lblberflligeKunden.anchor = GridBagConstraints.NORTHWEST;
@@ -554,7 +566,7 @@ public class StartWindow implements Observer{
 		gbc_lblberflligeKunden.gridx = 6;
 		gbc_lblberflligeKunden.gridy = 0;
 		panel_8.add(lblberflligeKunden, gbc_lblberflligeKunden);
-		
+
 		overdueCustomerCount = new JLabel(String.valueOf(library.getOverdueCustomers().size()));
 		GridBagConstraints gbc_label_31 = new GridBagConstraints();
 		gbc_label_31.insets = new Insets(0, 0, 0, 5);
@@ -562,12 +574,12 @@ public class StartWindow implements Observer{
 		gbc_label_31.gridx = 7;
 		gbc_label_31.gridy = 0;
 		panel_8.add(overdueCustomerCount, gbc_label_31);
-		
+
 		JPanel panel_9 = new JPanel();
 		panel_9.setBorder(new TitledBorder(null, "Erfasste Kunden", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		layeredPane_1.add(panel_9, BorderLayout.CENTER);
 		panel_9.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_10 = new JPanel();
 		panel_9.add(panel_10, BorderLayout.NORTH);
 		GridBagLayout gbl_panel11 = new GridBagLayout();
@@ -576,7 +588,7 @@ public class StartWindow implements Observer{
 		gbl_panel11.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel11.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_10.setLayout(gbl_panel11);
-		
+
 		customerSearchTextField = new JTextField();
 		customerSearchTextField.setText(customerSearchBoxText);
 		customerSearchTextField.addMouseListener(new MouseAdapter() {
@@ -584,28 +596,28 @@ public class StartWindow implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if (customerSearchTextField.getText().equals(customerSearchBoxText)) {
 					customerSearchTextField.setText("");
-				} 				
+				}
 			}
 		});
 		customerSearchTextField.setText(customerSearchBoxText);
-		customerSearchTextField.getDocument().addDocumentListener(  
-				  new DocumentListener()  
-				   {  
-				      public void changedUpdate(DocumentEvent e)  
-				      {  
+		customerSearchTextField.getDocument().addDocumentListener(
+				  new DocumentListener()
+				   {
+				      public void changedUpdate(DocumentEvent e)
+				      {
 				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
-				      }  
-				      public void insertUpdate(DocumentEvent e)  
-				      {  
+				      }
+				      public void insertUpdate(DocumentEvent e)
+				      {
 				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
-				      }  
-				      public void removeUpdate(DocumentEvent e)  
-				      {  
+				      }
+				      public void removeUpdate(DocumentEvent e)
+				      {
 				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
-				      }  
-				   }  
+				      }
+				   }
 				);
-	
+
 		GridBagConstraints gbc_txtKundeSuchen = new GridBagConstraints();
 		gbc_txtKundeSuchen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtKundeSuchen.insets = new Insets(0, 0, 0, 5);
@@ -618,46 +630,66 @@ public class StartWindow implements Observer{
 		onlyOverdueCustomers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
-				//updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);			
 			}
 		});
-		
+
 		GridBagConstraints gbc_onlyOverdueCustomers = new GridBagConstraints();
 		gbc_onlyOverdueCustomers.insets = new Insets(0, 0, 0, 5);
 		gbc_onlyOverdueCustomers.gridx = 2;
 		gbc_onlyOverdueCustomers.gridy = 0;
 		panel_10.add(onlyOverdueCustomers, gbc_onlyOverdueCustomers);
-		
+
 		JButton btnNeuenKundenErfassen = new JButton("Neuen Kunden erfassen");
-		
-		JButton btnSelektierteKundenAnzeigen = new JButton("Selektierte anzeigen");
-		
-		btnSelektierteKundenAnzeigen.setEnabled(false);
+
+
+        btnSelektierteKundenAnzeigen = new JButton("Selektierte anzeigen");
+
+        btnSelektierteKundenAnzeigen.setEnabled(false);
 		GridBagConstraints gbc_btnSelektierteKundenAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteKundenAnzeigen.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSelektierteKundenAnzeigen.gridx = 10;
 		gbc_btnSelektierteKundenAnzeigen.gridy = 0;
 		panel_10.add(btnSelektierteKundenAnzeigen, gbc_btnSelektierteKundenAnzeigen);
-		
+
 		GridBagConstraints gbc_btnNeuenKundenErfassen = new GridBagConstraints();
 		gbc_btnNeuenKundenErfassen.gridx = 11;
 		gbc_btnNeuenKundenErfassen.gridy = 0;
 		panel_10.add(btnNeuenKundenErfassen, gbc_btnNeuenKundenErfassen);
-		
+
 		JPanel panel_12 = new JPanel();
 		panel_9.add(panel_12, BorderLayout.CENTER);
 		panel_12.setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollPane_2 = new JScrollPane();
 		panel_12.add(scrollPane_2, BorderLayout.CENTER);
-		
+
 		StartWindowCustomerTableModel customerTableModel = new StartWindowCustomerTableModel(library);
 		customerSorter = new TableRowSorter<>(customerTableModel);
 		customerTable = new JTable(customerTableModel);
+
+        customerTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                JTable target = (JTable) e.getSource();
+
+                if (e.getClickCount() == 2) {
+                    int row = target.getSelectedRow();
+                    if (row >= 0) {
+
+                        Customer customer = library.getCustomers().get(customerTable.convertRowIndexToModel(row));
+                        windowCtrl.openCustomerWindow(customer);
+                    }
+                } else if (e.getClickCount() == 1) {
+                    if (target.getSelectedColumnCount() > 0) {
+                        btnSelektierteKundenAnzeigen.setEnabled(true);
+                    }
+                }
+            }
+        });
+
 		scrollPane_2.setViewportView(customerTable);
-		customerTable.setRowSorter(customerSorter);		
-		
-		
+		customerTable.setRowSorter(customerSorter);
+
+
 	}
 
 	@Override
@@ -667,10 +699,10 @@ public class StartWindow implements Observer{
 		loanCount.setText(String.valueOf(library.getLoans().size()));
 		activeLoanCount.setText(String.valueOf(library.getActiveLoans().size()));
 		overdueLoanCount.setText(String.valueOf(library.getOverdueLoans().size()));
-		
-		
+
+
 		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
 		((AbstractTableModel) bookTable.getModel()).fireTableDataChanged();
-		
+
 	}
 }

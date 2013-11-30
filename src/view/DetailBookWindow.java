@@ -53,12 +53,14 @@ import java.awt.event.MouseEvent;
 
 public class DetailBookWindow extends ListenerJFrame{
 
-	private JFrame frmDetail;
+	private static DetailBookWindow instance;
+	
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JComboBox<String> comboBox; 
 	private JButton btnAusgewhlteEntfernen;
+	private JButton btnBuchHinzufgen;
 	private Library library;
 	private Book book;
 	
@@ -67,7 +69,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	private JTable table;
 	private DetailBookWindowTableModel detailWindowTableModel;
 	private JPanel panel;
-
+	
 	public DetailBookWindow(Library library, WindowController windowCtrl){
 		super(library, windowCtrl);
 		this.library = library;
@@ -75,144 +77,58 @@ public class DetailBookWindow extends ListenerJFrame{
 		initialize();
 		library.addObserver(this);
 	}
-
-	public JFrame setBook(Book book1){
-		this.book = book1;
-		
+	
+	public void setBook(Book book){
+		this.book = book;
+		this.updateBook();
+	}
+	
+	private void updateBook(){
 		for(Shelf tmpShelf : Shelf.values()){
 			comboBox.addItem(tmpShelf.toString());
 		}
 		
-		if(this.book == null) {
-			frmDetail.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			
-			JButton btnBuchHinzufgen = new JButton("Buch hinzufügen");
-			btnBuchHinzufgen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					Book newBook = library.createAndAddBook(textField.getText());
-					newBook.setAuthor(textField_1.getText());
-					newBook.setPublisher(textField_2.getText());
-					newBook.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-					setBook(newBook);
-				}
-			});
-			GridBagConstraints gbc_btnBuchHinzufgen = new GridBagConstraints();
-			gbc_btnBuchHinzufgen.insets = new Insets(0, 0, 0, 5);
-			gbc_btnBuchHinzufgen.gridx = 0;
-			gbc_btnBuchHinzufgen.gridy = 4;
-			panel.add(btnBuchHinzufgen, gbc_btnBuchHinzufgen);	
-			
-			
-			
-		} else {
-			frmDetail.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					book.setAuthor(textField_1.getText());
-					book.setName(textField.getText());
-					book.setPublisher(textField_2.getText());
-					book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-					windowCtrl.remove(frmDetail);
-				
-				}
-			});		
-			
-			textField.setText(this.book.getName());
-			textField_1.setText(this.book.getAuthor());
-			textField_2.setText(this.book.getPublisher());
-			for(Shelf tmpShelf : Shelf.values()){
-				comboBox.addItem(tmpShelf.toString());
-			}
-			
-			JPanel panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			frmDetail.getContentPane().add(panel_1, BorderLayout.CENTER);
-			panel_1.setLayout(new BorderLayout(0, 0));
-			
-			JPanel panel_2 = new JPanel();
-			panel_1.add(panel_2, BorderLayout.NORTH);
-			GridBagLayout gbl_panel_2 = new GridBagLayout();
-			gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			gbl_panel_2.rowHeights = new int[]{0, 0};
-			gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-			gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-			panel_2.setLayout(gbl_panel_2);
-			
-			JLabel lblAnzahlX = new JLabel("Anzahl: x");
-			GridBagConstraints gbc_lblAnzahlX = new GridBagConstraints();
-			gbc_lblAnzahlX.anchor = GridBagConstraints.EAST;
-			gbc_lblAnzahlX.gridwidth = 4;
-			gbc_lblAnzahlX.insets = new Insets(0, 0, 0, 5);
-			gbc_lblAnzahlX.gridx = 1;
-			gbc_lblAnzahlX.gridy = 0;
-			panel_2.add(lblAnzahlX, gbc_lblAnzahlX);
-			
-			btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
-			btnAusgewhlteEntfernen.setEnabled(false);
-			btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					int[] rows = table.getSelectedRows();
-					for (int row: rows){
-						library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(row)));
-					}
-				}
-			});
-			
-			GridBagConstraints gbc_btnAusgewhlteEntfernen = new GridBagConstraints();
-			gbc_btnAusgewhlteEntfernen.anchor = GridBagConstraints.EAST;
-			gbc_btnAusgewhlteEntfernen.insets = new Insets(0, 0, 0, 5);
-			gbc_btnAusgewhlteEntfernen.gridx = 10;
-			gbc_btnAusgewhlteEntfernen.gridy = 0;
-			panel_2.add(btnAusgewhlteEntfernen, gbc_btnAusgewhlteEntfernen);
-			
-			JButton btnExemplareHinzufgen = new JButton("Exemplare Hinzufügen");
-			GridBagConstraints gbc_btnExemplareHinzufgen = new GridBagConstraints();
-			gbc_btnExemplareHinzufgen.anchor = GridBagConstraints.EAST;
-			gbc_btnExemplareHinzufgen.insets = new Insets(0, 0, 0, 5);
-			gbc_btnExemplareHinzufgen.gridx = 11;
-			gbc_btnExemplareHinzufgen.gridy = 0;
-			panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
-			
-			table = new JTable();		
-			table.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e){
-					btnAusgewhlteEntfernen.setEnabled(true);
-				}
-			});
-			
-			JScrollPane scrollPane = new JScrollPane(table);
-			
-			JPanel panel_3 = new JPanel();
-			panel_3.setLayout(new BorderLayout(0, 0));
-			panel_3.add(scrollPane);
-			panel_1.add(panel_3, BorderLayout.CENTER);
-			
-			
-			comboBox.setSelectedItem(book.getShelf().toString());
-			detailWindowTableModel = new DetailBookWindowTableModel(library,book);
-	
-			table.setModel(detailWindowTableModel);
-//			detailWindowTableModel.fireTableDataChanged();
-			
-			
+		textField.setText(this.book.getName());
+		textField_1.setText(this.book.getAuthor());
+		textField_2.setText(this.book.getPublisher());
+		for(Shelf tmpShelf : Shelf.values()){
+			comboBox.addItem(tmpShelf.toString());
 		}
-		return frmDetail;
+		
+        tableModel = new DetailBookWindowTableModel(library, book);
+	    table.setModel(tableModel);
+        sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
+        tableModel.fireTableDataChanged();
+		
+        comboBox.setSelectedItem(book.getShelf().toString());
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmDetail = new JFrame();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		frmDetail.setTitle("Buch Detailansicht");
-		frmDetail.setBounds(100, 100, 592, 473);
-		frmDetail.getContentPane().setLayout(new BorderLayout(0, 0));
+		this.setTitle("Buch Detailansicht");
+		this.setBounds(100, 100, 592, 473);
+		this.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				book.setAuthor(textField_1.getText());
+				book.setName(textField.getText());
+				book.setPublisher(textField_2.getText());
+				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+				
+//				windowCtrl.remove(this);
+			}
+		});	
 		
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmDetail.getContentPane().add(panel, BorderLayout.NORTH);
+		this.getContentPane().add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{81, 282, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
@@ -287,21 +203,95 @@ public class DetailBookWindow extends ListenerJFrame{
 		gbc_comboBox.gridy = 3;
 		panel.add(comboBox, gbc_comboBox);
 		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		this.getContentPane().add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel_2 = new JPanel();
+		panel_1.add(panel_2, BorderLayout.NORTH);
+		GridBagLayout gbl_panel_2 = new GridBagLayout();
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_2.rowHeights = new int[]{0, 0};
+		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_2.setLayout(gbl_panel_2);
 		
+		JLabel lblAnzahlX = new JLabel("Anzahl: x");
+		GridBagConstraints gbc_lblAnzahlX = new GridBagConstraints();
+		gbc_lblAnzahlX.anchor = GridBagConstraints.EAST;
+		gbc_lblAnzahlX.gridwidth = 4;
+		gbc_lblAnzahlX.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlX.gridx = 1;
+		gbc_lblAnzahlX.gridy = 0;
+		panel_2.add(lblAnzahlX, gbc_lblAnzahlX);
+		
+		btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
+		btnAusgewhlteEntfernen.setEnabled(false);
+		btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] rows = table.getSelectedRows();
+				for (int row: rows){
+					library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(row)));
+				}
+			}
+		});
 
-		frmDetail.setVisible(true);
-	}
+		GridBagConstraints gbc_btnAusgewhlteEntfernen = new GridBagConstraints();
+		gbc_btnAusgewhlteEntfernen.anchor = GridBagConstraints.EAST;
+		gbc_btnAusgewhlteEntfernen.insets = new Insets(0, 0, 0, 5);
+		gbc_btnAusgewhlteEntfernen.gridx = 10;
+		gbc_btnAusgewhlteEntfernen.gridy = 0;
+		panel_2.add(btnAusgewhlteEntfernen, gbc_btnAusgewhlteEntfernen);
+		
+		JButton btnExemplareHinzufgen = new JButton("Exemplare Hinzufügen");
+		GridBagConstraints gbc_btnExemplareHinzufgen = new GridBagConstraints();
+		gbc_btnExemplareHinzufgen.anchor = GridBagConstraints.EAST;
+		gbc_btnExemplareHinzufgen.insets = new Insets(0, 0, 0, 5);
+		gbc_btnExemplareHinzufgen.gridx = 11;
+		gbc_btnExemplareHinzufgen.gridy = 0;
+		panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
+		
+		JButton btnBuchHinzufgen = new JButton("Buch hinzufügen");
+		btnBuchHinzufgen.setEnabled(true);
+		btnBuchHinzufgen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Book newBook = library.createAndAddBook(textField.getText());
+				newBook.setAuthor(textField_1.getText());
+				newBook.setPublisher(textField_2.getText());
+				newBook.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+				setBook(newBook);
+			}
+		});
+		
+		GridBagConstraints gbc_btnBuchHinzufgen = new GridBagConstraints();
+		gbc_btnBuchHinzufgen.insets = new Insets(0, 0, 0, 5);
+		gbc_btnBuchHinzufgen.gridx = 0;
+		gbc_btnBuchHinzufgen.gridy = 4;
+		panel.add(btnBuchHinzufgen, gbc_btnBuchHinzufgen);			
+		
+        table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				btnAusgewhlteEntfernen.setEnabled(true);
+			}
+		});
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        JPanel panel_3 = new JPanel();
+        panel_3.setLayout(new BorderLayout(0, 0));
+        panel_3.add(scrollPane);
+        panel_1.add(panel_3, BorderLayout.CENTER);
+		
 	
-	@Override
-	public void setVisible(boolean b){
-		frmDetail.setVisible(true);
+		this.setVisible(true);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		setBook(this.book);
-		
+		updateBook();
 	}
 
 }
