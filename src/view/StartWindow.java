@@ -281,7 +281,7 @@ public class StartWindow implements Observer{
 		JButton btnNeuesBuchHinzufgen = new JButton("Neues Buch hinzufügen");
 		btnNeuesBuchHinzufgen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowCtrl.openDetailBookWindow(null);
+				windowCtrl.openAddBookWindow();
 			}
 		});
 		GridBagConstraints gbc_btnNeuesBuchHinzufgen = new GridBagConstraints();

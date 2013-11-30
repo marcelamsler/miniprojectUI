@@ -80,7 +80,9 @@ public class DetailBookWindow extends ListenerJFrame{
 	
 	public void setBook(Book book){
 		this.book = book;
-		this.updateBook();
+		if(this.book != null){
+			this.updateBook();
+		}
 	}
 	
 	private void updateBook(){
@@ -121,8 +123,7 @@ public class DetailBookWindow extends ListenerJFrame{
 				book.setName(textField.getText());
 				book.setPublisher(textField_2.getText());
 				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-				
-//				windowCtrl.remove(this);
+		//		windowCtrl.remove(this);
 			}
 		});	
 		
