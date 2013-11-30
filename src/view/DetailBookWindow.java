@@ -298,8 +298,8 @@ public class DetailBookWindow extends ListenerJFrame{
 //			Copy copy = library.getCopyfromId(copy_id);
 //
 //			if (copy != null) {
-//				Loan feedback = library.createAndAddLoan(cust, copy);			
-//				
+//				Loan feedback = library.createAndAddLoan(cust, copy);
+//
 //				if (feedback == null){
 //					errorLabel.setText("Dieses Exemplar ist bereits ausgeliehen");
 //				}
@@ -313,7 +313,9 @@ public class DetailBookWindow extends ListenerJFrame{
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		updateBook();
+        if (book != null) {
+		    updateBook();
+        }
 	}
 
 }
