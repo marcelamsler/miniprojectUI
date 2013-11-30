@@ -42,7 +42,9 @@ import javax.swing.JComboBox;
 import controller.WindowController;
 import tablemodel.DetailBookWindowTableModel;
 import domain.Book;
+import domain.Copy;
 import domain.Library;
+import domain.Loan;
 import domain.Shelf;
 
 import java.awt.event.ActionEvent;
@@ -79,23 +81,17 @@ public class DetailBookWindow extends ListenerJFrame{
 	}
 	
 	public void setBook(Book book){
-		this.book = book;
+
 		if(this.book != null){
+			this.book = book;
 			this.updateBook();
 		}
 	}
 	
 	private void updateBook(){
-		for(Shelf tmpShelf : Shelf.values()){
-			comboBox.addItem(tmpShelf.toString());
-		}
-		
 		textField.setText(this.book.getName());
 		textField_1.setText(this.book.getAuthor());
 		textField_2.setText(this.book.getPublisher());
-		for(Shelf tmpShelf : Shelf.values()){
-			comboBox.addItem(tmpShelf.toString());
-		}
 		
         tableModel = new DetailBookWindowTableModel(library, book);
 	    table.setModel(tableModel);
@@ -117,14 +113,14 @@ public class DetailBookWindow extends ListenerJFrame{
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				book.setAuthor(textField_1.getText());
-				book.setName(textField.getText());
-				book.setPublisher(textField_2.getText());
-				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-		//		windowCtrl.remove(this);
-			}
+//			@Override
+//			public void windowClosing(WindowEvent e) {
+//				book.setAuthor(textField_1.getText());
+//				book.setName(textField.getText());
+//				book.setPublisher(textField_2.getText());
+//				book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+//		//		windowCtrl.remove(this);
+//			}
 		});	
 		
 		panel = new JPanel();
@@ -197,6 +193,9 @@ public class DetailBookWindow extends ListenerJFrame{
 		panel.add(lblRegal, gbc_lblRegal);
 		
 		comboBox = new JComboBox<String>();
+		for(Shelf tmpShelf : Shelf.values()){
+			comboBox.addItem(tmpShelf.toString());
+		}
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -257,11 +256,7 @@ public class DetailBookWindow extends ListenerJFrame{
 		btnBuchHinzufgen.setEnabled(true);
 		btnBuchHinzufgen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Book newBook = library.createAndAddBook(textField.getText());
-				newBook.setAuthor(textField_1.getText());
-				newBook.setPublisher(textField_2.getText());
-				newBook.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-				setBook(newBook);
+				tryAddingBook();
 			}
 		});
 		
@@ -290,6 +285,32 @@ public class DetailBookWindow extends ListenerJFrame{
 		this.setVisible(true);
 	}
 
+	public void tryAddingBook(){
+		Book newBook = library.createAndAddBook(textField.getText());
+		newBook.setAuthor(textField_1.getText());
+		newBook.setPublisher(textField_2.getText());
+		newBook.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+		setBook(newBook);	
+	}
+//	public void tryAddingLoanToCustomer() {
+//		try {
+//			Integer copy_id = Integer.parseInt(textField_1.getText());
+//			Copy copy = library.getCopyfromId(copy_id);
+//
+//			if (copy != null) {
+//				Loan feedback = library.createAndAddLoan(cust, copy);			
+//				
+//				if (feedback == null){
+//					errorLabel.setText("Dieses Exemplar ist bereits ausgeliehen");
+//				}
+//			} else {
+//				errorLabel.setText("Diese Exemplarnummer existiert nicht");
+//			}
+//		} catch (NumberFormatException e) {
+//			errorLabel.setText("Diese Exemplarnummer ist zu gross");
+//		}
+//	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		updateBook();
