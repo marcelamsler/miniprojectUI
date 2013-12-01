@@ -1,5 +1,7 @@
 package view;
 
+import controller.AddBookAction;
+import controller.AddLoanAction;
 import controller.WindowController;
 import domain.Book;
 import domain.Customer;
@@ -20,10 +22,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -144,6 +143,24 @@ public class StartWindow implements Observer{
 		frame.setBounds(100, 100, 980, 534);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+
+        AddLoanAction addLoanAction = new AddLoanAction("Neue Ausleihe erfassen", windowCtrl);
+        AddBookAction addBookAction = new AddBookAction("Neues Buch hinzufügen", windowCtrl);
+
+        JMenuBar bar = new JMenuBar();
+        JMenu menu = new JMenu("Hinzufügen");
+        menu.setMnemonic('h');
+        bar.add(menu);
+        AcceleratorListener l = new AcceleratorListener();
+        JMenuItem mi;
+        mi = menu.add(new JMenuItem(addBookAction));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, Event.CTRL_MASK));
+        mi = menu.add(new JMenuItem(addLoanAction));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+
+
+
+        frame.setJMenuBar(bar);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -278,12 +295,7 @@ public class StartWindow implements Observer{
 		gbc_btnSelektierteAnzeigen.gridy = 0;
 		panel_2.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 		
-		JButton btnNeuesBuchHinzufgen = new JButton("Neues Buch hinzufügen");
-		btnNeuesBuchHinzufgen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				windowCtrl.openAddBookWindow();
-			}
-		});
+		JButton btnNeuesBuchHinzufgen = new JButton(addBookAction);
 		GridBagConstraints gbc_btnNeuesBuchHinzufgen = new GridBagConstraints();
 		gbc_btnNeuesBuchHinzufgen.gridx = 14;
 		gbc_btnNeuesBuchHinzufgen.gridy = 0;
@@ -329,7 +341,7 @@ public class StartWindow implements Observer{
               }
            }
         });
-		
+//LOAN
 		JLayeredPane layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("Ausleihen", null, layeredPane_2, null);
 		layeredPane_2.setLayout(new BorderLayout(0, 0));
@@ -459,13 +471,7 @@ public class StartWindow implements Observer{
 		gbc_chckbxNurberfllige.gridy = 0;
 		panel_6.add(onlyOverdues, gbc_chckbxNurberfllige);
 		
-		JButton btnNeueAusleiheErfassen = new JButton("Neue Ausleihe erfassen");
-		btnNeueAusleiheErfassen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				windowCtrl.openAddLoanWindow();
-				
-			}
-		});
+		JButton btnNeueAusleiheErfassen = new JButton(addLoanAction);
 		
 		btnSelektierteAusleiheAnzeigen = new JButton("Selektierte anzeigen");
 		btnSelektierteAusleiheAnzeigen.addActionListener(new ActionListener() {
