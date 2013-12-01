@@ -10,7 +10,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,10 +27,7 @@ public class DetailBookWindow extends ListenerJFrame {
     private Library library;
     private Book book;
 
-    private DetailBookWindowTableModel tableModel;
-    private TableRowSorter<DetailBookWindowTableModel> sorter;
     private JTable table;
-    private DetailBookWindowTableModel detailWindowTableModel;
     private JPanel panel;
 
     public DetailBookWindow(Library library, WindowController windowCtrl) {
@@ -136,10 +132,10 @@ public class DetailBookWindow extends ListenerJFrame {
             panel_2.add(btnExemplareHinzufgen, gbc_btnExemplareHinzufgen);
 
             table = new JTable();
-
-
-            JScrollPane scrollPane = new JScrollPane(table);
-
+            DetailBookWindowTableModel detailWindowTableModel = new DetailBookWindowTableModel(library, book);
+            table.setModel(detailWindowTableModel);
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(table);
             JPanel panel_3 = new JPanel();
             panel_3.setLayout(new BorderLayout(0, 0));
             panel_3.add(scrollPane);
@@ -147,7 +143,6 @@ public class DetailBookWindow extends ListenerJFrame {
 
 
             comboBox.setSelectedItem(book.getShelf().toString());
-            detailWindowTableModel = new DetailBookWindowTableModel(library, book);
             table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent e) {
                     if (table.getSelectedRows().length >= 1) {
@@ -157,9 +152,6 @@ public class DetailBookWindow extends ListenerJFrame {
                     }
                 }
             });
-
-            table.setModel(detailWindowTableModel);
-            detailWindowTableModel.fireTableDataChanged();
 
         }
     }
