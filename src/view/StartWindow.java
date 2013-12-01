@@ -46,9 +46,9 @@ public class StartWindow implements Observer{
 	private JTextField customerSearchTextField;
 	private JTable loanTable;
 	private JTable customerTable;
-	private String bookSearchBoxText = "Bücher suchen";
-	private String loanSearchBoxText = "Ausleihe suchen";
-	private String customerSearchBoxText = "Kunde suchen";
+	private String bookSearchBoxText = "Bücher suchen...";
+	private String loanSearchBoxText = "Ausleihe suchen...";
+	private String customerSearchBoxText = "Kunde suchen...";
 	private JButton btnSelektierteAnzeigen;
 	private JButton btnSelektierteAusleiheAnzeigen;
 	private JLabel bookCount;
@@ -227,14 +227,19 @@ public class StartWindow implements Observer{
 		panel_2.setLayout(gbl_panel_2);
 		
 		bookSearchTextField = new JTextField();
-		bookSearchTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (bookSearchTextField.getText().equals(bookSearchBoxText)) {
-					bookSearchTextField.setText("");
-				} 				
-			}
-		});
+		bookSearchTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (bookSearchTextField.getText().equals(bookSearchBoxText)) {
+                    bookSearchTextField.setText("");
+                }
+            }
+            public void focusLost(FocusEvent e) {
+                if (bookSearchTextField.getText().equals("")) {
+                    bookSearchTextField.setText(bookSearchBoxText);
+                }
+            }
+        });
 		bookSearchTextField.setText(bookSearchBoxText);
 		bookSearchTextField.getDocument().addDocumentListener(  
 		  new DocumentListener()  
@@ -420,16 +425,21 @@ public class StartWindow implements Observer{
 		panel_6.setLayout(gbl_panel_6);
 		
 		loanSearchTextField = new JTextField();
-		loanSearchTextField.setText("Ausleihen suchen");
-		loanSearchTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (loanSearchTextField.getText().equals(loanSearchBoxText)) {
-					loanSearchTextField.setText("");
-				} 				
-			}
-		});
-		loanSearchTextField.setText(loanSearchBoxText);
+        loanSearchTextField.setText(loanSearchBoxText);
+		loanSearchTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (loanSearchTextField.getText().equals(loanSearchBoxText)) {
+                    loanSearchTextField.setText("");
+                }
+            }
+            public void focusLost(FocusEvent e) {
+                if (loanSearchTextField.getText().equals("")) {
+                    loanSearchTextField.setText(loanSearchBoxText);
+                }
+            }
+        });
+
 		loanSearchTextField.getDocument().addDocumentListener(  
 		  new DocumentListener()  
 		   {  
@@ -598,15 +608,20 @@ public class StartWindow implements Observer{
 
 		customerSearchTextField = new JTextField();
 		customerSearchTextField.setText(customerSearchBoxText);
-		customerSearchTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (customerSearchTextField.getText().equals(customerSearchBoxText)) {
-					customerSearchTextField.setText("");
-				}
-			}
-		});
-		customerSearchTextField.setText(customerSearchBoxText);
+		customerSearchTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (customerSearchTextField.getText().equals(customerSearchBoxText)) {
+                    customerSearchTextField.setText("");
+                }
+            }
+            public void focusLost(FocusEvent e) {
+                if (customerSearchTextField.getText().equals("")) {
+                    customerSearchTextField.setText(customerSearchBoxText);
+                }
+            }
+        });
+
 		customerSearchTextField.getDocument().addDocumentListener(
 				  new DocumentListener()
 				   {
@@ -685,10 +700,16 @@ public class StartWindow implements Observer{
                         Customer customer = library.getCustomers().get(customerTable.convertRowIndexToModel(row));
                         windowCtrl.openCustomerWindow(customer);
                     }
-                } else if (e.getClickCount() == 1) {
-                    if (target.getSelectedColumnCount() > 0) {
-                        btnSelektierteKundenAnzeigen.setEnabled(true);
-                    }
+                }
+            }
+        });
+
+        customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (customerTable.getSelectedRows().length >= 1) {
+                    btnSelektierteKundenAnzeigen.setEnabled(true);
+                } else {
+                    btnSelektierteKundenAnzeigen.setEnabled(false);
                 }
             }
         });
