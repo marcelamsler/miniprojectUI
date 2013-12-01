@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -63,6 +64,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	private JComboBox<String> comboBox; 
 	private JButton btnAusgewhlteEntfernen;
 	private JButton btnBuchHinzufgen;
+	private JLabel errorLabel;
 	private Library library;
 	private Book book;
 	
@@ -281,7 +283,16 @@ public class DetailBookWindow extends ListenerJFrame{
         panel_3.setLayout(new BorderLayout(0, 0));
         panel_3.add(scrollPane);
         panel_1.add(panel_3, BorderLayout.CENTER);
-		
+        
+		errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setText("TESTEN!!!!!");
+		GridBagConstraints gbc_errorLabel = new GridBagConstraints();
+		gbc_errorLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_errorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_errorLabel.gridx = 1;
+		gbc_errorLabel.gridy = 1;
+		panel_3.add(errorLabel, gbc_errorLabel);
 	
 		this.setVisible(true);
 	}
