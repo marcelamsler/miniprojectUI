@@ -52,7 +52,7 @@ public class AddLoanWindow extends ListenerJFrame{
 
     public void setCustomer(Customer customer) {
 
-        setTitle("Show Customer");
+        setTitle(customer.getSurname() + " " + customer.getName());
         txtKundeSuchen.setText(customer.getSurname() + " " +customer.getName());
         customerTable.setRowSelectionInterval(0, 0);
         update(new Observable(), new Object());

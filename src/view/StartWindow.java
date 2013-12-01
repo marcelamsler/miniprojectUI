@@ -1,5 +1,6 @@
 package view;
 
+import controller.AcceleratorListener;
 import controller.AddBookAction;
 import controller.AddLoanAction;
 import controller.WindowController;
@@ -709,6 +710,7 @@ public class StartWindow implements Observer{
 
 		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
 		((AbstractTableModel) bookTable.getModel()).fireTableDataChanged();
+        ((AbstractTableModel) customerTable.getModel()).fireTableDataChanged();
 
 	}
 }

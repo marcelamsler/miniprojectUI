@@ -100,6 +100,7 @@ public class DetailBookWindow extends ListenerJFrame{
         tableModel.fireTableDataChanged();
 		
         comboBox.setSelectedItem(book.getShelf().toString());
+        this.setTitle(book.getName());
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class DetailBookWindow extends ListenerJFrame{
 	private void initialize() {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		this.setTitle("Buch Detailansicht");
+		this.setTitle("Neues Buch hinzufügen");
 		this.setBounds(100, 100, 592, 473);
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
 		
