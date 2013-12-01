@@ -156,7 +156,7 @@ public class StartWindow implements Observer{
         mi = menu.add(new JMenuItem(addBookAction));
         mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, Event.CTRL_MASK));
         mi = menu.add(new JMenuItem(addLoanAction));
-        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
 
 
 
