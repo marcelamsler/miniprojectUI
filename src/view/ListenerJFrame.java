@@ -27,6 +27,7 @@ public abstract class ListenerJFrame extends JFrame implements Observer, WindowL
         getRootPane().getActionMap().put("Cancel", new AbstractAction(){
             public void actionPerformed(ActionEvent e)
             {
+                dispatchEvent(new WindowEvent(ListenerJFrame.this, WindowEvent.WINDOW_CLOSING));
                 dispose();
             }
         });
