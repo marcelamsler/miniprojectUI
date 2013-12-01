@@ -13,10 +13,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.Date;
 import java.util.Observable;
 
@@ -30,7 +27,7 @@ public class AddLoanWindow extends ListenerJFrame{
 	private JTextField txtKundeSuchen;
 	private JTable customerTable;
 	private TableRowSorter<? extends AbstractTableModel> sorter;
-	private String kundeSuchenText = "Kunde suchen";
+	private String kundeSuchenText = "Kunde suchen...";
 	private JPanel panel_2; 
 	private Customer cust;
 	private Library library;
@@ -85,33 +82,37 @@ public class AddLoanWindow extends ListenerJFrame{
 		 
  		txtKundeSuchen = new JTextField();
 		txtKundeSuchen.setText(kundeSuchenText);
-		txtKundeSuchen.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (txtKundeSuchen.getText().equals(kundeSuchenText)) {
-					txtKundeSuchen.setText("");
-				} 
-			}
-		});
+		txtKundeSuchen.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (txtKundeSuchen.getText().equals(kundeSuchenText)) {
+                    txtKundeSuchen.setText("");
+                }
+            }
+
+            public void focusLost(FocusEvent e) {
+
+            }
+        });
 		panel_4.add(txtKundeSuchen);
 		txtKundeSuchen.setColumns(20);
 		txtKundeSuchen.getDocument().addDocumentListener(  
-				  new DocumentListener()  
-				   {  
-				      public void changedUpdate(DocumentEvent e)  
-				      {  
-				    	  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
-				      }  
-				      public void insertUpdate(DocumentEvent e)  
-				      {  
-				    	  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
-				      }  
-				      public void removeUpdate(DocumentEvent e)  
-				      {  
-				    	  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
-				      }  
-				   }  
-				);
+            new DocumentListener()
+            {
+              public void changedUpdate(DocumentEvent e)
+              {
+                  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
+              }
+              public void insertUpdate(DocumentEvent e)
+              {
+                  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
+              }
+              public void removeUpdate(DocumentEvent e)
+              {
+                  sorter.setRowFilter(StartWindow.getTextFilter(txtKundeSuchen));
+              }
+            }
+		);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(null, "Kunde ausw\u00E4hlen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
