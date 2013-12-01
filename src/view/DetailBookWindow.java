@@ -39,6 +39,8 @@ import java.util.Observer;
 
 import javax.swing.JComboBox;
 
+import controller.WindowController;
+
 import tablemodel.DetailBookWindowTableModel;
 import domain.Book;
 import domain.Library;
@@ -66,7 +68,7 @@ public class DetailBookWindow extends ListenerJFrame{
         private DetailBookWindowTableModel detailWindowTableModel;
         private JPanel panel;
 
-        public DetailBookWindow(Library library){
+        public DetailBookWindow(Library library, WindowController windowCtrl){
                 super(library, windowCtrl);
                 this.library = library;
                 initialize();
