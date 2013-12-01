@@ -1,23 +1,13 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import java.awt.FlowLayout;
-
-import javax.swing.JLayeredPane;
-import javax.swing.JTabbedPane;
-import javax.swing.BoxLayout;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 
-import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -25,18 +15,12 @@ import javax.swing.JLabel;
 
 import java.awt.Insets;
 
-import javax.swing.JList;
 import javax.swing.JButton;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
 
-import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.JComboBox;
 
 import controller.WindowController;
@@ -86,7 +70,8 @@ public class DetailBookWindow extends ListenerJFrame{
                         
                         JButton btnBuchHinzufgen = new JButton("Buch hinzufügen");
                         btnBuchHinzufgen.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
+                                @Override
+								public void actionPerformed(ActionEvent e) {
                                         Book newBook = library.createAndAddBook(textField.getText());
                                         newBook.setAuthor(textField_1.getText());
                                         newBook.setPublisher(textField_2.getText());
@@ -147,7 +132,8 @@ public class DetailBookWindow extends ListenerJFrame{
                         btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
                         btnAusgewhlteEntfernen.setEnabled(false);
                         btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
+                                @Override
+								public void actionPerformed(ActionEvent e) {
                                         int[] rows = table.getSelectedRows();
                                         for (int row: rows){
                                                 library.removeCopy(library.getCopiesOfBook(book).get(row));
