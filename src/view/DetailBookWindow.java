@@ -29,11 +29,36 @@ public class DetailBookWindow extends ListenerJFrame {
 
     private JTable table;
     private JPanel panel;
+    private JLabel errorLabelTitle;
+    private JLabel errorLabelAuthor;
+    private JLabel errorLabelPublisher;
 
     public DetailBookWindow(Library library, WindowController windowCtrl) {
         super(library, windowCtrl);
         this.library = library;
         initialize();
+    }
+
+
+    public void tryAddingBook() {
+//EXAMPLE CODE
+
+//        try {
+//            Integer copy_id = Integer.parseInt(textField_1.getText());
+//            Copy copy = library.getCopyfromId(copy_id);
+//
+//            if (copy != null) {
+//                Loan feedback = library.createAndAddLoan(cust, copy);
+//
+//                if (feedback == null){
+//                    errorLabel.setText("Dieses Exemplar ist bereits ausgeliehen");
+//                }
+//            } else {
+//                errorLabel.setText("Dieses Exemplar existiert nicht oder wurde verloren");
+//            }
+//        } catch (NumberFormatException e) {
+//            errorLabel.setText("Bitte geben Sie eine Zahl ein, die kleiner als 2147483647 ist");
+//        }
     }
 
     public void setBook(Book book1) {
