@@ -129,6 +129,9 @@ public class AddLoanWindow extends ListenerJFrame{
 		scrollPane_1.setViewportView(customerTable);
 		sorter = new TableRowSorter<> (custTableModel);
 		customerTable.setRowSorter(sorter);
+        customerTable.getColumnModel().getColumn(0).setCellRenderer(new CustomerCellRenderer());
+        customerTable.getColumnModel().getColumn(1).setCellRenderer(new CustomerCellRenderer());
+        customerTable.getColumnModel().getColumn(2).setCellRenderer(new CustomerCellRenderer());
 		
 		customerTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
