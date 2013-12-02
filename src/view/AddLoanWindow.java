@@ -267,7 +267,6 @@ public class AddLoanWindow extends ListenerJFrame{
 		
 		loanTable.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
-				   System.out.println(this.hashCode());
 				   JTable target = (JTable)e.getSource();
 			      if (e.getClickCount() == 2) {			         
 			         int row = target.getSelectedRow();

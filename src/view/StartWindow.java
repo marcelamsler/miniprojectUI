@@ -302,6 +302,18 @@ public class StartWindow implements Observer{
 		bookTable.setFillsViewportHeight(true);
 		bookTable.setRowSorter(bookSorter);  
 		panel_3.add(scrollPane);
+
+
+        bookTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (bookTable.getSelectedRows().length >= 1) {
+                    btnSelektierteAnzeigen.setEnabled(true);
+                } else {
+                    btnSelektierteAnzeigen.setEnabled(false);
+                }
+            }
+        });
+
 		
         bookTable.addMouseListener(new MouseAdapter() {
            public void mouseClicked(MouseEvent e) {
@@ -314,10 +326,6 @@ public class StartWindow implements Observer{
                      Book book = library.getBooks().get(bookTable.convertRowIndexToModel(row));
                      windowCtrl.openDetailBookWindow(book);
                  }
-              } else if(e.getClickCount() == 1) {
-                  if (target.getSelectedColumnCount() > 0) {
-                      btnSelektierteAnzeigen.setEnabled(true);
-                  }
               }
            }
         });
@@ -502,6 +510,21 @@ public class StartWindow implements Observer{
                 }
             }
          });
+
+        loanTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                JTable target = (JTable)e.getSource();
+
+                if (e.getClickCount() == 2) {
+                    int row = target.getSelectedRow();
+                    if (row >= 0) {
+
+                        Loan loan = library.getLoans().get(loanTable.convertRowIndexToModel(row));
+                        windowCtrl.openDetailLoanWindow(loan);
+                    }
+                }
+            }
+        });
 		scrollPane_1.setViewportView(loanTable);
 		loanTable.setRowSorter(loanSorter);
 
