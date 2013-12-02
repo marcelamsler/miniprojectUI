@@ -69,7 +69,7 @@ public class StartWindow implements Observer{
 		initialize();
 		this.frame.setVisible(true);
 		library.addObserver(this);
-
+		this.frame.setMinimumSize(new Dimension(800,400));
 	}
 	
 	

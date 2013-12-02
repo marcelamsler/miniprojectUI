@@ -40,6 +40,7 @@ public class DetailBookWindow extends ListenerJFrame {
     public DetailBookWindow(Library library, WindowController windowCtrl) {
         super(library, windowCtrl);
         this.library = library;
+		this.setMinimumSize(new Dimension(600,400));
         initialize();
     }
 

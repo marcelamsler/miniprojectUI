@@ -44,6 +44,7 @@ public class AddLoanWindow extends ListenerJFrame {
         this.library = library;
         this.windowCtrl = windowCtrl;
         initialize();
+        this.setMinimumSize(new Dimension(800,400));
 
     }
 

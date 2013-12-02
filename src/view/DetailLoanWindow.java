@@ -34,6 +34,7 @@ public class DetailLoanWindow extends ListenerJFrame {
         super(library, windowCtrl);
         this.loan = loan1;
         library.addObserver(this);
+		this.setMinimumSize(new Dimension(600,375));
 
         setTitle("Ausleihe Detail");
         setBounds(100, 100, 663, 361);
