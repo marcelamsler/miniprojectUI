@@ -32,6 +32,9 @@ public class DetailBookWindow extends ListenerJFrame {
     private JButton btnSave;
     private Library library;
     private Book book;
+    private JPanel panel_1;
+    private JPanel panel_2;
+    private JPanel panel_3;
 
     private JTable table;
     private JPanel panel;
@@ -90,6 +93,8 @@ public class DetailBookWindow extends ListenerJFrame {
 
 
         } else {
+
+
             this.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
@@ -124,10 +129,10 @@ public class DetailBookWindow extends ListenerJFrame {
             gbc_btnSave.insets = new Insets(0, 0, 0, 5);
             gbc_btnSave.gridx = 0;
             gbc_btnSave.gridy = 4;
+            panel.remove(btnSave);
             panel.add(btnSave, gbc_btnSave);
             
             textField.getDocument().addDocumentListener(new DocumentListener() {
-            	  JButton btnSave = DetailBookWindow.this.btnSave;
             	  public void changedUpdate(DocumentEvent e) {
             	    toggleButtonStatus();
             	  }
@@ -142,7 +147,6 @@ public class DetailBookWindow extends ListenerJFrame {
             	  }
             });
             textField_1.getDocument().addDocumentListener(new DocumentListener() {
-          	  JButton btnSave = DetailBookWindow.this.btnSave;
           	  public void changedUpdate(DocumentEvent e) {
           	    toggleButtonStatus();
           	  }
@@ -157,7 +161,6 @@ public class DetailBookWindow extends ListenerJFrame {
           	  }
           	});
             textField_2.getDocument().addDocumentListener(new DocumentListener() {
-          	  JButton btnSave = DetailBookWindow.this.btnSave;
           	  public void changedUpdate(DocumentEvent e) {
           		  toggleButtonStatus();
           	  }
@@ -172,20 +175,19 @@ public class DetailBookWindow extends ListenerJFrame {
           	  }
           	});
             comboBox.setSelectedItem(book.getShelf().toString());
-            comboBox.addActionListener (new ActionListener () {
-            	JButton btnSave = DetailBookWindow.this.btnSave;
-            	public void actionPerformed(ActionEvent e) {
-             		 btnSave.setEnabled(true);
-             	}
+            comboBox.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    btnSave.setEnabled(true);
+                }
             });
 
-            
-            JPanel panel_1 = new JPanel();
+            panel_1 = new JPanel();
             panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
             this.getContentPane().add(panel_1, BorderLayout.CENTER);
             panel_1.setLayout(new BorderLayout(0, 0));
 
-            JPanel panel_2 = new JPanel();
+            panel_2 = new JPanel();
             panel_1.add(panel_2, BorderLayout.NORTH);
             GridBagLayout gbl_panel_2 = new GridBagLayout();
             gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -203,14 +205,16 @@ public class DetailBookWindow extends ListenerJFrame {
             gbc_lblAnzahlX.gridy = 0;
             panel_2.add(lblAnzahlX, gbc_lblAnzahlX);
 
-            btnAusgewhlteEntfernen = new JButton("Ausgewählte Entfernen");
+            btnAusgewhlteEntfernen = new JButton("Ausgewähltes Exemplar Entfernen");
             btnAusgewhlteEntfernen.setEnabled(false);
             btnAusgewhlteEntfernen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    panel_1.removeAll();
+                    panel_2.removeAll();
+                    panel_3.removeAll();
                     int[] rows = table.getSelectedRows();
-                    for (int row : rows) {
-                        library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(row)));
-                    }
+                    library.removeCopy(library.getCopiesOfBook(book).get(table.convertRowIndexToModel(rows[0])));
+
                 }
             });
 
@@ -226,8 +230,11 @@ public class DetailBookWindow extends ListenerJFrame {
             btnExemplareHinzufgen.setEnabled(true);
             btnExemplareHinzufgen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    panel_1.removeAll();
+                    panel_2.removeAll();
+                    panel_3.removeAll();
                 	library.createAndAddCopy(book);
-                	library.notifyObservers();
+
                 }
             });            
             GridBagConstraints gbc_btnExemplareHinzufgen = new GridBagConstraints();
@@ -242,14 +249,14 @@ public class DetailBookWindow extends ListenerJFrame {
             table.setModel(detailWindowTableModel);
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(table);
-            JPanel panel_3 = new JPanel();
+            panel_3 = new JPanel();
             panel_3.setLayout(new BorderLayout(0, 0));
             panel_3.add(scrollPane);
             panel_1.add(panel_3, BorderLayout.CENTER);
 
             table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent e) {
-                    if (table.getSelectedRows().length >= 1) {
+                    if (table.getSelectedRows().length == 1) {
                         btnAusgewhlteEntfernen.setEnabled(true);
                     } else {
                         btnAusgewhlteEntfernen.setEnabled(false);
