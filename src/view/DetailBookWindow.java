@@ -159,10 +159,10 @@ public class DetailBookWindow extends ListenerJFrame {
             textField_2.getDocument().addDocumentListener(new DocumentListener() {
           	  JButton btnSave = DetailBookWindow.this.btnSave;
           	  public void changedUpdate(DocumentEvent e) {
-          	    toggleButtonStatus();
+          		  toggleButtonStatus();
           	  }
           	  public void removeUpdate(DocumentEvent e) {
-            	    toggleButtonStatus();
+            	 toggleButtonStatus();
           	  }
           	  public void insertUpdate(DocumentEvent e) {
             	    toggleButtonStatus();
@@ -171,6 +171,13 @@ public class DetailBookWindow extends ListenerJFrame {
           		 btnSave.setEnabled(true);
           	  }
           	});
+            comboBox.setSelectedItem(book.getShelf().toString());
+            comboBox.addActionListener (new ActionListener () {
+            	JButton btnSave = DetailBookWindow.this.btnSave;
+            	public void actionPerformed(ActionEvent e) {
+             		 btnSave.setEnabled(true);
+             	}
+            });
 
             
             JPanel panel_1 = new JPanel();
@@ -240,8 +247,6 @@ public class DetailBookWindow extends ListenerJFrame {
             panel_3.add(scrollPane);
             panel_1.add(panel_3, BorderLayout.CENTER);
 
-
-            comboBox.setSelectedItem(book.getShelf().toString());
             table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent e) {
                     if (table.getSelectedRows().length >= 1) {
