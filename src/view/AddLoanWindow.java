@@ -24,7 +24,7 @@ public class AddLoanWindow extends ListenerJFrame {
 	
     private JPanel contentPane;
     private JTextField textField_1;
-    private JTextField textField_2;
+    private JLabel dateLabel;
     private JTable loanTable;
     private JTextField txtKundeSuchen;
     private JTable customerTable;
@@ -44,7 +44,7 @@ public class AddLoanWindow extends ListenerJFrame {
         this.library = library;
         this.windowCtrl = windowCtrl;
         initialize();
-        this.setMinimumSize(new Dimension(800,400));
+        this.setMinimumSize(new Dimension(800, 400));
 
     }
 
@@ -240,18 +240,18 @@ public class AddLoanWindow extends ListenerJFrame {
         gbc_lblZurckAm.gridy = 2;
         panel_1.add(lblZurckAm, gbc_lblZurckAm);
 
-        textField_2 = new JTextField();
-        textField_2.setEnabled(false);
+        dateLabel = new JLabel();
+        dateLabel.setEnabled(false);
         Date today = new Date();
 
-        textField_2.setText(library.getDateplusDays(today, 30));
+        dateLabel.setText(library.getDateplusDays(today, 30));
         GridBagConstraints gbc_textField_2 = new GridBagConstraints();
         gbc_textField_2.insets = new Insets(0, 0, 5, 5);
         gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField_2.gridx = 1;
         gbc_textField_2.gridy = 2;
-        panel_1.add(textField_2, gbc_textField_2);
-        textField_2.setColumns(10);
+        panel_1.add(dateLabel, gbc_textField_2);
+
 
         panel_2 = new JPanel();
         panel_6.add(panel_2);
@@ -323,12 +323,12 @@ public class AddLoanWindow extends ListenerJFrame {
             if (library.getCustomerStatus(cust) == CustomerStatus.OK) {
                 textField_1.setEnabled(true);
                 textField_1.setText("");
-                textField_2.setEnabled(true);
+                dateLabel.setEnabled(true);
                 btnAnzeigen.setEnabled(true);
             } else {
                 textField_1.setEnabled(false);
                 textField_1.setText("");
-                textField_2.setEnabled(false);
+                dateLabel.setEnabled(false);
                 btnAnzeigen.setEnabled(false);
             }
         }
