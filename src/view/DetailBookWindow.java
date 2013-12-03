@@ -194,7 +194,7 @@ public class DetailBookWindow extends ListenerJFrame {
             gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
             panel_2.setLayout(gbl_panel_2);
 
-            JLabel lblAnzahlX = new JLabel("Anzahl: x");
+            JLabel lblAnzahlX = new JLabel("Verfügbar: " + library.getNoOfAvailableCopiesOfBook(book) + " / " + library.getNoOfTotalCopiesOfBook(book));
             GridBagConstraints gbc_lblAnzahlX = new GridBagConstraints();
             gbc_lblAnzahlX.anchor = GridBagConstraints.EAST;
             gbc_lblAnzahlX.gridwidth = 4;

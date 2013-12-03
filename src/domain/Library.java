@@ -128,7 +128,10 @@ public class Library extends Observable implements Observer {
 
         return getCopiesOfBook(book).size() - getLentCopiesOfBook(book).size();
 
-
+    }
+    
+    public int getNoOfTotalCopiesOfBook(Book book){
+    	return getCopiesOfBook(book).size();
     }
 
     public List<Loan> getCustomerLoans(Customer customer) {
