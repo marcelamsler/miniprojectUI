@@ -95,6 +95,7 @@ public class AddLoanWindow extends ListenerJFrame {
 
             }
         });
+        
         panel_4.add(txtKundeSuchen);
         txtKundeSuchen.setColumns(20);
         txtKundeSuchen.getDocument().addDocumentListener(
