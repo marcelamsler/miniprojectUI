@@ -55,8 +55,10 @@ public class DetailBookWindow extends ListenerJFrame {
           newBook.setAuthor(textField_1.getText());
           newBook.setPublisher(textField_2.getText());
           newBook.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
-          setBook(newBook);
-          lblError.setText("");
+          windowCtrl.openDetailBookWindow(newBook);
+          dispose();
+
+
     	}
     }
 
