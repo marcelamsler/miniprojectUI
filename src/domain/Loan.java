@@ -3,6 +3,7 @@ package domain;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 
@@ -91,7 +92,7 @@ public class Loan extends Observable implements Comparable<Loan> {
 
     private String getFormattedDate(GregorianCalendar date) {
         if (date != null) {
-            DateFormat f = SimpleDateFormat.getDateInstance();
+            DateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             return f.format(date.getTime());
         }
         return "00.00.00";

@@ -1,6 +1,5 @@
 package view;
 
-import controller.AcceleratorListener;
 import controller.AddBookAction;
 import controller.AddLoanAction;
 import controller.WindowController;
@@ -153,7 +152,6 @@ public class StartWindow implements Observer{
         JMenu menu = new JMenu("Hinzufügen");
         menu.setMnemonic('h');
         bar.add(menu);
-        AcceleratorListener l = new AcceleratorListener();
         JMenuItem mi;
         mi = menu.add(new JMenuItem(addBookAction));
         mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, Event.CTRL_MASK));

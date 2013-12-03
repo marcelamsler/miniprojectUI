@@ -259,7 +259,7 @@ public class Library extends Observable implements Observer {
         GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, days); //minus number would decrement the days
-        DateFormat f = SimpleDateFormat.getDateInstance();
+        DateFormat f = new SimpleDateFormat("dd.MM.yyyy");
         return f.format(cal.getTime());
 
     }
