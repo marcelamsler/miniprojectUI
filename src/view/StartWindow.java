@@ -73,10 +73,10 @@ public class StartWindow implements Observer{
 	}
 	
 	
-	public void updateFilters(JCheckBox checkBox, String checkBoxCondition, JTextField textfield, TableRowSorter<? extends AbstractTableModel> sorter) {
+	public void updateFilters(JCheckBox checkBox, String checkBoxCondition, String checkBoxCondition2, JTextField textfield, TableRowSorter<? extends AbstractTableModel> sorter) {
 		
 		RowFilter<AbstractTableModel, Object> textFilter = getTextFilter(textfield); 
-		RowFilter<AbstractTableModel, Object> checkBoxFilter = (RowFilter<AbstractTableModel, Object>) getCheckBoxFilter(checkBoxCondition);
+		RowFilter<AbstractTableModel, Object> checkBoxFilter = (RowFilter<AbstractTableModel, Object>) getCheckBoxFilter(checkBoxCondition, checkBoxCondition2);
 		
 	
 		
@@ -116,14 +116,15 @@ public class StartWindow implements Observer{
 		}
 	}  	
 	
-	private RowFilter<? extends AbstractTableModel, Object> getCheckBoxFilter(String condition) {
+	private RowFilter<? extends AbstractTableModel, Object> getCheckBoxFilter(String condition, String condition2) {
 		final String cond = condition;
+        final String cond2 = condition2;
 		RowFilter<AbstractTableModel, Object> filter = new RowFilter<AbstractTableModel, Object>(){
 				@Override
 				public boolean include(
 					RowFilter.Entry<? extends AbstractTableModel, ? extends Object> entry) {
 					for (int i = entry.getValueCount() - 1; i >= 0; i--) {
-					       if (entry.getStringValue(i).startsWith(cond)) {					      
+					       if (entry.getStringValue(i).startsWith(cond) || entry.getStringValue(i).startsWith(cond2)) {
 					         return false;
 					       }
 					     }					    
@@ -246,15 +247,15 @@ public class StartWindow implements Observer{
 		   {  
 		      public void changedUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
+		    	  updateFilters(onlyAvailable, "0", "   ", bookSearchTextField, bookSorter);
 		      }  
 		      public void insertUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
+		    	  updateFilters(onlyAvailable, "0", "   ", bookSearchTextField, bookSorter);
 		      }  
 		      public void removeUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
+		    	  updateFilters(onlyAvailable, "0", "   ", bookSearchTextField, bookSorter);
 		      }  
 		   }  
 		);
@@ -272,7 +273,7 @@ public class StartWindow implements Observer{
 		onlyAvailable = new JCheckBox("nur verfügbare Bücher anzeigen");
 		onlyAvailable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFilters(onlyAvailable, "0", bookSearchTextField, bookSorter);
+				updateFilters(onlyAvailable, "0", "   ", bookSearchTextField, bookSorter);
 				
 			}
 		});
@@ -445,15 +446,15 @@ public class StartWindow implements Observer{
 		   {  
 		      public void changedUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);
+		    	  updateFilters(onlyOverdues, "ok", "   ", loanSearchTextField, loanSorter);
 		      }  
 		      public void insertUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);  
+		    	  updateFilters(onlyOverdues, "ok", "   ", loanSearchTextField, loanSorter);
 		      }  
 		      public void removeUpdate(DocumentEvent e)  
 		      {  
-		    	  updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter); 
+		    	  updateFilters(onlyOverdues, "ok", "   ", loanSearchTextField, loanSorter);
 		      }  
 		   }  
 		);
@@ -470,7 +471,7 @@ public class StartWindow implements Observer{
 		onlyOverdues = new JCheckBox("Nur überfällige");
 		onlyOverdues.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFilters(onlyOverdues, "ok", loanSearchTextField, loanSorter);
+				updateFilters(onlyOverdues, "ok", "   ", loanSearchTextField, loanSorter);
 				
 			}
 		});
@@ -627,15 +628,15 @@ public class StartWindow implements Observer{
 				   {
 				      public void changedUpdate(DocumentEvent e)
 				      {
-				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+				    	  updateFilters(onlyOverdueCustomers, "OK", "zu viel" , customerSearchTextField, customerSorter);
 				      }
 				      public void insertUpdate(DocumentEvent e)
 				      {
-				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+                          updateFilters(onlyOverdueCustomers, "OK", "zu viel" , customerSearchTextField, customerSorter);
 				      }
 				      public void removeUpdate(DocumentEvent e)
 				      {
-				    	  updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+                          updateFilters(onlyOverdueCustomers, "OK", "zu viel" , customerSearchTextField, customerSorter);
 				      }
 				   }
 				);
@@ -651,7 +652,7 @@ public class StartWindow implements Observer{
 		onlyOverdueCustomers = new JCheckBox("Nur überfällige");
 		onlyOverdueCustomers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFilters(onlyOverdueCustomers, "OK" , customerSearchTextField, customerSorter);
+				updateFilters(onlyOverdueCustomers, "OK" , "zu viel", customerSearchTextField, customerSorter);
 			}
 		});
 
