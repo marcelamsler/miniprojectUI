@@ -8,6 +8,8 @@ import tablemodel.DetailBookWindowTableModel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -27,6 +29,7 @@ public class DetailBookWindow extends ListenerJFrame {
     private JComboBox<String> comboBox;
     private JButton btnAusgewhlteEntfernen;
     private JButton btnBuchHinzufgen;
+    private JButton btnSave;
     private Library library;
     private Book book;
 
@@ -90,10 +93,10 @@ public class DetailBookWindow extends ListenerJFrame {
             this.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    book.setAuthor(textField_1.getText());
-                    book.setName(textField.getText());
-                    book.setPublisher(textField_2.getText());
-                    book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+//                    book.setAuthor(textField_1.getText());
+//                    book.setName(textField.getText());
+//                    book.setPublisher(textField_2.getText());
+//                    book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
 
                 }
             });
@@ -105,6 +108,71 @@ public class DetailBookWindow extends ListenerJFrame {
                 comboBox.addItem(tmpShelf.toString());
             }
 
+            btnSave = new JButton("Speichern");
+            btnSave.setEnabled(false);
+            btnSave.addActionListener(new ActionListener() {
+            	JButton btnSave = DetailBookWindow.this.btnSave;
+            	public void actionPerformed(ActionEvent e) {
+                    book.setAuthor(textField_1.getText());
+                    book.setName(textField.getText());
+                    book.setPublisher(textField_2.getText());
+                    book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+                    btnSave.setEnabled(false);
+                }
+            });
+            GridBagConstraints gbc_btnSave = new GridBagConstraints();
+            gbc_btnSave.insets = new Insets(0, 0, 0, 5);
+            gbc_btnSave.gridx = 0;
+            gbc_btnSave.gridy = 4;
+            panel.add(btnSave, gbc_btnSave);
+            
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+            	  JButton btnSave = DetailBookWindow.this.btnSave;
+            	  public void changedUpdate(DocumentEvent e) {
+            	    toggleButtonStatus();
+            	  }
+            	  public void removeUpdate(DocumentEvent e) {
+              	    toggleButtonStatus();
+            	  }
+            	  public void insertUpdate(DocumentEvent e) {
+              	    toggleButtonStatus();
+            	  }
+            	  public void toggleButtonStatus() {
+            		 btnSave.setEnabled(true);
+            	  }
+            });
+            textField_1.getDocument().addDocumentListener(new DocumentListener() {
+          	  JButton btnSave = DetailBookWindow.this.btnSave;
+          	  public void changedUpdate(DocumentEvent e) {
+          	    toggleButtonStatus();
+          	  }
+          	  public void removeUpdate(DocumentEvent e) {
+            	    toggleButtonStatus();
+          	  }
+          	  public void insertUpdate(DocumentEvent e) {
+            	    toggleButtonStatus();
+          	  }
+          	  public void toggleButtonStatus() {
+          		 btnSave.setEnabled(true);
+          	  }
+          	});
+            textField_2.getDocument().addDocumentListener(new DocumentListener() {
+          	  JButton btnSave = DetailBookWindow.this.btnSave;
+          	  public void changedUpdate(DocumentEvent e) {
+          	    toggleButtonStatus();
+          	  }
+          	  public void removeUpdate(DocumentEvent e) {
+            	    toggleButtonStatus();
+          	  }
+          	  public void insertUpdate(DocumentEvent e) {
+            	    toggleButtonStatus();
+          	  }
+          	  public void toggleButtonStatus() {
+          		 btnSave.setEnabled(true);
+          	  }
+          	});
+
+            
             JPanel panel_1 = new JPanel();
             panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
             this.getContentPane().add(panel_1, BorderLayout.CENTER);
