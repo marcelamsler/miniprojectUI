@@ -663,19 +663,15 @@ public class StartWindow implements Observer{
 		JButton btnNeuenKundenErfassen = new JButton("Neuen Kunden erfassen");
 
 
-        btnSelektierteKundenAnzeigen = new JButton("Selektierte anzeigen");
+        btnSelektierteKundenAnzeigen = new JButton("Selektierten Kunden anzeigen");
 
         btnSelektierteKundenAnzeigen.setEnabled(false);
 		GridBagConstraints gbc_btnSelektierteKundenAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteKundenAnzeigen.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSelektierteKundenAnzeigen.gridx = 10;
+		gbc_btnSelektierteKundenAnzeigen.gridx = 11;
 		gbc_btnSelektierteKundenAnzeigen.gridy = 0;
 		panel_10.add(btnSelektierteKundenAnzeigen, gbc_btnSelektierteKundenAnzeigen);
 
-		GridBagConstraints gbc_btnNeuenKundenErfassen = new GridBagConstraints();
-		gbc_btnNeuenKundenErfassen.gridx = 11;
-		gbc_btnNeuenKundenErfassen.gridy = 0;
-		panel_10.add(btnNeuenKundenErfassen, gbc_btnNeuenKundenErfassen);
 
 		JPanel panel_12 = new JPanel();
 		panel_9.add(panel_12, BorderLayout.CENTER);
@@ -705,7 +701,7 @@ public class StartWindow implements Observer{
 
         customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                if (customerTable.getSelectedRows().length >= 1) {
+                if (customerTable.getSelectedRows().length == 1) {
                     btnSelektierteKundenAnzeigen.setEnabled(true);
                 } else {
                     btnSelektierteKundenAnzeigen.setEnabled(false);
