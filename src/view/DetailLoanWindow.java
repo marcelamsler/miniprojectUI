@@ -294,6 +294,7 @@ public class DetailLoanWindow extends ListenerJFrame {
                 returnDatetextField.setVisible(true);
                 lblRckgabedatum.setVisible(true);
                 btnAusleiheAbschliessen.setEnabled(true);
+                this.getRootPane().setDefaultButton(btnAusleiheAbschliessen);
                 btnAusleiheAbschliessen.setText("Ausleihe abschliessen");
             }
         }

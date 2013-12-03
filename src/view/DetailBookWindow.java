@@ -76,6 +76,7 @@ public class DetailBookWindow extends ListenerJFrame {
                 	tryAddingBook();
                 }
             });
+            this.getRootPane().setDefaultButton(btnBuchHinzufgen);
             GridBagConstraints gbc_btnBuchHinzufgen = new GridBagConstraints();
             gbc_btnBuchHinzufgen.insets = new Insets(0, 0, 0, 5);
             gbc_btnBuchHinzufgen.gridx = 0;
@@ -144,6 +145,7 @@ public class DetailBookWindow extends ListenerJFrame {
             panel_2.add(btnAusgewhlteEntfernen, gbc_btnAusgewhlteEntfernen);
 
             JButton btnExemplareHinzufgen = new JButton("Exemplare Hinzufügen");
+            this.getRootPane().setDefaultButton(btnExemplareHinzufgen);
             btnExemplareHinzufgen.setEnabled(true);
             btnExemplareHinzufgen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
