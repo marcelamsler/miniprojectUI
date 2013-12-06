@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Observable;
+import java.util.Observer;
 
 
 public class Loan extends Observable implements Comparable<Loan> {
@@ -26,6 +27,11 @@ public class Loan extends Observable implements Comparable<Loan> {
         return returnDate == null;
     }
 
+    @Override
+    public synchronized void addObserver(Observer o) {
+    	// TODO Auto-generated method stub
+    	super.addObserver(o);
+    }
     public boolean returnCopy() {
         try {
             returnCopy(new GregorianCalendar());
@@ -56,7 +62,7 @@ public class Loan extends Observable implements Comparable<Loan> {
         notifyObservers();
     }
 
-
+    
     public GregorianCalendar getPickupDate() {
         return pickupDate;
     }

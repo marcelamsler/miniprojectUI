@@ -722,11 +722,10 @@ public class StartWindow implements Observer{
 		loanCount.setText(String.valueOf(library.getLoans().size()));
 		activeLoanCount.setText(String.valueOf(library.getActiveLoans().size()));
 		overdueLoanCount.setText(String.valueOf(library.getOverdueLoans().size()));
-
+		System.out.println("StartWindow ");
 
 		((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
 		((AbstractTableModel) bookTable.getModel()).fireTableDataChanged();
         ((AbstractTableModel) customerTable.getModel()).fireTableDataChanged();
-
 	}
 }

@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.Observable;
+import java.util.Observer;
 
 public class Book extends Observable implements Comparable<Book>{
 	
@@ -17,6 +18,7 @@ public class Book extends Observable implements Comparable<Book>{
 
 	public void setName(String name) {
 		this.title = name;
+		System.out.println("this: "  + title + " " + name);
 		setChanged();
 		notifyObservers();
 	}
@@ -30,7 +32,7 @@ public class Book extends Observable implements Comparable<Book>{
 		setChanged();
 		notifyObservers();
 	}
-
+	
 	public String getPublisher() {
 		return publisher;
 	}
