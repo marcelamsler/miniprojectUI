@@ -5,10 +5,12 @@ import domain.Library;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 //stupid comment
 
-public class StartWindowBookTableModel extends AbstractTableModel {
+public class StartWindowBookTableModel extends AbstractTableModel implements Observer {
 
     Library library;
     List<Book> list;
@@ -18,7 +20,15 @@ public class StartWindowBookTableModel extends AbstractTableModel {
 
         this.library = library;
         this.list = library.getBooks();
+        
+        library.addObserver(this);
 
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+    	fireTableDataChanged();	
+    	System.out.println("StartWindowBookTableModel");
     }
 
 

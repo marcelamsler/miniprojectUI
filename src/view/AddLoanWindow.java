@@ -343,7 +343,7 @@ public class AddLoanWindow extends ListenerJFrame {
         custTableModel.fireTableDataChanged();
         ((AbstractTableModel) loanTable.getModel()).fireTableDataChanged();
         customerTable.setRowSelectionInterval(row, row);
-
+        System.out.println("AddLoanWindow");
 
     }
 }

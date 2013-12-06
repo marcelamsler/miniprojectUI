@@ -106,24 +106,27 @@ public class DetailBookWindow extends ListenerJFrame {
                 }
             });
 
-            textField.setText(this.book.getName());
-            textField_1.setText(this.book.getAuthor());
-            textField_2.setText(this.book.getPublisher());
-            for (Shelf tmpShelf : Shelf.values()) {
+
+        	textField.setText(this.book.getName());
+        	textField_1.setText(this.book.getAuthor());
+        	textField_2.setText(this.book.getPublisher());
+
+        	for (Shelf tmpShelf : Shelf.values()) {
                 comboBox.addItem(tmpShelf.toString());
             }
 
             btnSave = new JButton("Speichern");
             btnSave.setEnabled(false);
             btnSave.addActionListener(new ActionListener() {
-            	JButton btnSave = DetailBookWindow.this.btnSave;
             	public void actionPerformed(ActionEvent e) {
-                    book.setAuthor(textField_1.getText());
+            		System.out.println("pre " + book.getName());
+            		book.setAuthor(textField_1.getText());
                     book.setName(textField.getText());
                     book.setPublisher(textField_2.getText());
                     book.setShelf(Shelf.valueOf(comboBox.getSelectedItem().toString()));
+                    System.out.println("post: " + book.getName());
                     btnSave.setEnabled(false);
-                }
+            	}
             });
             GridBagConstraints gbc_btnSave = new GridBagConstraints();
             gbc_btnSave.insets = new Insets(0, 0, 0, 5);
@@ -366,8 +369,9 @@ public class DetailBookWindow extends ListenerJFrame {
 
     @Override
     public void update(Observable o, Object arg) {
-        this.setBook(this.book);
-
+        // this.setBook(this.book);
+    	
+    	System.out.println("DetailsBookWindow");
     }
 
 }

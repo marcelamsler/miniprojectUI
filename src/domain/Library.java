@@ -50,6 +50,7 @@ public class Library extends Observable implements Observer {
         Book b = new Book(name);
         books.add(b);
 
+        b.addObserver(this);
         setChanged();
         notifyObservers();
         return b;
@@ -271,7 +272,13 @@ public class Library extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         setChanged();
         notifyObservers();
+        System.out.println("Im' Library");
 
     }
+
+	public void doNotify() {
+		setChanged();
+		notifyObservers();
+	}
 
 }

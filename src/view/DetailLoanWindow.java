@@ -304,6 +304,7 @@ public class DetailLoanWindow extends ListenerJFrame {
     @Override
     public void update(Observable o, Object arg) {
         lblNewLabel_3.setText(loan.getFormattedReturnDate());
+        System.out.println("DeatilLoanWindow ");
     }
 
 }
